@@ -895,21 +895,37 @@ window.TweakToggle = TweakToggle;
 
 /* ── data.jsx ── */
 const ROLES = [{
-  id: 'hp',
-  label: 'HP Manager — Athletics',
+  id: 'hpm',
+  label: 'HP Manager',
   short: 'HP Mgr'
 }, {
   id: 'tick',
   label: 'Ticketing POC',
   short: 'Ticketing'
 }, {
-  id: 'cmo',
-  label: 'Chief Medical Officer',
-  short: 'CMO'
+  id: 'med',
+  label: 'Medical Officer',
+  short: 'Medical'
 }, {
-  id: 'svc',
-  label: 'Games Services',
-  short: 'Services'
+  id: 'trav',
+  label: 'Travel Coordinator',
+  short: 'Travel'
+}, {
+  id: 'spons',
+  label: 'Sponsor Relations',
+  short: 'Sponsor'
+}, {
+  id: 'guest',
+  label: 'Guest Coordinator',
+  short: 'Guest'
+}, {
+  id: 'media',
+  label: 'Media Manager',
+  short: 'Media'
+}, {
+  id: 'data',
+  label: 'Data & Reporting',
+  short: 'Data'
 }];
 const GAMES = [{
   id: 'da26',
@@ -929,7 +945,7 @@ const GAMES = [{
   window: 'Jul–Aug 2028'
 }];
 const ROLE_VIEW = {
-  hp: {
+  hpm: {
     badgeText: 'Role-Specific',
     progressLabel: 'Preparation',
     progressTarget: 'Target: June 2026',
@@ -938,35 +954,41 @@ const ROLE_VIEW = {
     deadlineLabel: '23 May — Quota closes',
     deadlineSub: 'Action required before this date',
     summary: {
-      sections: 4,
-      documents: 4,
-      newItems: 2,
+      sections: 5,
+      documents: 28,
+      newItems: 4,
       deadlines: 2
     },
     sections: [{
+      id: 'gen',
+      label: 'General Resources',
+      docs: 5,
+      badge: null,
+      glyph: 'home'
+    }, {
+      id: 'deleg',
+      label: 'Delegation Ops',
+      docs: 5,
+      badge: null,
+      glyph: 'users'
+    }, {
       id: 'comp',
       label: 'Competition Info',
-      docs: 21,
+      docs: 10,
       badge: '3 new',
       glyph: 'medal'
     }, {
       id: 'travel',
       label: 'Travel',
-      docs: 15,
-      badge: 'Updated',
+      docs: 8,
+      badge: '2 new',
       glyph: 'plane'
     }, {
       id: 'vill',
       label: 'Village & Accom',
-      docs: 9,
+      docs: 5,
       badge: null,
       glyph: 'home'
-    }, {
-      id: 'media',
-      label: 'Media',
-      docs: 12,
-      badge: null,
-      glyph: 'camera'
     }]
   },
   tick: {
@@ -978,32 +1000,44 @@ const ROLE_VIEW = {
     deadlineLabel: '11 May — Family bloc lock',
     deadlineSub: 'Final family ticket counts due',
     summary: {
-      sections: 3,
-      documents: 7,
+      sections: 4,
+      documents: 15,
       newItems: 4,
       deadlines: 3
     },
     sections: [{
+      id: 'gen',
+      label: 'General Resources',
+      docs: 5,
+      badge: null,
+      glyph: 'home'
+    }, {
+      id: 'deleg',
+      label: 'Delegation Ops',
+      docs: 1,
+      badge: null,
+      glyph: 'users'
+    }, {
       id: 'alloc',
       label: 'Allocations',
-      docs: 18,
+      docs: 5,
       badge: '4 new',
       glyph: 'ticket'
     }, {
       id: 'fam',
       label: 'Family & Friends',
-      docs: 11,
+      docs: 4,
       badge: 'Updated',
       glyph: 'users'
     }, {
       id: 'vip',
       label: 'VIP & Hospitality',
-      docs: 7,
+      docs: 3,
       badge: null,
       glyph: 'star'
     }]
   },
-  cmo: {
+  med: {
     badgeText: 'Confidential',
     progressLabel: 'Medical readiness',
     progressTarget: 'Target: May 2026',
@@ -1012,38 +1046,56 @@ const ROLE_VIEW = {
     deadlineLabel: '08 May — Polyclinic intake',
     deadlineSub: 'Athlete medical forms due',
     summary: {
-      sections: 5,
-      documents: 12,
-      newItems: 1,
+      sections: 6,
+      documents: 32,
+      newItems: 2,
       deadlines: 4
     },
     sections: [{
+      id: 'gen',
+      label: 'General Resources',
+      docs: 5,
+      badge: null,
+      glyph: 'home'
+    }, {
+      id: 'deleg',
+      label: 'Delegation Ops',
+      docs: 5,
+      badge: null,
+      glyph: 'users'
+    }, {
+      id: 'comp',
+      label: 'Competition Info',
+      docs: 3,
+      badge: null,
+      glyph: 'medal'
+    }, {
       id: 'pol',
       label: 'Polyclinic',
-      docs: 24,
+      docs: 6,
       badge: 'Updated',
       glyph: 'cross'
     }, {
       id: 'forms',
       label: 'Athlete Forms',
-      docs: 33,
+      docs: 8,
       badge: '1 new',
       glyph: 'doc'
     }, {
       id: 'antid',
       label: 'Anti-Doping',
-      docs: 14,
+      docs: 4,
       badge: null,
       glyph: 'shield'
     }, {
       id: 'mh',
       label: 'Mental Health',
-      docs: 9,
+      docs: 3,
       badge: null,
       glyph: 'heart'
     }]
   },
-  svc: {
+  trav: {
     badgeText: 'Operations',
     progressLabel: 'Service readiness',
     progressTarget: 'Target: July 2026',
@@ -1052,40 +1104,164 @@ const ROLE_VIEW = {
     deadlineLabel: '17 May — Transport survey',
     deadlineSub: 'Confirm departure windows per team',
     summary: {
-      sections: 6,
-      documents: 28,
-      newItems: 5,
-      deadlines: 5
+      sections: 4,
+      documents: 18,
+      newItems: 3,
+      deadlines: 2
     },
     sections: [{
+      id: 'gen',
+      label: 'General Resources',
+      docs: 5,
+      badge: null,
+      glyph: 'home'
+    }, {
+      id: 'deleg',
+      label: 'Delegation Ops',
+      docs: 5,
+      badge: null,
+      glyph: 'users'
+    }, {
+      id: 'travel',
+      label: 'Travel',
+      docs: 8,
+      badge: '2 new',
+      glyph: 'plane'
+    }, {
       id: 'tx',
       label: 'Transport',
-      docs: 17,
-      badge: '2 new',
+      docs: 5,
+      badge: '1 new',
       glyph: 'bus'
-    }, {
-      id: 'cat',
-      label: 'Catering',
-      docs: 13,
+    }]
+  },
+  spons: {
+    badgeText: 'Sponsor',
+    progressLabel: 'Activation',
+    progressTarget: 'Target: Sep 2026',
+    progressValue: 35,
+    deadlineDays: 30,
+    deadlineLabel: '05 Jun — Sponsor summit',
+    deadlineSub: 'Activation brief due to Games Services',
+    summary: {
+      sections: 2,
+      documents: 8,
+      newItems: 1,
+      deadlines: 1
+    },
+    sections: [{
+      id: 'gen',
+      label: 'General Resources',
+      docs: 5,
       badge: null,
-      glyph: 'fork'
+      glyph: 'home'
     }, {
-      id: 'sec',
-      label: 'Security',
-      docs: 19,
-      badge: 'Updated',
-      glyph: 'shield'
+      id: 'vip',
+      label: 'VIP & Hospitality',
+      docs: 3,
+      badge: null,
+      glyph: 'star'
+    }]
+  },
+  guest: {
+    badgeText: 'Guest',
+    progressLabel: 'Coordination',
+    progressTarget: 'Target: Oct 2026',
+    progressValue: 28,
+    deadlineDays: 22,
+    deadlineLabel: '28 May — Guest list final',
+    deadlineSub: 'Submit confirmed guest numbers',
+    summary: {
+      sections: 3,
+      documents: 11,
+      newItems: 1,
+      deadlines: 1
+    },
+    sections: [{
+      id: 'gen',
+      label: 'General Resources',
+      docs: 5,
+      badge: null,
+      glyph: 'home'
     }, {
-      id: 'volu',
-      label: 'Volunteers',
-      docs: 22,
-      badge: '3 new',
+      id: 'deleg',
+      label: 'Delegation Ops',
+      docs: 1,
+      badge: null,
       glyph: 'users'
+    }, {
+      id: 'vill',
+      label: 'Village & Accom',
+      docs: 5,
+      badge: null,
+      glyph: 'home'
+    }]
+  },
+  media: {
+    badgeText: 'Media',
+    progressLabel: 'Accreditation',
+    progressTarget: 'Target: Sep 2026',
+    progressValue: 44,
+    deadlineDays: 9,
+    deadlineLabel: '14 May — Media accreditation',
+    deadlineSub: 'Submit full media team list',
+    summary: {
+      sections: 3,
+      documents: 11,
+      newItems: 2,
+      deadlines: 1
+    },
+    sections: [{
+      id: 'gen',
+      label: 'General Resources',
+      docs: 5,
+      badge: null,
+      glyph: 'home'
+    }, {
+      id: 'comp',
+      label: 'Competition Info',
+      docs: 3,
+      badge: '1 new',
+      glyph: 'medal'
+    }, {
+      id: 'media',
+      label: 'Media',
+      docs: 4,
+      badge: null,
+      glyph: 'camera'
+    }]
+  },
+  data: {
+    badgeText: 'Data',
+    progressLabel: 'Reporting',
+    progressTarget: 'Target: Nov 2026',
+    progressValue: 51,
+    deadlineDays: 18,
+    deadlineLabel: '23 May — Quota data due',
+    deadlineSub: 'Submit final quota data extract',
+    summary: {
+      sections: 2,
+      documents: 9,
+      newItems: 3,
+      deadlines: 1
+    },
+    sections: [{
+      id: 'gen',
+      label: 'General Resources',
+      docs: 5,
+      badge: null,
+      glyph: 'home'
+    }, {
+      id: 'comp',
+      label: 'Competition Info',
+      docs: 4,
+      badge: '3 new',
+      glyph: 'medal'
     }]
   }
 };
 const ROLE_VIEW_LA28 = {
-  hp: {
+  hpm: {
     badgeText: 'Role-Specific',
     progressLabel: 'Long-range planning',
     progressTarget: 'Target: Mar 2028',
@@ -1095,38 +1271,38 @@ const ROLE_VIEW_LA28 = {
     deadlineSub: 'Submit federation criteria for review',
     summary: {
       sections: 5,
-      documents: 9,
-      newItems: 3,
+      documents: 16,
+      newItems: 4,
       deadlines: 1
     },
     sections: [{
+      id: 'gen',
+      label: 'General Resources',
+      docs: 5,
+      badge: null,
+      glyph: 'home'
+    }, {
+      id: 'deleg',
+      label: 'Delegation Ops',
+      docs: 3,
+      badge: null,
+      glyph: 'users'
+    }, {
       id: 'qual',
       label: 'Qualification',
-      docs: 28,
+      docs: 7,
       badge: '3 new',
       glyph: 'medal'
     }, {
       id: 'travel',
       label: 'Travel & Visa',
-      docs: 6,
+      docs: 3,
       badge: null,
       glyph: 'plane'
     }, {
-      id: 'vill',
-      label: 'Village (UCLA)',
-      docs: 4,
-      badge: 'Updated',
-      glyph: 'home'
-    }, {
-      id: 'media',
-      label: 'Media',
-      docs: 8,
-      badge: null,
-      glyph: 'camera'
-    }, {
       id: 'venues',
       label: 'Venue masterplan',
-      docs: 11,
+      docs: 4,
       badge: null,
       glyph: 'flag'
     }]
@@ -1140,32 +1316,44 @@ const ROLE_VIEW_LA28 = {
     deadlineLabel: '04 Jul — NOC ticket forecast',
     deadlineSub: 'First-pass demand forecast due',
     summary: {
-      sections: 3,
-      documents: 5,
+      sections: 4,
+      documents: 12,
       newItems: 2,
       deadlines: 2
     },
     sections: [{
+      id: 'gen',
+      label: 'General Resources',
+      docs: 5,
+      badge: null,
+      glyph: 'home'
+    }, {
+      id: 'deleg',
+      label: 'Delegation Ops',
+      docs: 1,
+      badge: null,
+      glyph: 'users'
+    }, {
       id: 'alloc',
       label: 'Pre-Allocations',
-      docs: 12,
+      docs: 3,
       badge: '2 new',
       glyph: 'ticket'
     }, {
       id: 'fam',
       label: 'Family & Friends',
-      docs: 6,
+      docs: 2,
       badge: null,
       glyph: 'users'
     }, {
       id: 'vip',
       label: 'Hospitality',
-      docs: 9,
+      docs: 3,
       badge: 'Updated',
       glyph: 'star'
     }]
   },
-  cmo: {
+  med: {
     badgeText: 'Confidential',
     progressLabel: 'Protocol drafting',
     progressTarget: 'Target: Q1 2027',
@@ -1174,38 +1362,50 @@ const ROLE_VIEW_LA28 = {
     deadlineLabel: '26 May — Heat policy review',
     deadlineSub: 'Submit comments on LA heat protocol',
     summary: {
-      sections: 4,
-      documents: 8,
-      newItems: 2,
+      sections: 6,
+      documents: 20,
+      newItems: 3,
       deadlines: 1
     },
     sections: [{
+      id: 'gen',
+      label: 'General Resources',
+      docs: 5,
+      badge: null,
+      glyph: 'home'
+    }, {
+      id: 'deleg',
+      label: 'Delegation Ops',
+      docs: 3,
+      badge: null,
+      glyph: 'users'
+    }, {
       id: 'pol',
       label: 'Polyclinic plan',
-      docs: 14,
+      docs: 3,
       badge: 'Updated',
       glyph: 'cross'
     }, {
       id: 'forms',
       label: 'Athlete Forms',
-      docs: 7,
+      docs: 2,
       badge: null,
       glyph: 'doc'
     }, {
       id: 'heat',
       label: 'Heat & Hydration',
-      docs: 6,
+      docs: 5,
       badge: '2 new',
       glyph: 'shield'
     }, {
       id: 'mh',
       label: 'Mental Health',
-      docs: 5,
+      docs: 2,
       badge: null,
       glyph: 'heart'
     }]
   },
-  svc: {
+  trav: {
     badgeText: 'Operations',
     progressLabel: 'Scoping',
     progressTarget: 'Target: 2027',
@@ -1214,41 +1414,153 @@ const ROLE_VIEW_LA28 = {
     deadlineLabel: '04 Jun — Transport RFI',
     deadlineSub: 'Respond to LA28 transport RFI',
     summary: {
-      sections: 5,
-      documents: 11,
-      newItems: 4,
+      sections: 4,
+      documents: 14,
+      newItems: 2,
       deadlines: 2
     },
     sections: [{
-      id: 'tx',
-      label: 'Transport',
-      docs: 8,
-      badge: '2 new',
-      glyph: 'bus'
-    }, {
-      id: 'cat',
-      label: 'Catering',
+      id: 'gen',
+      label: 'General Resources',
       docs: 5,
       badge: null,
-      glyph: 'fork'
+      glyph: 'home'
     }, {
-      id: 'sec',
-      label: 'Security',
-      docs: 7,
-      badge: 'Updated',
-      glyph: 'shield'
-    }, {
-      id: 'volu',
-      label: 'Workforce',
-      docs: 9,
+      id: 'deleg',
+      label: 'Delegation Ops',
+      docs: 3,
       badge: null,
       glyph: 'users'
     }, {
-      id: 'sust',
-      label: 'Sustainability',
-      docs: 6,
+      id: 'travel',
+      label: 'Travel & Visa',
+      docs: 3,
+      badge: null,
+      glyph: 'plane'
+    }, {
+      id: 'tx',
+      label: 'Transport',
+      docs: 3,
       badge: '1 new',
+      glyph: 'bus'
+    }]
+  },
+  spons: {
+    badgeText: 'Sponsor',
+    progressLabel: 'Engagement',
+    progressTarget: 'Target: 2027',
+    progressValue: 12,
+    deadlineDays: 90,
+    deadlineLabel: '01 Aug — Sponsor brief',
+    deadlineSub: 'Submit LA28 activation brief',
+    summary: {
+      sections: 2,
+      documents: 8,
+      newItems: 1,
+      deadlines: 1
+    },
+    sections: [{
+      id: 'gen',
+      label: 'General Resources',
+      docs: 5,
+      badge: null,
+      glyph: 'home'
+    }, {
+      id: 'vip',
+      label: 'Hospitality',
+      docs: 3,
+      badge: null,
       glyph: 'star'
+    }]
+  },
+  guest: {
+    badgeText: 'Guest',
+    progressLabel: 'Planning',
+    progressTarget: 'Target: 2028',
+    progressValue: 8,
+    deadlineDays: 120,
+    deadlineLabel: '15 Sep — Guest forecast',
+    deadlineSub: 'Initial guest number forecast due',
+    summary: {
+      sections: 3,
+      documents: 9,
+      newItems: 1,
+      deadlines: 1
+    },
+    sections: [{
+      id: 'gen',
+      label: 'General Resources',
+      docs: 5,
+      badge: null,
+      glyph: 'home'
+    }, {
+      id: 'deleg',
+      label: 'Delegation Ops',
+      docs: 1,
+      badge: null,
+      glyph: 'users'
+    }, {
+      id: 'vill',
+      label: 'Village (UCLA)',
+      docs: 3,
+      badge: null,
+      glyph: 'home'
+    }]
+  },
+  media: {
+    badgeText: 'Media',
+    progressLabel: 'Framework',
+    progressTarget: 'Target: 2027',
+    progressValue: 20,
+    deadlineDays: 75,
+    deadlineLabel: '20 Jul — Media framework',
+    deadlineSub: 'Submit NOC media requirements',
+    summary: {
+      sections: 2,
+      documents: 7,
+      newItems: 1,
+      deadlines: 1
+    },
+    sections: [{
+      id: 'gen',
+      label: 'General Resources',
+      docs: 5,
+      badge: null,
+      glyph: 'home'
+    }, {
+      id: 'media',
+      label: 'Media',
+      docs: 2,
+      badge: null,
+      glyph: 'camera'
+    }]
+  },
+  data: {
+    badgeText: 'Data',
+    progressLabel: 'Standards review',
+    progressTarget: 'Target: 2027',
+    progressValue: 19,
+    deadlineDays: 45,
+    deadlineLabel: '19 Jun — Entry standards',
+    deadlineSub: 'Qualify entry data for review',
+    summary: {
+      sections: 2,
+      documents: 12,
+      newItems: 4,
+      deadlines: 1
+    },
+    sections: [{
+      id: 'gen',
+      label: 'General Resources',
+      docs: 5,
+      badge: null,
+      glyph: 'home'
+    }, {
+      id: 'qual',
+      label: 'Qualification',
+      docs: 7,
+      badge: '4 new',
+      glyph: 'medal'
     }]
   }
 };
@@ -1259,7 +1571,7 @@ const ALL_VIEWS = {
 const NEWS_BY_GAMES = {
   da26: [{
     id: 1,
-    role: 'hp',
+    role: 'hpm',
     tag: 'Competition',
     time: '2h ago',
     title: 'Athletics quotas revised — 4 events updated',
@@ -1275,7 +1587,7 @@ const NEWS_BY_GAMES = {
     body: 'A full virtual walkthrough of the Diamniadio Olympic Village is now available. Covers athlete room layouts, dining facilities, medical centre location, and the welcome desk process.'
   }, {
     id: 3,
-    role: 'cmo',
+    role: 'med',
     tag: 'Medical',
     time: '1d ago',
     title: 'Polyclinic intake forms (v3) published',
@@ -1291,7 +1603,7 @@ const NEWS_BY_GAMES = {
     body: 'The family bloc allocation portal opens 9 May at 09:00 AEST. All Ticketing POCs must submit final family ticket counts by 11 May. Late submissions cannot be accommodated.'
   }, {
     id: 5,
-    role: 'svc',
+    role: 'trav',
     tag: 'Transport',
     time: '2d ago',
     title: 'Bus loop schedule (draft) — feedback by Fri',
@@ -1307,7 +1619,7 @@ const NEWS_BY_GAMES = {
     body: 'The Chef de Mission briefing has been moved from 12 May to 14 May at 10:00 AEST. The agenda remains unchanged. Dial-in details will be distributed 24 hours prior.'
   }, {
     id: 7,
-    role: 'hp',
+    role: 'hpm',
     tag: 'Competition',
     time: '4d ago',
     title: 'Technical Package v2 — Athletics field events',
@@ -1321,10 +1633,26 @@ const NEWS_BY_GAMES = {
     title: 'DA26 Accreditation Guide (final) published',
     author: 'Games Services',
     body: 'The final DA26 Accreditation Guide has been published in the Resources section. All delegation staff must review Part 3 (Zone Access) before submitting accreditation requests.'
+  }, {
+    id: 9,
+    role: 'media',
+    tag: 'Media',
+    time: '3d ago',
+    title: 'Media accreditation list — submissions open',
+    author: 'Media Team',
+    body: 'Media accreditation submissions are now open. All credentialled photographers and journalists must submit their final list by 14 May. Zone access details are in the Media section.'
+  }, {
+    id: 10,
+    role: 'data',
+    tag: 'Data',
+    time: '2d ago',
+    title: 'Quota data extract — final version requested',
+    author: 'Data Team',
+    body: 'The final quota data extract is required by 23 May. Please ensure all sport entries are validated against the current matrix before submission.'
   }],
   la28: [{
     id: 1,
-    role: 'hp',
+    role: 'hpm',
     tag: 'Qualification',
     time: '4h ago',
     title: 'LA28 sport-entry standards — first draft circulated',
@@ -1340,7 +1668,7 @@ const NEWS_BY_GAMES = {
     body: 'Version 2 of the UCLA Olympic Village layout incorporates NOC feedback on room block proximity to dining. Feedback window is open until 15 May.'
   }, {
     id: 3,
-    role: 'cmo',
+    role: 'med',
     tag: 'Medical',
     time: '1d ago',
     title: 'Heat policy consultation — submit comments by 26 May',
@@ -1348,7 +1676,7 @@ const NEWS_BY_GAMES = {
     body: 'The LA28 heat management policy is open for NOC consultation. The policy includes mandatory acclimatisation periods and enhanced polyclinic staffing. Comments due 26 May.'
   }, {
     id: 4,
-    role: 'svc',
+    role: 'trav',
     tag: 'Sustainability',
     time: '2d ago',
     title: 'No-new-venue strategy — supplier briefing 12 May',
@@ -1464,7 +1792,7 @@ const SHORTCUTS = [{
 const SEARCH_SUGGESTIONS = [{
   kind: 'Section',
   label: 'Competition Info',
-  meta: '21 docs · 3 new'
+  meta: '10 docs · 3 new'
 }, {
   kind: 'Document',
   label: 'Athletics quota matrix v3',
@@ -1472,7 +1800,7 @@ const SEARCH_SUGGESTIONS = [{
 }, {
   kind: 'Person',
   label: 'Dr. Ravi Naidu',
-  meta: 'Chief Medical Officer'
+  meta: 'Medical Officer'
 }, {
   kind: 'Page',
   label: 'Diamniadio Olympic Village',
@@ -1483,194 +1811,427 @@ const SEARCH_SUGGESTIONS = [{
   meta: '.pdf · 2 May'
 }];
 const SECTION_META = {
+  gen: {
+    label: 'General Resources',
+    contact: 'Games Services',
+    email: 'info@aoc.com.au',
+    desc: 'General documents available to all delegation members — schedule, contacts, onboarding guides and codes of conduct.'
+  },
+  deleg: {
+    label: 'Delegation Ops',
+    contact: 'Operations Team',
+    email: 'ops@aoc.com.au',
+    desc: 'Delegation operations documents covering uniforms, pre-departure checklists, emergency procedures and village arrival guides.'
+  },
   comp: {
+    label: 'Competition Info',
     contact: 'L. Tagi',
     email: 'l.tagi@aoc.com.au',
-    desc: 'Competition schedules, quota matrices, technical packages and venue information.'
+    desc: 'Competition schedules, quota matrices, sport information guides, technical packages and venue information.'
   },
   travel: {
+    label: 'Travel',
     contact: 'Ops Team',
     email: 'ops@aoc.com.au',
-    desc: 'Flight itineraries, ground transport schedules and travel policy documents.'
+    desc: 'Flight briefs, travel insurance, visa requirements, ground transport schedules and travel policy documents.'
   },
   vill: {
+    label: 'Village & Accom',
     contact: 'Village Team',
     email: 'village@aoc.com.au',
-    desc: 'Accommodation, village maps, check-in procedures and facilities guides.'
+    desc: 'Accommodation, village maps, check-in procedures, arrival guides and facilities information.'
   },
   media: {
+    label: 'Media',
     contact: 'Media Team',
     email: 'media@aoc.com.au',
-    desc: 'Media accreditation, mixed zone procedures and broadcast guidelines.'
+    desc: 'Media accreditation, mixed zone procedures, broadcast guidelines and approved media contacts.'
   },
   alloc: {
+    label: 'Allocations',
     contact: 'Ticketing Team',
     email: 'ticketing@aoc.com.au',
     desc: 'Ticket allocation matrices, request forms and delivery confirmations.'
   },
   fam: {
+    label: 'Family & Friends',
     contact: 'Ticketing Team',
     email: 'ticketing@aoc.com.au',
-    desc: 'Family & Friends programme details, ticket counts and portal access.'
+    desc: 'Family & Friends programme details, ticket counts and portal access guides.'
   },
   vip: {
+    label: 'VIP & Hospitality',
     contact: 'Hospitality Team',
     email: 'hospitality@aoc.com.au',
-    desc: 'VIP hospitality packages, guest programme and corporate suite allocations.'
+    desc: 'VIP hospitality packages, guest programme details and corporate suite allocations.'
   },
   pol: {
+    label: 'Polyclinic',
     contact: 'Dr. R. Naidu',
     email: 'r.naidu@aoc.com.au',
-    desc: 'Polyclinic operations, staffing rosters and clinical protocols.'
+    desc: 'Polyclinic operations, staffing rosters, intake forms and clinical protocols.'
   },
   forms: {
+    label: 'Athlete Forms',
     contact: 'Dr. R. Naidu',
     email: 'r.naidu@aoc.com.au',
     desc: 'Athlete medical declaration forms, intake questionnaires and consent documents.'
   },
   antid: {
+    label: 'Anti-Doping',
     contact: 'ASADA Liaison',
     email: 'antidoping@aoc.com.au',
     desc: 'Anti-doping education materials, testing protocols and whereabouts obligations.'
   },
   mh: {
+    label: 'Mental Health',
     contact: 'Dr. S. Hooper',
     email: 's.hooper@aoc.com.au',
     desc: 'Mental health support resources, psychology referral pathways and wellbeing guides.'
   },
   tx: {
+    label: 'Transport',
     contact: 'Logistics Team',
     email: 'logistics@aoc.com.au',
     desc: 'Bus loop schedules, vehicle allocations and transport request forms.'
   },
   cat: {
+    label: 'Catering',
     contact: 'Catering Team',
     email: 'catering@aoc.com.au',
     desc: 'Dining schedules, dietary requirement forms and supplement policies.'
   },
   sec: {
+    label: 'Security',
     contact: 'Security Team',
     email: 'security@aoc.com.au',
     desc: 'Accreditation zone maps, security briefings and emergency procedures.'
   },
   volu: {
+    label: 'Volunteers',
     contact: 'People & Culture',
     email: 'volunteers@aoc.com.au',
     desc: 'Volunteer rosters, role descriptions and briefing schedules.'
   },
   qual: {
+    label: 'Qualification',
     contact: 'HP Team',
     email: 'hp@aoc.com.au',
-    desc: 'Qualification pathways, entry standards and selection criteria.'
+    desc: 'Qualification pathways, entry standards and sport selection criteria.'
   },
   venues: {
+    label: 'Venue masterplan',
     contact: 'Ops Team',
     email: 'ops@aoc.com.au',
     desc: 'Venue masterplan, technical specifications and NOC facility allocations.'
   },
   heat: {
+    label: 'Heat & Hydration',
     contact: 'Dr. R. Naidu',
     email: 'r.naidu@aoc.com.au',
     desc: 'Heat management policy, acclimatisation protocols and hydration guidelines.'
   },
   sust: {
+    label: 'Sustainability',
     contact: 'Sustainability',
     email: 'sustainability@aoc.com.au',
     desc: 'Sustainability commitments, reporting frameworks and supplier requirements.'
   }
 };
+
+// ── Status values: 'Confirmed' | 'Live' | 'Draft'
+// ── roles: array of role IDs, or ['all'] for all roles
 const DOCS = {
   da26: {
+    // ── General Resources — all roles ────────────────────────────────────────
+    gen: [{
+      id: 1,
+      name: 'Games Schedule (full).pdf',
+      ext: 'pdf',
+      size: '2.1 MB',
+      author: 'Games Services',
+      updated: '3d ago',
+      status: 'Confirmed',
+      roles: ['all'],
+      isNew: false
+    }, {
+      id: 2,
+      name: 'AOC Contact Directory.xlsx',
+      ext: 'xlsx',
+      size: '145 KB',
+      author: 'Admin',
+      updated: '1w ago',
+      status: 'Confirmed',
+      roles: ['all'],
+      isNew: false
+    }, {
+      id: 3,
+      name: 'Welcome & Onboarding Guide.pdf',
+      ext: 'pdf',
+      size: '980 KB',
+      author: 'Games Services',
+      updated: '2w ago',
+      status: 'Draft',
+      roles: ['all'],
+      isNew: false
+    }, {
+      id: 4,
+      name: 'AOC Code of Conduct.pdf',
+      ext: 'pdf',
+      size: '340 KB',
+      author: 'Legal',
+      updated: '1m ago',
+      status: 'Confirmed',
+      roles: ['all'],
+      isNew: false
+    }, {
+      id: 5,
+      name: 'FAQ — Stakeholder Portal.pdf',
+      ext: 'pdf',
+      size: '210 KB',
+      author: 'Admin',
+      updated: '2w ago',
+      status: 'Draft',
+      roles: ['all'],
+      isNew: false
+    }],
+    // ── Delegation Ops ────────────────────────────────────────────────────────
+    deleg: [{
+      id: 1,
+      name: 'Uniform Guide & Collection Info.pdf',
+      ext: 'pdf',
+      size: '1.4 MB',
+      author: 'Uniform Team',
+      updated: '1w ago',
+      status: 'Draft',
+      roles: ['hpm', 'med', 'trav'],
+      isNew: false
+    }, {
+      id: 2,
+      name: 'Pre-Departure Checklist.pdf',
+      ext: 'pdf',
+      size: '320 KB',
+      author: 'Ops',
+      updated: '1w ago',
+      status: 'Draft',
+      roles: ['hpm', 'med', 'trav'],
+      isNew: false
+    }, {
+      id: 3,
+      name: 'Emergency Procedures.pdf',
+      ext: 'pdf',
+      size: '560 KB',
+      author: 'Security',
+      updated: '5d ago',
+      status: 'Draft',
+      roles: ['hpm', 'tick', 'med', 'trav'],
+      isNew: false
+    }, {
+      id: 4,
+      name: 'Ground Transport Brief.pdf',
+      ext: 'pdf',
+      size: '890 KB',
+      author: 'Logistics',
+      updated: '4d ago',
+      status: 'Draft',
+      roles: ['hpm', 'med', 'trav', 'guest'],
+      isNew: false
+    }, {
+      id: 5,
+      name: 'Village Arrival Guide.pdf',
+      ext: 'pdf',
+      size: '760 KB',
+      author: 'Village Team',
+      updated: '3d ago',
+      status: 'Draft',
+      roles: ['hpm', 'med', 'trav'],
+      isNew: false
+    }],
+    // ── Competition Info ──────────────────────────────────────────────────────
     comp: [{
       id: 1,
+      name: 'Quota Allocation Form.pdf',
+      ext: 'pdf',
+      size: '180 KB',
+      author: 'Competition',
+      updated: '1d ago',
+      status: 'Live',
+      roles: ['hpm', 'data'],
+      isNew: true
+    }, {
+      id: 2,
+      name: 'Sport Information Guides.pdf',
+      ext: 'pdf',
+      size: '2.4 MB',
+      author: 'Competition',
+      updated: '3d ago',
+      status: 'Draft',
+      roles: ['hpm', 'med', 'media', 'data'],
+      isNew: false
+    }, {
+      id: 3,
+      name: 'HP Manager Briefing Pack.pdf',
+      ext: 'pdf',
+      size: '1.1 MB',
+      author: 'HP Team',
+      updated: '4d ago',
+      status: 'Draft',
+      roles: ['hpm'],
+      isNew: false
+    }, {
+      id: 4,
+      name: 'Competition Draw & Start Lists.pdf',
+      ext: 'pdf',
+      size: '640 KB',
+      author: 'Competition',
+      updated: '2d ago',
+      status: 'Draft',
+      roles: ['hpm', 'media', 'data'],
+      isNew: true
+    }, {
+      id: 5,
       name: 'Athletics Quota Matrix v3.xlsx',
       ext: 'xlsx',
       size: '245 KB',
       author: 'L. Tagi',
       updated: '2h ago',
+      status: 'Live',
+      roles: ['hpm', 'data'],
       isNew: true
     }, {
-      id: 2,
+      id: 6,
       name: 'DA26 Competition Schedule — Final.pdf',
       ext: 'pdf',
       size: '1.2 MB',
       author: 'Games Services',
       updated: '1d ago',
+      status: 'Confirmed',
+      roles: ['hpm', 'med', 'media', 'data'],
       isNew: false
     }, {
-      id: 3,
+      id: 7,
       name: 'Technical Package v2 — Field Events.pdf',
       ext: 'pdf',
       size: '890 KB',
       author: 'Competition',
       updated: '4d ago',
+      status: 'Draft',
+      roles: ['hpm', 'data'],
       isNew: true
     }, {
-      id: 4,
+      id: 8,
       name: 'Venue Overview — Stade Léopold.pdf',
       ext: 'pdf',
       size: '2.1 MB',
       author: 'Ops',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['hpm', 'media'],
       isNew: false
     }, {
-      id: 5,
+      id: 9,
       name: 'Qualification Criteria Summary.pdf',
       ext: 'pdf',
       size: '456 KB',
       author: 'World Athletics',
       updated: '1w ago',
+      status: 'Confirmed',
+      roles: ['hpm', 'data'],
       isNew: false
     }, {
-      id: 6,
+      id: 10,
       name: 'Technical Delegate Contacts.xlsx',
       ext: 'xlsx',
       size: '34 KB',
       author: 'Admin',
       updated: '2w ago',
+      status: 'Confirmed',
+      roles: ['hpm'],
       isNew: false
     }],
+    // ── Travel ────────────────────────────────────────────────────────────────
     travel: [{
       id: 1,
+      name: 'Flight Brief — DA26.pdf',
+      ext: 'pdf',
+      size: '280 KB',
+      author: 'Ops',
+      updated: '1d ago',
+      status: 'Live',
+      roles: ['hpm', 'med', 'trav'],
+      isNew: true
+    }, {
+      id: 2,
+      name: 'Travel Insurance & Procedures.pdf',
+      ext: 'pdf',
+      size: '340 KB',
+      author: 'Games Services',
+      updated: '1w ago',
+      status: 'Draft',
+      roles: ['hpm', 'med', 'trav'],
+      isNew: false
+    }, {
+      id: 3,
+      name: 'Visa & Entry Requirements — DA26.pdf',
+      ext: 'pdf',
+      size: '210 KB',
+      author: 'Travel Team',
+      updated: '2w ago',
+      status: 'Draft',
+      roles: ['hpm', 'med', 'trav'],
+      isNew: false
+    }, {
+      id: 4,
       name: 'Team A — Flight Itinerary.pdf',
       ext: 'pdf',
       size: '180 KB',
       author: 'Ops',
       updated: '5h ago',
+      status: 'Live',
+      roles: ['hpm', 'med', 'trav'],
       isNew: true
     }, {
-      id: 2,
+      id: 5,
       name: 'Ground Transport Schedule v2.xlsx',
       ext: 'xlsx',
       size: '120 KB',
       author: 'Logistics',
       updated: '2d ago',
-      isNew: true
+      status: 'Draft',
+      roles: ['hpm', 'trav'],
+      isNew: false
     }, {
-      id: 3,
+      id: 6,
       name: 'DA26 Travel Policy.pdf',
       ext: 'pdf',
       size: '340 KB',
       author: 'Games Services',
       updated: '1w ago',
+      status: 'Confirmed',
+      roles: ['hpm', 'med', 'trav'],
       isNew: false
     }, {
-      id: 4,
-      name: 'Visa Requirements — Senegal.pdf',
-      ext: 'pdf',
-      size: '210 KB',
-      author: 'Travel Team',
-      updated: '2w ago',
-      isNew: false
-    }, {
-      id: 5,
+      id: 7,
       name: 'Airport Transfer Guide.pdf',
       ext: 'pdf',
       size: '95 KB',
       author: 'Logistics',
       updated: '3w ago',
+      status: 'Draft',
+      roles: ['hpm', 'trav'],
+      isNew: false
+    }, {
+      id: 8,
+      name: 'Emergency Contact Card — Travel.pdf',
+      ext: 'pdf',
+      size: '45 KB',
+      author: 'Ops',
+      updated: '1w ago',
+      status: 'Confirmed',
+      roles: ['hpm', 'med', 'trav'],
       isNew: false
     }],
+    // ── Village & Accom ───────────────────────────────────────────────────────
     vill: [{
       id: 1,
       name: 'Village Map — Diamniadio.pdf',
@@ -1678,6 +2239,8 @@ const DOCS = {
       size: '4.2 MB',
       author: 'Village Team',
       updated: '5h ago',
+      status: 'Draft',
+      roles: ['hpm', 'med', 'trav', 'guest'],
       isNew: false
     }, {
       id: 2,
@@ -1686,6 +2249,8 @@ const DOCS = {
       size: '280 KB',
       author: 'Village Team',
       updated: '1d ago',
+      status: 'Draft',
+      roles: ['hpm', 'med', 'trav', 'guest'],
       isNew: false
     }, {
       id: 3,
@@ -1694,6 +2259,8 @@ const DOCS = {
       size: '88 KB',
       author: 'Admin',
       updated: '3d ago',
+      status: 'Draft',
+      roles: ['hpm'],
       isNew: false
     }, {
       id: 4,
@@ -1702,8 +2269,21 @@ const DOCS = {
       size: '1.8 MB',
       author: 'Village Team',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['hpm', 'med', 'trav', 'guest'],
+      isNew: false
+    }, {
+      id: 5,
+      name: 'Dining & Catering Info — Village.pdf',
+      ext: 'pdf',
+      size: '560 KB',
+      author: 'Catering',
+      updated: '2w ago',
+      status: 'Draft',
+      roles: ['hpm', 'med', 'trav', 'guest'],
       isNew: false
     }],
+    // ── Media ─────────────────────────────────────────────────────────────────
     media: [{
       id: 1,
       name: 'Media Accreditation Guide.pdf',
@@ -1711,6 +2291,8 @@ const DOCS = {
       size: '560 KB',
       author: 'Media Team',
       updated: '3d ago',
+      status: 'Draft',
+      roles: ['hpm', 'media'],
       isNew: false
     }, {
       id: 2,
@@ -1719,6 +2301,8 @@ const DOCS = {
       size: '220 KB',
       author: 'Media Team',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['hpm', 'media'],
       isNew: false
     }, {
       id: 3,
@@ -1727,6 +2311,8 @@ const DOCS = {
       size: '1.4 MB',
       author: 'Host Broadcast',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['media'],
       isNew: false
     }, {
       id: 4,
@@ -1735,8 +2321,11 @@ const DOCS = {
       size: '45 KB',
       author: 'Comms',
       updated: '3w ago',
+      status: 'Confirmed',
+      roles: ['hpm', 'media'],
       isNew: false
     }],
+    // ── Allocations ───────────────────────────────────────────────────────────
     alloc: [{
       id: 1,
       name: 'DA26 Ticket Allocation Matrix.xlsx',
@@ -1744,6 +2333,8 @@ const DOCS = {
       size: '310 KB',
       author: 'Ticketing',
       updated: '1d ago',
+      status: 'Live',
+      roles: ['tick'],
       isNew: true
     }, {
       id: 2,
@@ -1752,6 +2343,8 @@ const DOCS = {
       size: '145 KB',
       author: 'Ticketing',
       updated: '2d ago',
+      status: 'Draft',
+      roles: ['tick'],
       isNew: true
     }, {
       id: 3,
@@ -1760,6 +2353,8 @@ const DOCS = {
       size: '2.8 MB',
       author: 'Ticketing',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['tick'],
       isNew: false
     }, {
       id: 4,
@@ -1768,6 +2363,8 @@ const DOCS = {
       size: '190 KB',
       author: 'Ticketing',
       updated: '2w ago',
+      status: 'Confirmed',
+      roles: ['tick'],
       isNew: false
     }, {
       id: 5,
@@ -1776,6 +2373,8 @@ const DOCS = {
       size: '78 KB',
       author: 'Admin',
       updated: '3w ago',
+      status: 'Draft',
+      roles: ['tick'],
       isNew: false
     }],
     fam: [{
@@ -1785,6 +2384,8 @@ const DOCS = {
       size: '420 KB',
       author: 'Ticketing',
       updated: '1d ago',
+      status: 'Draft',
+      roles: ['tick'],
       isNew: true
     }, {
       id: 2,
@@ -1793,6 +2394,8 @@ const DOCS = {
       size: '55 KB',
       author: 'Ticketing',
       updated: '3d ago',
+      status: 'Draft',
+      roles: ['tick'],
       isNew: false
     }, {
       id: 3,
@@ -1801,6 +2404,8 @@ const DOCS = {
       size: '160 KB',
       author: 'Admin',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['tick'],
       isNew: false
     }, {
       id: 4,
@@ -1809,6 +2414,8 @@ const DOCS = {
       size: '98 KB',
       author: 'Ticketing',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['tick'],
       isNew: false
     }],
     vip: [{
@@ -1818,6 +2425,8 @@ const DOCS = {
       size: '890 KB',
       author: 'Hospitality',
       updated: '2d ago',
+      status: 'Draft',
+      roles: ['tick', 'spons'],
       isNew: false
     }, {
       id: 2,
@@ -1826,6 +2435,8 @@ const DOCS = {
       size: '66 KB',
       author: 'Hospitality',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['tick', 'spons'],
       isNew: false
     }, {
       id: 3,
@@ -1834,6 +2445,8 @@ const DOCS = {
       size: '310 KB',
       author: 'Hospitality',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['tick', 'spons'],
       isNew: false
     }],
     pol: [{
@@ -1843,6 +2456,8 @@ const DOCS = {
       size: '220 KB',
       author: 'Dr. R. Naidu',
       updated: '1d ago',
+      status: 'Live',
+      roles: ['med'],
       isNew: true
     }, {
       id: 2,
@@ -1851,6 +2466,8 @@ const DOCS = {
       size: '1.1 MB',
       author: 'Medical',
       updated: '3d ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }, {
       id: 3,
@@ -1859,6 +2476,8 @@ const DOCS = {
       size: '95 KB',
       author: 'Dr. R. Naidu',
       updated: '4d ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }, {
       id: 4,
@@ -1867,6 +2486,8 @@ const DOCS = {
       size: '340 KB',
       author: 'Medical',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }, {
       id: 5,
@@ -1875,6 +2496,8 @@ const DOCS = {
       size: '180 KB',
       author: 'Anaseini W.',
       updated: '5h ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }, {
       id: 6,
@@ -1883,6 +2506,8 @@ const DOCS = {
       size: '142 KB',
       author: 'Pharmacy',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }],
     forms: [{
@@ -1892,6 +2517,8 @@ const DOCS = {
       size: '185 KB',
       author: 'Medical',
       updated: '1d ago',
+      status: 'Live',
+      roles: ['med'],
       isNew: true
     }, {
       id: 2,
@@ -1900,6 +2527,8 @@ const DOCS = {
       size: '210 KB',
       author: 'Dr. R. Naidu',
       updated: '3d ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }, {
       id: 3,
@@ -1908,6 +2537,8 @@ const DOCS = {
       size: '78 KB',
       author: 'Legal',
       updated: '1w ago',
+      status: 'Confirmed',
+      roles: ['med'],
       isNew: false
     }, {
       id: 4,
@@ -1916,6 +2547,8 @@ const DOCS = {
       size: '95 KB',
       author: 'Medical',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }, {
       id: 5,
@@ -1924,6 +2557,8 @@ const DOCS = {
       size: '120 KB',
       author: 'ASADA',
       updated: '2w ago',
+      status: 'Confirmed',
+      roles: ['med'],
       isNew: false
     }, {
       id: 6,
@@ -1932,6 +2567,8 @@ const DOCS = {
       size: '88 KB',
       author: 'Admin',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }, {
       id: 7,
@@ -1940,6 +2577,8 @@ const DOCS = {
       size: '145 KB',
       author: 'Legal',
       updated: '3w ago',
+      status: 'Confirmed',
+      roles: ['med'],
       isNew: false
     }, {
       id: 8,
@@ -1948,6 +2587,8 @@ const DOCS = {
       size: '62 KB',
       author: 'Catering',
       updated: '3w ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }],
     antid: [{
@@ -1957,6 +2598,8 @@ const DOCS = {
       size: '560 KB',
       author: 'ASADA',
       updated: '2w ago',
+      status: 'Confirmed',
+      roles: ['med'],
       isNew: false
     }, {
       id: 2,
@@ -1965,6 +2608,8 @@ const DOCS = {
       size: '290 KB',
       author: 'WADA',
       updated: '1m ago',
+      status: 'Confirmed',
+      roles: ['med'],
       isNew: false
     }, {
       id: 3,
@@ -1973,6 +2618,8 @@ const DOCS = {
       size: '175 KB',
       author: 'ASADA',
       updated: '1m ago',
+      status: 'Confirmed',
+      roles: ['med'],
       isNew: false
     }, {
       id: 4,
@@ -1981,6 +2628,8 @@ const DOCS = {
       size: '220 KB',
       author: 'ASADA',
       updated: '6w ago',
+      status: 'Confirmed',
+      roles: ['med'],
       isNew: false
     }],
     mh: [{
@@ -1990,6 +2639,8 @@ const DOCS = {
       size: '410 KB',
       author: 'Dr. S. Hooper',
       updated: '2w ago',
+      status: 'Confirmed',
+      roles: ['med'],
       isNew: false
     }, {
       id: 2,
@@ -1998,6 +2649,8 @@ const DOCS = {
       size: '145 KB',
       author: 'Medical',
       updated: '3w ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }, {
       id: 3,
@@ -2006,6 +2659,8 @@ const DOCS = {
       size: '2.2 MB',
       author: 'Dr. S. Hooper',
       updated: '1m ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }],
     tx: [{
@@ -2015,6 +2670,8 @@ const DOCS = {
       size: '310 KB',
       author: 'Logistics',
       updated: '2d ago',
+      status: 'Draft',
+      roles: ['trav'],
       isNew: true
     }, {
       id: 2,
@@ -2023,7 +2680,9 @@ const DOCS = {
       size: '88 KB',
       author: 'Logistics',
       updated: '3d ago',
-      isNew: true
+      status: 'Draft',
+      roles: ['trav'],
+      isNew: false
     }, {
       id: 3,
       name: 'Transport Request Form.docx',
@@ -2031,6 +2690,8 @@ const DOCS = {
       size: '65 KB',
       author: 'Admin',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['trav'],
       isNew: false
     }, {
       id: 4,
@@ -2039,6 +2700,8 @@ const DOCS = {
       size: '190 KB',
       author: 'Logistics',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['trav'],
       isNew: false
     }, {
       id: 5,
@@ -2047,6 +2710,8 @@ const DOCS = {
       size: '445 KB',
       author: 'Logistics',
       updated: '3w ago',
+      status: 'Draft',
+      roles: ['trav'],
       isNew: false
     }],
     cat: [{
@@ -2056,6 +2721,8 @@ const DOCS = {
       size: '210 KB',
       author: 'Catering',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: false
     }, {
       id: 2,
@@ -2064,6 +2731,8 @@ const DOCS = {
       size: '120 KB',
       author: 'Nutrition',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: false
     }, {
       id: 3,
@@ -2072,6 +2741,8 @@ const DOCS = {
       size: '155 KB',
       author: 'Medical',
       updated: '3w ago',
+      status: 'Confirmed',
+      roles: ['all'],
       isNew: false
     }, {
       id: 4,
@@ -2080,6 +2751,8 @@ const DOCS = {
       size: '280 KB',
       author: 'Catering',
       updated: '1m ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: false
     }],
     sec: [{
@@ -2089,6 +2762,8 @@ const DOCS = {
       size: '3.4 MB',
       author: 'Security',
       updated: '3d ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: true
     }, {
       id: 2,
@@ -2097,6 +2772,8 @@ const DOCS = {
       size: '490 KB',
       author: 'Security',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: false
     }, {
       id: 3,
@@ -2105,6 +2782,8 @@ const DOCS = {
       size: '320 KB',
       author: 'Security',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: false
     }, {
       id: 4,
@@ -2113,6 +2792,8 @@ const DOCS = {
       size: '78 KB',
       author: 'Security',
       updated: '2w ago',
+      status: 'Confirmed',
+      roles: ['all'],
       isNew: false
     }, {
       id: 5,
@@ -2121,6 +2802,8 @@ const DOCS = {
       size: '560 KB',
       author: 'Admin',
       updated: '3w ago',
+      status: 'Confirmed',
+      roles: ['all'],
       isNew: false
     }],
     volu: [{
@@ -2130,6 +2813,8 @@ const DOCS = {
       size: '145 KB',
       author: 'People & Culture',
       updated: '3d ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: true
     }, {
       id: 2,
@@ -2138,6 +2823,8 @@ const DOCS = {
       size: '138 KB',
       author: 'People & Culture',
       updated: '3d ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: true
     }, {
       id: 3,
@@ -2146,6 +2833,8 @@ const DOCS = {
       size: '380 KB',
       author: 'People & Culture',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: false
     }, {
       id: 4,
@@ -2154,6 +2843,8 @@ const DOCS = {
       size: '610 KB',
       author: 'People & Culture',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: false
     }, {
       id: 5,
@@ -2162,6 +2853,8 @@ const DOCS = {
       size: '220 KB',
       author: 'Admin',
       updated: '3w ago',
+      status: 'Confirmed',
+      roles: ['all'],
       isNew: false
     }, {
       id: 6,
@@ -2170,10 +2863,94 @@ const DOCS = {
       size: '110 KB',
       author: 'Legal',
       updated: '1m ago',
+      status: 'Confirmed',
+      roles: ['all'],
       isNew: false
     }]
   },
   la28: {
+    gen: [{
+      id: 1,
+      name: 'Games Schedule (full) — LA28.pdf',
+      ext: 'pdf',
+      size: '1.8 MB',
+      author: 'Games Services',
+      updated: '1w ago',
+      status: 'Draft',
+      roles: ['all'],
+      isNew: false
+    }, {
+      id: 2,
+      name: 'AOC Contact Directory — LA28.xlsx',
+      ext: 'xlsx',
+      size: '120 KB',
+      author: 'Admin',
+      updated: '2w ago',
+      status: 'Draft',
+      roles: ['all'],
+      isNew: false
+    }, {
+      id: 3,
+      name: 'Welcome & Onboarding Guide — LA28.pdf',
+      ext: 'pdf',
+      size: '760 KB',
+      author: 'Games Services',
+      updated: '1m ago',
+      status: 'Draft',
+      roles: ['all'],
+      isNew: false
+    }, {
+      id: 4,
+      name: 'AOC Code of Conduct.pdf',
+      ext: 'pdf',
+      size: '340 KB',
+      author: 'Legal',
+      updated: '2m ago',
+      status: 'Confirmed',
+      roles: ['all'],
+      isNew: false
+    }, {
+      id: 5,
+      name: 'FAQ — LA28 Stakeholder Portal.pdf',
+      ext: 'pdf',
+      size: '180 KB',
+      author: 'Admin',
+      updated: '1m ago',
+      status: 'Draft',
+      roles: ['all'],
+      isNew: false
+    }],
+    deleg: [{
+      id: 1,
+      name: 'LA28 Uniform Guide (draft).pdf',
+      ext: 'pdf',
+      size: '980 KB',
+      author: 'Uniform Team',
+      updated: '1m ago',
+      status: 'Draft',
+      roles: ['hpm', 'med', 'trav'],
+      isNew: false
+    }, {
+      id: 2,
+      name: 'Pre-Departure Checklist — LA28.pdf',
+      ext: 'pdf',
+      size: '290 KB',
+      author: 'Ops',
+      updated: '6w ago',
+      status: 'Draft',
+      roles: ['hpm', 'med', 'trav'],
+      isNew: false
+    }, {
+      id: 3,
+      name: 'Emergency Procedures — LA28.pdf',
+      ext: 'pdf',
+      size: '510 KB',
+      author: 'Security',
+      updated: '2m ago',
+      status: 'Draft',
+      roles: ['hpm', 'tick', 'med', 'trav'],
+      isNew: false
+    }],
     qual: [{
       id: 1,
       name: 'LA28 Entry Standards — Draft v1.pdf',
@@ -2181,6 +2958,8 @@ const DOCS = {
       size: '780 KB',
       author: 'World Athletics',
       updated: '4h ago',
+      status: 'Draft',
+      roles: ['hpm', 'data'],
       isNew: true
     }, {
       id: 2,
@@ -2189,6 +2968,8 @@ const DOCS = {
       size: '340 KB',
       author: 'HP Team',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['hpm', 'data'],
       isNew: true
     }, {
       id: 3,
@@ -2197,6 +2978,8 @@ const DOCS = {
       size: '210 KB',
       author: 'HP Team',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['hpm', 'data'],
       isNew: false
     }, {
       id: 4,
@@ -2205,6 +2988,8 @@ const DOCS = {
       size: '560 KB',
       author: 'World Athletics',
       updated: '1m ago',
+      status: 'Confirmed',
+      roles: ['hpm', 'data'],
       isNew: false
     }, {
       id: 5,
@@ -2213,6 +2998,8 @@ const DOCS = {
       size: '48 KB',
       author: 'Admin',
       updated: '1m ago',
+      status: 'Confirmed',
+      roles: ['hpm', 'data'],
       isNew: false
     }, {
       id: 6,
@@ -2221,6 +3008,8 @@ const DOCS = {
       size: '1.1 MB',
       author: 'LA28 Ops',
       updated: '6w ago',
+      status: 'Draft',
+      roles: ['hpm', 'data'],
       isNew: false
     }, {
       id: 7,
@@ -2229,6 +3018,8 @@ const DOCS = {
       size: '290 KB',
       author: 'HP Team',
       updated: '2m ago',
+      status: 'Confirmed',
+      roles: ['hpm', 'data'],
       isNew: false
     }],
     travel: [{
@@ -2238,6 +3029,8 @@ const DOCS = {
       size: '245 KB',
       author: 'Travel Team',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['hpm', 'med', 'trav'],
       isNew: false
     }, {
       id: 2,
@@ -2246,6 +3039,8 @@ const DOCS = {
       size: '680 KB',
       author: 'LA28 Ops',
       updated: '1m ago',
+      status: 'Draft',
+      roles: ['hpm', 'trav'],
       isNew: false
     }, {
       id: 3,
@@ -2254,6 +3049,8 @@ const DOCS = {
       size: '180 KB',
       author: 'Games Services',
       updated: '6w ago',
+      status: 'Draft',
+      roles: ['hpm', 'med', 'trav'],
       isNew: false
     }],
     vill: [{
@@ -2263,6 +3060,8 @@ const DOCS = {
       size: '5.1 MB',
       author: 'LA28 Ops',
       updated: '1d ago',
+      status: 'Draft',
+      roles: ['hpm', 'med', 'trav', 'guest'],
       isNew: true
     }, {
       id: 2,
@@ -2271,6 +3070,8 @@ const DOCS = {
       size: '95 KB',
       author: 'Village Team',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['hpm', 'med', 'trav', 'guest'],
       isNew: false
     }, {
       id: 3,
@@ -2279,6 +3080,8 @@ const DOCS = {
       size: '2.2 MB',
       author: 'LA28 Ops',
       updated: '1m ago',
+      status: 'Draft',
+      roles: ['hpm', 'med', 'trav', 'guest'],
       isNew: false
     }],
     media: [{
@@ -2288,6 +3091,8 @@ const DOCS = {
       size: '420 KB',
       author: 'Media Team',
       updated: '1m ago',
+      status: 'Draft',
+      roles: ['hpm', 'media'],
       isNew: false
     }, {
       id: 2,
@@ -2296,6 +3101,8 @@ const DOCS = {
       size: '310 KB',
       author: 'Host Broadcast',
       updated: '6w ago',
+      status: 'Draft',
+      roles: ['media'],
       isNew: false
     }],
     venues: [{
@@ -2305,6 +3112,8 @@ const DOCS = {
       size: '8.4 MB',
       author: 'LA28 Ops',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['hpm'],
       isNew: false
     }, {
       id: 2,
@@ -2313,6 +3122,8 @@ const DOCS = {
       size: '220 KB',
       author: 'Sustainability',
       updated: '2d ago',
+      status: 'Draft',
+      roles: ['hpm'],
       isNew: true
     }, {
       id: 3,
@@ -2321,6 +3132,8 @@ const DOCS = {
       size: '145 KB',
       author: 'LA28 Ops',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['hpm'],
       isNew: false
     }, {
       id: 4,
@@ -2329,6 +3142,8 @@ const DOCS = {
       size: '3.2 MB',
       author: 'LA28 Ops',
       updated: '1m ago',
+      status: 'Draft',
+      roles: ['hpm'],
       isNew: false
     }],
     alloc: [{
@@ -2338,6 +3153,8 @@ const DOCS = {
       size: '180 KB',
       author: 'Ticketing',
       updated: '3d ago',
+      status: 'Draft',
+      roles: ['tick'],
       isNew: true
     }, {
       id: 2,
@@ -2346,6 +3163,8 @@ const DOCS = {
       size: '245 KB',
       author: 'Ticketing',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['tick'],
       isNew: false
     }, {
       id: 3,
@@ -2354,6 +3173,8 @@ const DOCS = {
       size: '390 KB',
       author: 'IOC',
       updated: '1m ago',
+      status: 'Draft',
+      roles: ['tick'],
       isNew: false
     }],
     fam: [{
@@ -2363,6 +3184,8 @@ const DOCS = {
       size: '310 KB',
       author: 'Ticketing',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['tick'],
       isNew: false
     }, {
       id: 2,
@@ -2371,6 +3194,8 @@ const DOCS = {
       size: '180 KB',
       author: 'Ticketing',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['tick'],
       isNew: false
     }],
     vip: [{
@@ -2380,6 +3205,8 @@ const DOCS = {
       size: '1.2 MB',
       author: 'Hospitality',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['tick', 'spons'],
       isNew: true
     }, {
       id: 2,
@@ -2388,6 +3215,8 @@ const DOCS = {
       size: '680 KB',
       author: 'Hospitality',
       updated: '1m ago',
+      status: 'Draft',
+      roles: ['tick', 'spons'],
       isNew: false
     }, {
       id: 3,
@@ -2396,6 +3225,8 @@ const DOCS = {
       size: '220 KB',
       author: 'Hospitality',
       updated: '6w ago',
+      status: 'Draft',
+      roles: ['tick', 'spons'],
       isNew: false
     }],
     pol: [{
@@ -2405,6 +3236,8 @@ const DOCS = {
       size: '890 KB',
       author: 'Medical Commission',
       updated: '1d ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: true
     }, {
       id: 2,
@@ -2413,6 +3246,8 @@ const DOCS = {
       size: '340 KB',
       author: 'Dr. R. Naidu',
       updated: '3d ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }, {
       id: 3,
@@ -2421,6 +3256,8 @@ const DOCS = {
       size: '110 KB',
       author: 'Medical',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }],
     forms: [{
@@ -2430,6 +3267,8 @@ const DOCS = {
       size: '175 KB',
       author: 'Medical',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }, {
       id: 2,
@@ -2438,6 +3277,8 @@ const DOCS = {
       size: '98 KB',
       author: 'Medical',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }],
     heat: [{
@@ -2447,6 +3288,8 @@ const DOCS = {
       size: '420 KB',
       author: 'Medical Commission',
       updated: '1d ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: true
     }, {
       id: 2,
@@ -2455,6 +3298,8 @@ const DOCS = {
       size: '290 KB',
       author: 'Dr. R. Naidu',
       updated: '3d ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: true
     }, {
       id: 3,
@@ -2463,6 +3308,8 @@ const DOCS = {
       size: '165 KB',
       author: 'Nutrition',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }, {
       id: 4,
@@ -2471,6 +3318,8 @@ const DOCS = {
       size: '2.1 MB',
       author: 'LA28 Ops',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }, {
       id: 5,
@@ -2479,6 +3328,8 @@ const DOCS = {
       size: '310 KB',
       author: 'Medical',
       updated: '3w ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }],
     mh: [{
@@ -2488,6 +3339,8 @@ const DOCS = {
       size: '380 KB',
       author: 'Dr. S. Hooper',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }, {
       id: 2,
@@ -2496,6 +3349,8 @@ const DOCS = {
       size: '210 KB',
       author: 'Medical',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['med'],
       isNew: false
     }],
     tx: [{
@@ -2505,6 +3360,8 @@ const DOCS = {
       size: '88 KB',
       author: 'Logistics',
       updated: '3d ago',
+      status: 'Draft',
+      roles: ['trav'],
       isNew: true
     }, {
       id: 2,
@@ -2513,6 +3370,8 @@ const DOCS = {
       size: '3.8 MB',
       author: 'LA28 Ops',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['trav'],
       isNew: false
     }, {
       id: 3,
@@ -2521,6 +3380,8 @@ const DOCS = {
       size: '66 KB',
       author: 'Logistics',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['trav'],
       isNew: false
     }],
     cat: [{
@@ -2530,6 +3391,8 @@ const DOCS = {
       size: '220 KB',
       author: 'LA28 Ops',
       updated: '1m ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: false
     }, {
       id: 2,
@@ -2538,6 +3401,8 @@ const DOCS = {
       size: '78 KB',
       author: 'Catering',
       updated: '6w ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: false
     }],
     sec: [{
@@ -2547,6 +3412,8 @@ const DOCS = {
       size: '560 KB',
       author: 'LA28 Security',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: false
     }, {
       id: 2,
@@ -2555,6 +3422,8 @@ const DOCS = {
       size: '290 KB',
       author: 'Security',
       updated: '1m ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: false
     }],
     volu: [{
@@ -2564,6 +3433,8 @@ const DOCS = {
       size: '480 KB',
       author: 'LA28 Ops',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: false
     }, {
       id: 2,
@@ -2572,6 +3443,8 @@ const DOCS = {
       size: '310 KB',
       author: 'People & Culture',
       updated: '1m ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: false
     }],
     sust: [{
@@ -2581,6 +3454,8 @@ const DOCS = {
       size: '1.4 MB',
       author: 'LA28 Ops',
       updated: '2d ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: true
     }, {
       id: 2,
@@ -2589,6 +3464,8 @@ const DOCS = {
       size: '220 KB',
       author: 'Sustainability',
       updated: '3d ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: false
     }, {
       id: 3,
@@ -2597,6 +3474,8 @@ const DOCS = {
       size: '145 KB',
       author: 'Sustainability',
       updated: '1w ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: false
     }, {
       id: 4,
@@ -2605,6 +3484,8 @@ const DOCS = {
       size: '88 KB',
       author: 'Sustainability',
       updated: '2w ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: false
     }, {
       id: 5,
@@ -2613,6 +3494,8 @@ const DOCS = {
       size: '310 KB',
       author: 'Procurement',
       updated: '1m ago',
+      status: 'Draft',
+      roles: ['all'],
       isNew: false
     }]
   }
@@ -4714,6 +5597,26 @@ function extColor(ext) {
     label: ext.toUpperCase()
   };
 }
+const STATUS_STYLES = {
+  Confirmed: {
+    bg: '#e6f4ea',
+    fg: '#1a6334',
+    label: 'Confirmed'
+  },
+  Live: {
+    bg: '#fef6e0',
+    fg: '#92600a',
+    label: 'Live'
+  },
+  Draft: {
+    bg: 'var(--ink-100)',
+    fg: 'var(--ink-500)',
+    label: 'Draft'
+  }
+};
+function statusStyle(s) {
+  return STATUS_STYLES[s] || STATUS_STYLES.Draft;
+}
 
 // ── Toast ──────────────────────────────────────────────────────────────────
 function Toast({
@@ -4751,27 +5654,31 @@ function Toast({
 }
 
 // ── Section View ───────────────────────────────────────────────────────────
+// Props: sectionId, sectionMeta, docs, gamesCode, currentRole, onHome, onSectionsList
 function SectionView({
   sectionId,
-  sectionLabel,
-  gamesId,
+  sectionMeta,
+  docs,
   gamesCode,
-  onBack,
-  onGoHome
+  currentRole,
+  onHome,
+  onSectionsList
 }) {
   const [filter, setFilter] = React.useState('all');
   const [search, setSearch] = React.useState('');
   const [toast, setToast] = React.useState(null);
-  const meta = SECTION_META[sectionId] || {};
-  const allDocs = DOCS[gamesId] && DOCS[gamesId][sectionId] || [];
-  const visible = allDocs.filter(d => {
+  const meta = sectionMeta || SECTION_META[sectionId] || {};
+  const label = meta.label || sectionId;
+  const allDocs = docs || [];
+
+  // Role filtering: show doc if roles is ['all'], or includes currentRole
+  const roleDocs = allDocs.filter(d => !d.roles || d.roles.includes('all') || currentRole && d.roles.includes(currentRole));
+  const visible = roleDocs.filter(d => {
     if (filter === 'new' && !d.isNew) return false;
     if (search && !d.name.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
   });
-  const handleDownload = doc => {
-    setToast(`Downloading ${doc.name}…`);
-  };
+  const newCount = roleDocs.filter(d => d.isNew).length;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       flex: 1,
@@ -4791,10 +5698,8 @@ function SectionView({
       fontSize: 13
     }
   }, /*#__PURE__*/React.createElement("button", {
-    onClick: onGoHome,
-    style: {
-      ...linkBtn
-    }
+    onClick: onHome,
+    style: linkBtn
   }, "Home"), /*#__PURE__*/React.createElement(Icon, {
     name: "chev-right",
     size: 13,
@@ -4802,10 +5707,8 @@ function SectionView({
       color: 'var(--ink-400)'
     }
   }), /*#__PURE__*/React.createElement("button", {
-    onClick: onBack,
-    style: {
-      ...linkBtn
-    }
+    onClick: onSectionsList,
+    style: linkBtn
   }, gamesCode, " Sections"), /*#__PURE__*/React.createElement(Icon, {
     name: "chev-right",
     size: 13,
@@ -4817,7 +5720,7 @@ function SectionView({
       color: 'var(--ink-700)',
       fontWeight: 500
     }
-  }, sectionLabel)), /*#__PURE__*/React.createElement("div", {
+  }, label)), /*#__PURE__*/React.createElement("div", {
     style: {
       padding: '24px 28px 20px',
       borderBottom: '1px solid var(--ink-100)',
@@ -4837,14 +5740,14 @@ function SectionView({
       letterSpacing: '-.015em',
       color: 'var(--ink-900)'
     }
-  }, sectionLabel), /*#__PURE__*/React.createElement("div", {
+  }, label), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 13.5,
       color: 'var(--ink-500)',
       marginTop: 4,
       maxWidth: 520
     }
-  }, meta.desc)), /*#__PURE__*/React.createElement("div", {
+  }, meta.desc)), meta.contact && /*#__PURE__*/React.createElement("div", {
     style: {
       background: 'var(--teal-50)',
       border: '1px solid rgba(21,82,81,.14)',
@@ -4853,7 +5756,7 @@ function SectionView({
       fontSize: 12.5,
       color: 'var(--teal-800)',
       flex: '0 0 auto',
-      minWidth: 190
+      minWidth: 200
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -4907,7 +5810,7 @@ function SectionView({
   }), /*#__PURE__*/React.createElement("input", {
     value: search,
     onChange: e => setSearch(e.target.value),
-    placeholder: `Search ${sectionLabel}…`,
+    placeholder: `Search ${label}…`,
     style: {
       border: 0,
       outline: 0,
@@ -4938,7 +5841,7 @@ function SectionView({
       fontWeight: filter === f ? 600 : 400,
       transition: 'background .1s'
     }
-  }, f === 'all' ? `All (${allDocs.length})` : `New (${allDocs.filter(d => d.isNew).length})`))), /*#__PURE__*/React.createElement("div", {
+  }, f === 'all' ? `All (${roleDocs.length})` : `New (${newCount})`))), /*#__PURE__*/React.createElement("div", {
     style: {
       flex: 1
     }
@@ -4962,7 +5865,7 @@ function SectionView({
       background: '#fff',
       marginTop: 8
     }
-  }, "No documents match your search.") : /*#__PURE__*/React.createElement("div", {
+  }, roleDocs.length === 0 ? 'No documents are available for your role in this section.' : 'No documents match your search.') : /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       flexDirection: 'column',
@@ -4971,11 +5874,11 @@ function SectionView({
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
-      gridTemplateColumns: '1fr 120px 140px 120px',
+      gridTemplateColumns: '1fr 100px 110px 130px 120px',
       padding: '6px 16px',
       borderRadius: 6
     }
-  }, ['Document', 'Size', 'Updated', ''].map((h, i) => /*#__PURE__*/React.createElement("div", {
+  }, ['Document', 'Status', 'Size', 'Updated', ''].map((h, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     className: "mono",
     style: {
@@ -4987,7 +5890,7 @@ function SectionView({
   }, h))), visible.map(doc => /*#__PURE__*/React.createElement(DocRow, {
     key: doc.id,
     doc: doc,
-    onDownload: () => handleDownload(doc)
+    onDownload: () => setToast(`Downloading ${doc.name}…`)
   })))), toast && /*#__PURE__*/React.createElement(Toast, {
     msg: toast,
     onDone: () => setToast(null)
@@ -4999,12 +5902,13 @@ function DocRow({
 }) {
   const [hover, setHover] = React.useState(false);
   const ec = extColor(doc.ext);
+  const ss = statusStyle(doc.status);
   return /*#__PURE__*/React.createElement("div", {
     onMouseEnter: () => setHover(true),
     onMouseLeave: () => setHover(false),
     style: {
       display: 'grid',
-      gridTemplateColumns: '1fr 120px 140px 120px',
+      gridTemplateColumns: '1fr 100px 110px 130px 120px',
       alignItems: 'center',
       padding: '10px 16px',
       borderRadius: 8,
@@ -5018,7 +5922,7 @@ function DocRow({
     style: {
       display: 'flex',
       alignItems: 'center',
-      gap: 12,
+      gap: 10,
       minWidth: 0
     }
   }, /*#__PURE__*/React.createElement("span", {
@@ -5063,7 +5967,19 @@ function DocRow({
       color: 'var(--ink-500)',
       marginTop: 1
     }
-  }, doc.author))), /*#__PURE__*/React.createElement("div", {
+  }, doc.author))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: 'inline-block',
+      padding: '2px 8px',
+      borderRadius: 5,
+      fontSize: 11,
+      fontWeight: 600,
+      background: ss.bg,
+      color: ss.fg,
+      fontFamily: 'ui-monospace,monospace',
+      letterSpacing: '.03em'
+    }
+  }, ss.label)), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 12.5,
       color: 'var(--ink-500)'
@@ -5101,11 +6017,14 @@ function DocRow({
 }
 
 // ── Sections List (DA26 / LA28 tab) ───────────────────────────────────────
+// Props: sections, gamesId, gamesCode, currentRole, onSectionOpen, onHome
 function SectionsListView({
-  view,
-  gamesName,
-  gamesFlag,
-  onOpenSection
+  sections,
+  gamesId,
+  gamesCode,
+  currentRole,
+  onSectionOpen,
+  onHome
 }) {
   return /*#__PURE__*/React.createElement("div", {
     style: {
@@ -5113,6 +6032,30 @@ function SectionsListView({
       overflow: 'auto'
     }
   }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '12px 28px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      borderBottom: '1px solid var(--ink-100)',
+      background: 'var(--paper)',
+      fontSize: 13
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: onHome,
+    style: linkBtn
+  }, "Home"), /*#__PURE__*/React.createElement(Icon, {
+    name: "chev-right",
+    size: 13,
+    style: {
+      color: 'var(--ink-400)'
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: 'var(--ink-700)',
+      fontWeight: 500
+    }
+  }, gamesCode, " Sections")), /*#__PURE__*/React.createElement("div", {
     style: {
       padding: '24px 28px 8px'
     }
@@ -5122,13 +6065,13 @@ function SectionsListView({
       fontWeight: 700,
       letterSpacing: '-.015em'
     }
-  }, gamesFlag, " ", gamesName, " \u2014 All Sections"), /*#__PURE__*/React.createElement("div", {
+  }, gamesCode, " \u2014 All Sections"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 13.5,
       color: 'var(--ink-500)',
       marginTop: 4
     }
-  }, view.sections.length, " sections you have access to"), /*#__PURE__*/React.createElement("div", {
+  }, sections.length, " sections you have access to"), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 12,
       height: 3,
@@ -5143,13 +6086,13 @@ function SectionsListView({
       gap: 14,
       padding: '16px 28px 40px'
     }
-  }, view.sections.map(s => {
+  }, sections.map(s => {
     const meta = SECTION_META[s.id] || {};
-    const docs = (DOCS[view === ROLE_VIEW ? 'da26' : 'la28'] || {})[s.id] || [];
-    const newCount = docs.filter(d => d.isNew).length;
+    const sectionDocs = ((DOCS[gamesId] || {})[s.id] || []).filter(d => !d.roles || d.roles.includes('all') || currentRole && d.roles.includes(currentRole));
+    const newCount = sectionDocs.filter(d => d.isNew).length;
     return /*#__PURE__*/React.createElement("button", {
       key: s.id,
-      onClick: () => onOpenSection(s.id),
+      onClick: () => onSectionOpen(s.id),
       style: {
         appearance: 'none',
         border: '1px solid var(--ink-200)',
@@ -5197,7 +6140,7 @@ function SectionsListView({
         fontWeight: 600,
         color: 'var(--ink-900)'
       }
-    }, s.label), /*#__PURE__*/React.createElement("div", {
+    }, meta.label || s.label), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 12.5,
         color: 'var(--ink-500)',
@@ -5216,7 +6159,7 @@ function SectionsListView({
         fontSize: 11,
         color: 'var(--ink-500)'
       }
-    }, s.docs, " docs"), newCount > 0 && /*#__PURE__*/React.createElement(Badge, {
+    }, sectionDocs.length, " docs"), newCount > 0 && /*#__PURE__*/React.createElement(Badge, {
       text: `${newCount} new`
     }), /*#__PURE__*/React.createElement("span", {
       style: {
@@ -5234,7 +6177,7 @@ function SectionsListView({
 
 // ── Resources View ─────────────────────────────────────────────────────────
 function ResourcesView({
-  onGoHome
+  onHome
 }) {
   const [toast, setToast] = React.useState(null);
   return /*#__PURE__*/React.createElement("div", {
@@ -5253,7 +6196,7 @@ function ResourcesView({
       fontSize: 13
     }
   }, /*#__PURE__*/React.createElement("button", {
-    onClick: onGoHome,
+    onClick: onHome,
     style: linkBtn
   }, "Home"), /*#__PURE__*/React.createElement(Icon, {
     name: "chev-right",
@@ -5386,17 +6329,16 @@ function ResourcesView({
 function NewsFullView({
   items,
   currentRole,
-  gamesName,
-  onGoHome
+  onHome
 }) {
   const [activeTag, setActiveTag] = React.useState('all');
+  const [expanded, setExpanded] = React.useState(null);
   const tags = ['all', ...Array.from(new Set(items.map(n => n.tag)))];
   const filtered = items.filter(n => {
     if (n.role !== 'all' && n.role !== currentRole) return false;
     if (activeTag !== 'all' && n.tag !== activeTag) return false;
     return true;
   });
-  const [expanded, setExpanded] = React.useState(null);
   return /*#__PURE__*/React.createElement("div", {
     style: {
       flex: 1,
@@ -5413,7 +6355,7 @@ function NewsFullView({
       fontSize: 13
     }
   }, /*#__PURE__*/React.createElement("button", {
-    onClick: onGoHome,
+    onClick: onHome,
     style: linkBtn
   }, "Home"), /*#__PURE__*/React.createElement(Icon, {
     name: "chev-right",
@@ -5437,12 +6379,6 @@ function NewsFullView({
       letterSpacing: '-.015em'
     }
   }, "News & Announcements"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 13.5,
-      color: 'var(--ink-500)',
-      marginTop: 4
-    }
-  }, gamesName), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 12,
       height: 3,
@@ -5472,7 +6408,6 @@ function NewsFullView({
       background: activeTag === tag ? 'var(--teal-700)' : '#fff',
       color: activeTag === tag ? '#fff' : 'var(--ink-700)',
       fontWeight: activeTag === tag ? 600 : 400,
-      textTransform: tag === 'all' ? 'none' : 'none',
       transition: 'background .1s'
     }
   }, tag === 'all' ? 'All' : tag))), /*#__PURE__*/React.createElement("div", {
@@ -5546,24 +6481,23 @@ function NewsFullView({
       marginTop: 4
     }
   }, n.author, " \xB7 ", n.time)), /*#__PURE__*/React.createElement(Icon, {
-    name: expanded === n.id ? 'chev-down' : 'chev-right',
+    name: "chev-right",
     size: 16,
     style: {
       color: 'var(--ink-400)',
       marginTop: 2,
       flexShrink: 0,
-      transform: expanded === n.id ? 'rotate(180deg)' : 'none',
+      transform: expanded === n.id ? 'rotate(90deg)' : 'none',
       transition: 'transform .15s'
     }
   })), expanded === n.id && /*#__PURE__*/React.createElement("div", {
     style: {
-      padding: '0 20px 18px 20px',
+      padding: '14px 20px 18px',
       paddingLeft: 20 + 14 + 78,
       fontSize: 13.5,
       color: 'var(--ink-700)',
       lineHeight: 1.6,
-      borderTop: '1px solid var(--ink-100)',
-      paddingTop: 14
+      borderTop: '1px solid var(--ink-100)'
     }
   }, n.body)))));
 }
@@ -5797,7 +6731,7 @@ function GamesSwitcher({
 function App() {
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const [gamesId, setGamesId] = React.useState('da26');
-  const [role, setRole] = React.useState('hp');
+  const [role, setRole] = React.useState('hpm');
   const [tab, setTab] = React.useState('home');
   const [activeSection, setActiveSection] = React.useState(null);
   const [pinned, setPinned] = React.useState(['comp']);
@@ -5814,19 +6748,18 @@ function App() {
   const activity = ACTIVITY_BY_GAMES[gamesId];
   const notifs = NOTIFS_BY_GAMES[gamesId];
   React.useEffect(() => {
-    setActiveSection(view.sections[0].id);
+    if (view.sections.length) setActiveSection(view.sections[0].id);
   }, [role, gamesId]);
-
-  // Reset nav when switching tabs/games/role
   React.useEffect(() => {
     setNavView('home');
   }, [tab, gamesId, role]);
   const togglePin = id => setPinned(p => p.includes(id) ? p.filter(x => x !== id) : [...p, id]);
   React.useEffect(() => {
     document.documentElement.style.setProperty('--gold-500', t.accent);
-    // Approximate gold-50 as a very light tint
     document.documentElement.style.setProperty('--gold-50', '#fffbeb');
   }, [t.accent]);
+
+  // Navigation helpers
   const goHome = () => {
     setTab('home');
     setNavView('home');
@@ -5837,13 +6770,19 @@ function App() {
     setActiveSection(id);
   };
   const goAllNews = () => setNavView('news');
+  const goSectionsList = () => {
+    setTab('sections');
+    setNavView('sections-list');
+  };
   const goResources = () => {
     setTab('res');
     setNavView('resources');
   };
-  const goSectionsList = () => {
-    setTab('sections');
-    setNavView('sections-list');
+  const handleTabChange = id => {
+    setTab(id);
+    if (id === 'home') setNavView('home');
+    if (id === 'sections') setNavView('sections-list');
+    if (id === 'res') setNavView('resources');
   };
   const tabs = [{
     id: 'home',
@@ -5855,10 +6794,6 @@ function App() {
     id: 'res',
     label: 'Resources'
   }];
-  const handleTabChange = id => {
-    setTab(id);
-    if (id === 'home') setNavView('home');else if (id === 'sections') setNavView('sections-list');else if (id === 'res') setNavView('resources');
-  };
   const heroTitle = () => {
     if (navView === 'section') {
       const meta = SECTION_META[navSectionId];
@@ -5872,15 +6807,13 @@ function App() {
   const renderMain = () => {
     if (navView === 'section') {
       const docs = (DOCS[gamesId] || {})[navSectionId] || [];
-      const meta = SECTION_META[navSectionId] || {
-        label: navSectionId,
-        description: ''
-      };
+      const meta = SECTION_META[navSectionId] || {};
       return /*#__PURE__*/React.createElement(SectionView, {
         sectionId: navSectionId,
         sectionMeta: meta,
         docs: docs,
         gamesCode: games.code,
+        currentRole: role,
         onHome: goHome,
         onSectionsList: goSectionsList
       });
@@ -5894,21 +6827,20 @@ function App() {
     }
     if (navView === 'resources') {
       return /*#__PURE__*/React.createElement(ResourcesView, {
-        resources: RESOURCES,
         onHome: goHome
       });
     }
     if (navView === 'sections-list') {
-      const allSections = view.sections;
       return /*#__PURE__*/React.createElement(SectionsListView, {
-        sections: allSections,
-        gamesCode: games.code,
+        sections: view.sections,
         gamesId: gamesId,
+        gamesCode: games.code,
+        currentRole: role,
         onSectionOpen: goToSection,
         onHome: goHome
       });
     }
-    // default: home
+    // Home view
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(KpiStrip, {
       view: view
     }), /*#__PURE__*/React.createElement(SectionGrid, {
@@ -5946,6 +6878,7 @@ function App() {
     onChange: r => {
       setRole(r);
       setNavView('home');
+      setTab('home');
     }
   }), /*#__PURE__*/React.createElement(TopBar, {
     orgName: "Australian Olympic Committee",
@@ -5966,6 +6899,7 @@ function App() {
       onChange: id => {
         setGamesId(id);
         setNavView('home');
+        setTab('home');
       }
     })
   }), /*#__PURE__*/React.createElement(Tabs, {
