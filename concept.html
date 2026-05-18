@@ -1,0 +1,1323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AOC Games Portal — Design Concept</title>
+<style>
+:root{
+  --teal-900:#0a2e2d;--teal-800:#0e3b3a;--teal-700:#155251;--teal-600:#1d6c6a;--teal-50:#e9f2f1;
+  --gold-500:#f5b81f;--gold-400:#f7c544;--gold-50:#fef6e0;
+  --ink-900:#0d1614;--ink-700:#2a3633;--ink-500:#5b6764;--ink-400:#8a9491;
+  --ink-300:#bcc4c1;--ink-200:#dbe0de;--ink-100:#eef1ef;--ink-50:#f6f7f5;
+  --paper:#fbfaf6;--white:#fff;
+  --r:12px;--r-lg:18px;
+  --sh:0 2px 8px rgba(10,46,45,.08),0 8px 24px rgba(10,46,45,.06);
+  --sh-lg:0 4px 16px rgba(10,46,45,.1),0 24px 56px rgba(10,46,45,.14);
+}
+*,*:before,*:after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,'Segoe UI','Helvetica Neue',Arial,sans-serif;
+  background:var(--paper);color:var(--ink-900);
+  font-size:15px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+
+/* ── Nav ── */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(10,46,45,.97);backdrop-filter:blur(12px);
+  padding:0 40px;height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.nav-logo{display:flex;align-items:center;gap:12px;color:#fff}
+.nav-logo-badge{
+  width:32px;height:32px;border-radius:8px;
+  background:var(--gold-500);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:14px;color:var(--teal-900);
+}
+.nav-title{font-size:13.5px;font-weight:600;letter-spacing:-.01em}
+.nav-sub{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.08em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:16px}
+.nav-link{
+  font-size:13px;color:rgba(255,255,255,.65);
+  padding:6px 12px;border-radius:7px;
+  transition:background .15s,color .15s;
+}
+.nav-link:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav-cta{
+  background:var(--gold-500);color:var(--teal-900);
+  font-size:13px;font-weight:700;
+  padding:7px 16px;border-radius:8px;border:0;
+  transition:transform .15s,box-shadow .15s;
+}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(245,184,31,.4)}
+
+/* ── Hero ── */
+.hero{
+  background:linear-gradient(135deg,var(--teal-900) 0%,#0d3d3c 40%,#1a5251 75%,#0a2e2d 100%);
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:80px 40px 60px;
+  position:relative;overflow:hidden;
+}
+.hero-grid{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:60px;align-items:center;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(245,184,31,.15);border:1px solid rgba(245,184,31,.3);
+  color:var(--gold-400);font-size:11.5px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;
+  padding:5px 12px;border-radius:999px;margin-bottom:24px;
+}
+.hero-title{
+  font-size:clamp(36px,5vw,62px);
+  font-weight:800;line-height:1.08;
+  letter-spacing:-.03em;
+  color:#fff;margin-bottom:20px;
+}
+.hero-title em{
+  font-style:normal;
+  background:linear-gradient(90deg,var(--gold-400),var(--gold-500));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-body{
+  font-size:16px;color:rgba(255,255,255,.65);
+  line-height:1.7;max-width:480px;margin-bottom:36px;
+}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{
+  background:var(--gold-500);color:var(--teal-900);
+  font-size:14px;font-weight:700;border:0;
+  padding:12px 24px;border-radius:10px;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:transform .15s,box-shadow .15s;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(245,184,31,.4)}
+.btn-outline{
+  background:transparent;
+  border:1px solid rgba(255,255,255,.25);
+  color:rgba(255,255,255,.85);
+  font-size:14px;font-weight:600;
+  padding:12px 24px;border-radius:10px;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:background .15s,border-color .15s;
+}
+.btn-outline:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.4)}
+
+/* Countdown */
+.countdown{
+  display:flex;gap:16px;margin-bottom:40px;
+}
+.cd-unit{
+  text-align:center;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;padding:14px 18px;min-width:72px;
+}
+.cd-num{
+  font-size:28px;font-weight:800;color:#fff;
+  letter-spacing:-.02em;line-height:1;display:block;
+}
+.cd-label{
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);margin-top:4px;display:block;
+}
+.cd-date{
+  font-size:12px;color:rgba(255,255,255,.4);
+  margin-top:12px;letter-spacing:.04em;
+}
+
+/* SVG hero illustration */
+.hero-art{
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.hero-art-glow{
+  position:absolute;width:400px;height:400px;
+  background:radial-gradient(circle,rgba(245,184,31,.18) 0%,transparent 70%);
+  border-radius:50%;
+}
+
+/* ── Section wrappers ── */
+.section{padding:96px 40px}
+.section-inner{max-width:1200px;margin:0 auto}
+.section-label{
+  font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--teal-700);margin-bottom:12px;display:block;
+}
+.section-title{
+  font-size:clamp(28px,4vw,42px);font-weight:800;
+  letter-spacing:-.025em;line-height:1.15;
+  color:var(--ink-900);margin-bottom:16px;
+}
+.section-body{
+  font-size:16px;color:var(--ink-500);line-height:1.7;
+  max-width:640px;margin-bottom:48px;
+}
+.section-dark{background:var(--teal-900)}
+.section-dark .section-label{color:var(--gold-400)}
+.section-dark .section-title{color:#fff}
+.section-dark .section-body{color:rgba(255,255,255,.6)}
+
+/* ── Improvement cards ── */
+.improvement-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:24px;
+}
+.imp-card{
+  background:#fff;border:1px solid var(--ink-100);
+  border-radius:var(--r-lg);overflow:hidden;
+  box-shadow:var(--sh);
+  transition:transform .2s,box-shadow .2s;
+}
+.imp-card:hover{transform:translateY(-3px);box-shadow:var(--sh-lg)}
+.imp-card-img{height:200px;position:relative;overflow:hidden}
+.imp-card-body{padding:24px}
+.imp-tag{
+  display:inline-block;font-size:10.5px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 10px;border-radius:999px;margin-bottom:12px;
+}
+.imp-card-title{font-size:18px;font-weight:700;letter-spacing:-.01em;margin-bottom:8px;color:var(--ink-900)}
+.imp-card-text{font-size:13.5px;color:var(--ink-500);line-height:1.65}
+.imp-card-items{
+  margin-top:14px;padding-top:14px;
+  border-top:1px solid var(--ink-100);
+  display:flex;flex-direction:column;gap:6px;
+}
+.imp-item{
+  display:flex;align-items:flex-start;gap:8px;
+  font-size:13px;color:var(--ink-700);
+}
+.imp-item::before{
+  content:'→';color:var(--gold-500);font-weight:700;
+  flex-shrink:0;margin-top:1px;
+}
+
+/* ── Concept mockup components ── */
+.mockup-frame{
+  background:#fff;border:1px solid var(--ink-200);
+  border-radius:var(--r-lg);overflow:hidden;
+  box-shadow:var(--sh-lg);
+}
+.mockup-bar{
+  background:var(--ink-50);border-bottom:1px solid var(--ink-200);
+  padding:10px 16px;display:flex;align-items:center;gap:8px;
+}
+.mockup-dot{width:10px;height:10px;border-radius:50%;background:var(--ink-200)}
+.mockup-dot.r{background:#ff6b6b}.mockup-dot.y{background:#ffd93d}.mockup-dot.g{background:#6bcb77}
+.mockup-url{
+  flex:1;background:var(--ink-100);border-radius:5px;
+  padding:4px 10px;font-size:11.5px;color:var(--ink-400);
+  margin:0 10px;
+}
+
+/* Feature mockups */
+.feature-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:48px;align-items:center;margin-bottom:96px;
+}
+.feature-grid.flip{direction:rtl}
+.feature-grid.flip > *{direction:ltr}
+.feature-label{
+  display:inline-block;font-size:10.5px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 10px;border-radius:999px;margin-bottom:14px;
+}
+.feature-title{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-bottom:12px;color:var(--ink-900)}
+.feature-body{font-size:14.5px;color:var(--ink-500);line-height:1.7;margin-bottom:20px}
+.feature-list{display:flex;flex-direction:column;gap:8px}
+.feature-item{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:13.5px;color:var(--ink-700);
+}
+.feature-bullet{
+  width:20px;height:20px;border-radius:6px;
+  background:var(--gold-50);color:var(--gold-500);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;flex-shrink:0;margin-top:1px;
+}
+
+/* ── Athlete card mockup ── */
+.athlete-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+}
+.athlete-card{
+  background:#fff;border-radius:var(--r);overflow:hidden;
+  border:1px solid var(--ink-100);box-shadow:var(--sh);
+}
+.athlete-img{
+  height:160px;position:relative;
+  display:flex;align-items:flex-end;padding:12px;
+}
+.athlete-flag{
+  background:#fff;border-radius:4px;
+  padding:2px 6px;font-size:14px;
+  box-shadow:0 1px 4px rgba(0,0,0,.15);
+}
+.athlete-info{padding:12px 14px 14px}
+.athlete-name{font-size:14px;font-weight:700;color:var(--ink-900)}
+.athlete-sport{font-size:12px;color:var(--ink-500);margin-top:2px}
+.athlete-status{
+  margin-top:10px;padding-top:10px;
+  border-top:1px solid var(--ink-100);
+  display:flex;align-items:center;gap:6px;
+  font-size:11.5px;color:var(--ink-500);
+}
+.status-dot{width:7px;height:7px;border-radius:50%}
+
+/* ── Venue map concept ── */
+.venue-map-wrap{
+  background:var(--teal-900);border-radius:var(--r-lg);
+  padding:32px;position:relative;overflow:hidden;
+}
+.venue-pin{
+  position:absolute;
+  display:flex;flex-direction:column;align-items:center;cursor:pointer;
+}
+.venue-pin-dot{
+  width:14px;height:14px;border-radius:50%;
+  border:3px solid #fff;
+  box-shadow:0 0 0 4px rgba(245,184,31,.4);
+  transition:transform .2s;
+}
+.venue-pin:hover .venue-pin-dot{transform:scale(1.4)}
+.venue-pin-label{
+  background:var(--gold-500);color:var(--teal-900);
+  font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;
+  margin-top:5px;white-space:nowrap;
+}
+.venue-pin-dot.alt{border-color:var(--gold-400);box-shadow:0 0 0 4px rgba(245,184,31,.25)}
+
+/* ── Document preview concept ── */
+.doc-preview-wrap{
+  background:#fff;border:1px solid var(--ink-200);
+  border-radius:var(--r-lg);overflow:hidden;
+  display:grid;grid-template-columns:1fr 320px;
+  box-shadow:var(--sh-lg);
+}
+.doc-list-pane{border-right:1px solid var(--ink-100)}
+.doc-list-item{
+  padding:12px 16px;display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid var(--ink-50);cursor:pointer;
+  transition:background .1s;
+}
+.doc-list-item:hover,.doc-list-item.active{background:var(--teal-50)}
+.doc-list-item.active{border-left:3px solid var(--teal-700)}
+.doc-ext{
+  padding:3px 7px;border-radius:5px;
+  font-size:9.5px;font-weight:700;font-family:monospace;
+  flex-shrink:0;
+}
+.doc-preview-pane{
+  background:var(--ink-50);
+  display:flex;flex-direction:column;
+}
+.doc-preview-header{
+  padding:14px 16px;background:#fff;border-bottom:1px solid var(--ink-100);
+  font-size:13px;font-weight:600;color:var(--ink-900);
+}
+.doc-preview-body{
+  flex:1;padding:16px;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ── Mobile concept ── */
+.phone-frame{
+  width:220px;background:var(--teal-900);
+  border-radius:32px;padding:10px;
+  box-shadow:var(--sh-lg),inset 0 0 0 2px rgba(255,255,255,.1);
+}
+.phone-screen{
+  background:var(--paper);border-radius:24px;
+  overflow:hidden;
+}
+.phone-status{
+  background:var(--teal-900);padding:10px 16px 6px;
+  display:flex;justify-content:space-between;
+  font-size:10px;color:#fff;
+}
+.phone-notch{
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:60px;height:18px;background:var(--teal-900);
+  border-radius:0 0 10px 10px;
+}
+.phone-content{padding:0;font-size:11px}
+
+/* ── Dark mode concept ── */
+.dark-preview{
+  background:#111827;border-radius:var(--r-lg);
+  overflow:hidden;border:1px solid rgba(255,255,255,.08);
+  box-shadow:var(--sh-lg);
+}
+.dark-nav{
+  background:#0d1f1f;padding:12px 20px;
+  display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.dark-sidebar{
+  display:grid;grid-template-columns:200px 1fr;
+  min-height:280px;
+}
+.dark-side-inner{
+  background:#0f1f1e;border-right:1px solid rgba(255,255,255,.06);
+  padding:16px 12px;
+}
+.dark-side-item{
+  padding:8px 12px;border-radius:8px;font-size:12px;
+  display:flex;align-items:center;gap:8px;margin-bottom:3px;
+}
+.dark-side-item.active{background:rgba(245,184,31,.15);color:var(--gold-400)}
+.dark-side-item:not(.active){color:rgba(255,255,255,.45)}
+.dark-main{padding:20px;background:#111827}
+.dark-card{
+  background:#1a2e2d;border:1px solid rgba(255,255,255,.07);
+  border-radius:10px;padding:14px;margin-bottom:12px;
+}
+.dark-card-title{font-size:12px;font-weight:600;color:#fff;margin-bottom:6px}
+.dark-card-text{font-size:11px;color:rgba(255,255,255,.45);line-height:1.5}
+
+/* ── Notification concept ── */
+.notif-stream{
+  display:flex;flex-direction:column;gap:8px;
+}
+.notif-item{
+  background:#fff;border:1px solid var(--ink-100);
+  border-radius:10px;padding:12px 14px;
+  display:flex;gap:12px;align-items:flex-start;
+  box-shadow:var(--sh);
+  animation:slideUp .3s ease both;
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.notif-icon{
+  width:36px;height:36px;border-radius:9px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+}
+.notif-content{flex:1;min-width:0}
+.notif-title{font-size:13px;font-weight:600;color:var(--ink-900);line-height:1.3}
+.notif-meta{font-size:11.5px;color:var(--ink-400);margin-top:2px}
+.notif-badge{
+  font-size:10px;font-weight:700;padding:2px 7px;
+  border-radius:999px;flex-shrink:0;margin-top:2px;
+}
+
+/* ── Search concept ── */
+.search-concept{
+  background:#fff;border-radius:var(--r-lg);
+  box-shadow:var(--sh-lg);overflow:hidden;
+  border:1px solid var(--ink-100);
+}
+.search-bar{
+  padding:14px 18px;display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid var(--ink-100);
+}
+.search-input-fake{
+  flex:1;font-size:15px;color:var(--ink-700);
+}
+.search-results{padding:8px 0}
+.search-result{
+  padding:10px 18px;display:flex;align-items:center;gap:12px;
+  cursor:pointer;transition:background .1s;
+}
+.search-result:hover{background:var(--ink-50)}
+.search-result-icon{
+  width:32px;height:32px;border-radius:8px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:14px;
+}
+.search-result-text{flex:1;min-width:0}
+.search-result-title{font-size:13.5px;font-weight:500;color:var(--ink-900)}
+.search-result-meta{font-size:11.5px;color:var(--ink-400);margin-top:1px}
+.search-highlight{background:rgba(245,184,31,.35);border-radius:2px;padding:0 2px}
+.search-section{
+  padding:6px 18px;font-size:10.5px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-400);
+  margin-top:4px;
+}
+
+/* ── Design system ── */
+.design-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.ds-card{background:#fff;border:1px solid var(--ink-100);border-radius:var(--r);padding:24px;box-shadow:var(--sh)}
+.ds-card-title{font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--ink-700);margin-bottom:16px;text-transform:uppercase}
+.color-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.color-swatch{width:36px;height:36px;border-radius:8px;border:1px solid rgba(0,0,0,.06)}
+.type-row{margin-bottom:12px}
+.type-label{font-size:11px;color:var(--ink-400);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+
+/* ── CTA section ── */
+.cta-section{
+  background:linear-gradient(135deg,var(--teal-900),#1a4e4d);
+  padding:96px 40px;text-align:center;
+}
+.cta-title{font-size:42px;font-weight:800;color:#fff;letter-spacing:-.025em;margin-bottom:16px}
+.cta-body{font-size:16px;color:rgba(255,255,255,.6);margin-bottom:36px;max-width:540px;margin-left:auto;margin-right:auto}
+.cta-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* ── Footer ── */
+.footer{
+  background:var(--teal-900);padding:32px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.footer-left{font-size:13px;color:rgba(255,255,255,.4)}
+.footer-right{font-size:12px;color:rgba(255,255,255,.3);font-style:italic}
+
+/* ── Utilities ── */
+.tag-new{background:rgba(245,184,31,.15);color:#92600a}
+.tag-improve{background:rgba(21,82,81,.12);color:var(--teal-700)}
+.tag-concept{background:rgba(99,75,178,.12);color:#4c3895}
+.gold-accent{color:var(--gold-500)}
+.divider{height:1px;background:var(--ink-100);margin:0 40px}
+
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-art{display:none}
+  .feature-grid{grid-template-columns:1fr}
+  .feature-grid.flip{direction:ltr}
+  .athlete-strip{grid-template-columns:1fr 1fr}
+  .doc-preview-wrap{grid-template-columns:1fr}
+  .doc-preview-pane{display:none}
+  .design-grid{grid-template-columns:1fr}
+  .dark-sidebar{grid-template-columns:1fr}
+  .dark-side-inner{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ── Nav ─────────────────────────────────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="nav-logo-badge">AOC</div>
+    <div>
+      <div class="nav-title">Games Portal</div>
+      <div class="nav-sub">Design Concept</div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <a href="#improvements" class="nav-link">Improvements</a>
+    <a href="#features" class="nav-link">New Features</a>
+    <a href="#design" class="nav-link">Design System</a>
+    <a href="index.html" class="nav-cta">View Live Portal →</a>
+  </div>
+</nav>
+
+<!-- ── Hero ─────────────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-eyebrow">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="4" fill="#f5b81f"/></svg>
+        AOC Games Portal — Vision 2.0
+      </div>
+      <h1 class="hero-title">The portal<br/>your team<br/><em>actually needs</em></h1>
+      <p class="hero-body">
+        This concept outlines a next-generation Games Portal — richer data visualisation,
+        real-time updates, athlete-focused design, and seamless SharePoint integration.
+        Built on the existing platform with a clear path to production.
+      </p>
+
+      <div class="cd-date">Dakar 2026 Opening Ceremony — October 31, 2026</div>
+      <div class="countdown" id="countdown">
+        <div class="cd-unit"><span class="cd-num" id="cd-d">--</span><span class="cd-label">Days</span></div>
+        <div class="cd-unit"><span class="cd-num" id="cd-h">--</span><span class="cd-label">Hours</span></div>
+        <div class="cd-unit"><span class="cd-num" id="cd-m">--</span><span class="cd-label">Mins</span></div>
+        <div class="cd-unit"><span class="cd-num" id="cd-s">--</span><span class="cd-label">Secs</span></div>
+      </div>
+
+      <div class="hero-actions">
+        <a href="#improvements" class="btn-primary">Explore concepts ↓</a>
+        <a href="index.html" class="btn-outline">View live portal</a>
+      </div>
+    </div>
+
+    <!-- SVG athlete illustration -->
+    <div class="hero-art">
+      <div class="hero-art-glow"></div>
+      <svg width="480" height="480" viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background rings (Olympic tribute) -->
+        <circle cx="240" cy="240" r="220" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+        <circle cx="240" cy="240" r="180" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+        <circle cx="240" cy="240" r="140" stroke="rgba(245,184,31,.08)" stroke-width="1"/>
+        <!-- Gold arc decoration -->
+        <path d="M 60 240 A 180 180 0 0 1 240 60" stroke="url(#goldArc)" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M 240 420 A 180 180 0 0 1 420 240" stroke="url(#goldArc2)" stroke-width="2" stroke-linecap="round" fill="none" opacity=".5"/>
+        <!-- Runner silhouette - sprinter in full stride -->
+        <!-- Body -->
+        <ellipse cx="248" cy="155" rx="16" ry="16" fill="rgba(255,255,255,.9)"/>
+        <!-- Torso -->
+        <path d="M 248 171 L 238 215 L 248 255 L 258 215 Z" fill="rgba(255,255,255,.85)"/>
+        <!-- Left leg forward -->
+        <path d="M 242 255 L 225 290 L 210 320 L 205 355" stroke="rgba(255,255,255,.85)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- Right leg back -->
+        <path d="M 254 255 L 275 285 L 290 310 L 298 340" stroke="rgba(255,255,255,.75)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- Left arm back -->
+        <path d="M 244 195 L 268 218 L 285 210" stroke="rgba(255,255,255,.8)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- Right arm forward -->
+        <path d="M 252 195 L 222 212 L 202 205" stroke="rgba(255,255,255,.8)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- Shoes -->
+        <ellipse cx="202" cy="355" rx="18" ry="8" fill="var(--gold-500)" opacity=".9"/>
+        <ellipse cx="300" cy="340" rx="18" ry="8" fill="var(--gold-500)" opacity=".7"/>
+        <!-- Speed lines -->
+        <line x1="150" y1="240" x2="185" y2="240" stroke="rgba(245,184,31,.4)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="140" y1="260" x2="180" y2="260" stroke="rgba(245,184,31,.25)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="155" y1="220" x2="182" y2="220" stroke="rgba(245,184,31,.2)" stroke-width="1" stroke-linecap="round"/>
+        <!-- Track line -->
+        <line x1="100" y1="370" x2="380" y2="370" stroke="rgba(255,255,255,.15)" stroke-width="2" stroke-dasharray="8 6"/>
+        <line x1="100" y1="382" x2="380" y2="382" stroke="rgba(255,255,255,.08)" stroke-width="1.5" stroke-dasharray="8 6"/>
+        <!-- AOC ribbon -->
+        <path d="M 320 120 Q 360 110 370 150 Q 380 190 340 185 Q 300 180 310 145 Z" fill="var(--gold-500)" opacity=".85"/>
+        <text x="340" y="157" text-anchor="middle" fill="var(--teal-900)" font-size="11" font-weight="800" font-family="system-ui">AOC</text>
+        <!-- Small DA26 badge -->
+        <rect x="290" y="390" width="80" height="30" rx="8" fill="rgba(245,184,31,.2)" stroke="rgba(245,184,31,.4)" stroke-width="1"/>
+        <text x="330" y="410" text-anchor="middle" fill="var(--gold-400)" font-size="12" font-weight="700" font-family="system-ui">DA26 🇸🇳</text>
+        <defs>
+          <linearGradient id="goldArc" x1="60" y1="240" x2="240" y2="60" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#f5b81f" stop-opacity=".8"/>
+            <stop offset="100%" stop-color="#f5b81f" stop-opacity=".2"/>
+          </linearGradient>
+          <linearGradient id="goldArc2" x1="240" y1="420" x2="420" y2="240" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#f5b81f" stop-opacity=".3"/>
+            <stop offset="100%" stop-color="#f5b81f" stop-opacity=".05"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ── What exists today ────────────────────────────────────────────────────── -->
+<section class="section" style="background:#fff;padding:64px 40px">
+  <div class="section-inner">
+    <span class="section-label">Current state</span>
+    <h2 class="section-title">What the portal does today</h2>
+    <p class="section-body">The existing Games Portal is a fully functional SharePoint-hosted prototype with role-based navigation, document libraries, news, and an AI assistant. The concept below proposes targeted enhancements that would elevate it from a document portal to a mission-critical Games operations tool.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px">
+      <div style="background:var(--ink-50);border-radius:var(--r);padding:20px;border:1px solid var(--ink-100)">
+        <div style="font-size:28px;font-weight:800;color:var(--teal-700);margin-bottom:4px">8</div>
+        <div style="font-size:13px;color:var(--ink-500)">Role-specific views</div>
+      </div>
+      <div style="background:var(--ink-50);border-radius:var(--r);padding:20px;border:1px solid var(--ink-100)">
+        <div style="font-size:28px;font-weight:800;color:var(--teal-700);margin-bottom:4px">21</div>
+        <div style="font-size:13px;color:var(--ink-500)">Document sections</div>
+      </div>
+      <div style="background:var(--ink-50);border-radius:var(--r);padding:20px;border:1px solid var(--ink-100)">
+        <div style="font-size:28px;font-weight:800;color:var(--teal-700);margin-bottom:4px">2</div>
+        <div style="font-size:13px;color:var(--ink-500)">Games (DA26 + LA28)</div>
+      </div>
+      <div style="background:var(--ink-50);border-radius:var(--r);padding:20px;border:1px solid var(--ink-100)">
+        <div style="font-size:28px;font-weight:800;color:var(--teal-700);margin-bottom:4px">AI</div>
+        <div style="font-size:13px;color:var(--ink-500)">Built-in assistant</div>
+      </div>
+      <div style="background:var(--ink-50);border-radius:var(--r);padding:20px;border:1px solid var(--ink-100)">
+        <div style="font-size:28px;font-weight:800;color:var(--teal-700);margin-bottom:4px">336kb</div>
+        <div style="font-size:13px;color:var(--ink-500)">Single HTML file</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── Improvement cards ────────────────────────────────────────────────────── -->
+<section class="section" id="improvements">
+  <div class="section-inner">
+    <span class="section-label">Proposed improvements</span>
+    <h2 class="section-title">Six areas to upgrade</h2>
+    <p class="section-body">Each improvement builds on the existing platform. None require starting over — they're incremental enhancements that add real operational value for delegation staff.</p>
+
+    <div class="improvement-grid">
+
+      <!-- Card 1: Athlete spotlight -->
+      <div class="imp-card">
+        <div class="imp-card-img" style="background:linear-gradient(135deg,#0e3b3a,#1d6c6a)">
+          <!-- Athlete grid SVG -->
+          <svg width="100%" height="200" viewBox="0 0 400 200">
+            <rect x="20" y="20" width="80" height="160" rx="10" fill="rgba(255,255,255,.06)"/>
+            <rect x="112" y="20" width="80" height="160" rx="10" fill="rgba(255,255,255,.06)"/>
+            <rect x="204" y="20" width="80" height="160" rx="10" fill="rgba(255,255,255,.06)"/>
+            <rect x="296" y="20" width="80" height="160" rx="10" fill="rgba(255,255,255,.06)"/>
+            <!-- Athlete silhouettes in cards -->
+            <!-- Card 1: swimmer -->
+            <ellipse cx="60" cy="65" rx="12" ry="12" fill="rgba(255,255,255,.7)"/>
+            <path d="M 60 77 Q 45 110 40 140" stroke="rgba(255,255,255,.6)" stroke-width="8" stroke-linecap="round" fill="none"/>
+            <path d="M 60 77 Q 75 110 80 140" stroke="rgba(255,255,255,.5)" stroke-width="8" stroke-linecap="round" fill="none"/>
+            <path d="M 55 95 Q 35 90 25 85" stroke="rgba(255,255,255,.6)" stroke-width="6" stroke-linecap="round" fill="none"/>
+            <path d="M 65 95 Q 85 90 95 85" stroke="rgba(255,255,255,.6)" stroke-width="6" stroke-linecap="round" fill="none"/>
+            <!-- Card 2: runner -->
+            <ellipse cx="152" cy="60" rx="11" ry="11" fill="rgba(255,255,255,.7)"/>
+            <path d="M 152 71 L 145 105 L 135 140" stroke="rgba(255,255,255,.6)" stroke-width="7" stroke-linecap="round" fill="none"/>
+            <path d="M 152 71 L 162 100 L 172 135" stroke="rgba(255,255,255,.5)" stroke-width="7" stroke-linecap="round" fill="none"/>
+            <path d="M 148 85 L 130 78" stroke="rgba(255,255,255,.6)" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <path d="M 156 82 L 175 75" stroke="rgba(255,255,255,.6)" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <!-- Card 3: weightlifter -->
+            <ellipse cx="244" cy="70" rx="12" ry="12" fill="rgba(255,255,255,.7)"/>
+            <rect x="220" y="90" width="48" height="8" rx="4" fill="rgba(255,255,255,.5)"/>
+            <rect x="215" y="86" width="12" height="16" rx="4" fill="rgba(255,255,255,.4)"/>
+            <rect x="261" y="86" width="12" height="16" rx="4" fill="rgba(255,255,255,.4)"/>
+            <path d="M 244 82 L 240 98 L 235 130" stroke="rgba(255,255,255,.6)" stroke-width="7" stroke-linecap="round" fill="none"/>
+            <path d="M 244 82 L 248 98 L 253 130" stroke="rgba(255,255,255,.5)" stroke-width="7" stroke-linecap="round" fill="none"/>
+            <!-- Card 4: cyclist -->
+            <ellipse cx="336" cy="60" rx="11" ry="11" fill="rgba(255,255,255,.7)"/>
+            <circle cx="320" cy="130" r="22" stroke="rgba(255,255,255,.35)" stroke-width="4" fill="none"/>
+            <circle cx="360" cy="130" r="22" stroke="rgba(255,255,255,.35)" stroke-width="4" fill="none"/>
+            <path d="M 336 71 L 332 95 L 320 108" stroke="rgba(255,255,255,.55)" stroke-width="6" stroke-linecap="round" fill="none"/>
+            <path d="M 336 71 L 345 95 L 360 108" stroke="rgba(255,255,255,.55)" stroke-width="6" stroke-linecap="round" fill="none"/>
+            <path d="M 332 85 L 348 85" stroke="rgba(255,255,255,.45)" stroke-width="5" stroke-linecap="round"/>
+            <!-- Name tags -->
+            <rect x="20" y="148" width="80" height="22" rx="5" fill="rgba(245,184,31,.9)"/>
+            <text x="60" y="163" text-anchor="middle" fill="#0a2e2d" font-size="9" font-weight="700" font-family="system-ui">ATHLETICS</text>
+            <rect x="112" y="148" width="80" height="22" rx="5" fill="rgba(245,184,31,.9)"/>
+            <text x="152" y="163" text-anchor="middle" fill="#0a2e2d" font-size="9" font-weight="700" font-family="system-ui">SWIMMING</text>
+            <rect x="204" y="148" width="80" height="22" rx="5" fill="rgba(245,184,31,.9)"/>
+            <text x="244" y="163" text-anchor="middle" fill="#0a2e2d" font-size="9" font-weight="700" font-family="system-ui">WEIGHTLIFT</text>
+            <rect x="296" y="148" width="80" height="22" rx="5" fill="rgba(245,184,31,.9)"/>
+            <text x="336" y="163" text-anchor="middle" fill="#0a2e2d" font-size="9" font-weight="700" font-family="system-ui">CYCLING</text>
+          </svg>
+        </div>
+        <div class="imp-card-body">
+          <span class="imp-tag tag-new">New feature</span>
+          <div class="imp-card-title">Athlete Spotlight Cards</div>
+          <div class="imp-card-text">Replace generic section cards with athlete-centred profiles showing sport, qualification status, and assigned HP Manager.</div>
+          <div class="imp-card-items">
+            <div class="imp-item">Per-athlete documents and status visible to HP Managers</div>
+            <div class="imp-item">Qualification status linked to live entry standards</div>
+            <div class="imp-item">Direct link to athlete's medical forms and travel documents</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Document preview -->
+      <div class="imp-card">
+        <div class="imp-card-img" style="background:linear-gradient(135deg,#1a1a2e,#2d2d5e)">
+          <svg width="100%" height="200" viewBox="0 0 400 200">
+            <!-- Doc list panel -->
+            <rect x="20" y="15" width="140" height="170" rx="8" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+            <rect x="30" y="28" width="120" height="28" rx="6" fill="rgba(245,184,31,.25)" stroke="rgba(245,184,31,.4)" stroke-width="1"/>
+            <text x="90" y="47" text-anchor="middle" fill="#f5b81f" font-size="10" font-weight="700" font-family="system-ui">Quota Matrix v3.xlsx</text>
+            <rect x="30" y="62" width="120" height="22" rx="5" fill="rgba(255,255,255,.06)"/>
+            <text x="90" y="77" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="9" font-family="system-ui">Competition Schedule.pdf</text>
+            <rect x="30" y="90" width="120" height="22" rx="5" fill="rgba(255,255,255,.06)"/>
+            <text x="90" y="105" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="9" font-family="system-ui">Technical Package v2.pdf</text>
+            <rect x="30" y="118" width="120" height="22" rx="5" fill="rgba(255,255,255,.06)"/>
+            <text x="90" y="133" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="9" font-family="system-ui">Venue Overview.pdf</text>
+            <!-- Preview panel -->
+            <rect x="170" y="15" width="210" height="170" rx="8" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+            <!-- Spreadsheet preview lines -->
+            <rect x="178" y="24" width="194" height="16" rx="3" fill="rgba(245,184,31,.2)"/>
+            <text x="275" y="36" text-anchor="middle" fill="rgba(245,184,31,.9)" font-size="8" font-weight="700" font-family="system-ui">QUOTA MATRIX — ATHLETICS DA26</text>
+            <line x1="178" y1="48" x2="372" y2="48" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+            <rect x="178" y="50" width="60" height="12" rx="2" fill="rgba(255,255,255,.06)"/>
+            <rect x="242" y="50" width="40" height="12" rx="2" fill="rgba(255,255,255,.06)"/>
+            <rect x="286" y="50" width="40" height="12" rx="2" fill="rgba(255,255,255,.06)"/>
+            <rect x="330" y="50" width="40" height="12" rx="2" fill="rgba(255,255,255,.06)"/>
+            <line x1="178" y1="68" x2="372" y2="68" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+            <rect x="178" y="70" width="60" height="10" rx="2" fill="rgba(255,255,255,.04)"/>
+            <rect x="242" y="70" width="40" height="10" rx="2" fill="rgba(21,82,81,.4)"/>
+            <rect x="286" y="70" width="40" height="10" rx="2" fill="rgba(255,255,255,.04)"/>
+            <rect x="178" y="86" width="60" height="10" rx="2" fill="rgba(255,255,255,.04)"/>
+            <rect x="242" y="86" width="40" height="10" rx="2" fill="rgba(255,255,255,.04)"/>
+            <rect x="286" y="86" width="40" height="10" rx="2" fill="rgba(245,184,31,.25)"/>
+            <rect x="178" y="102" width="60" height="10" rx="2" fill="rgba(255,255,255,.04)"/>
+            <rect x="242" y="102" width="40" height="10" rx="2" fill="rgba(255,255,255,.04)"/>
+            <rect x="286" y="102" width="40" height="10" rx="2" fill="rgba(255,255,255,.04)"/>
+            <!-- Download button -->
+            <rect x="270" y="158" width="100" height="22" rx="6" fill="rgba(245,184,31,.9)"/>
+            <text x="320" y="173" text-anchor="middle" fill="#0a2e2d" font-size="9" font-weight="800" font-family="system-ui">↓ DOWNLOAD</text>
+          </svg>
+        </div>
+        <div class="imp-card-body">
+          <span class="imp-tag tag-improve">Enhancement</span>
+          <div class="imp-card-title">Inline Document Preview</div>
+          <div class="imp-card-text">Click any document to see a live preview in a side panel before downloading. Reduces unnecessary downloads and helps users confirm they have the right file.</div>
+          <div class="imp-card-items">
+            <div class="imp-item">PDF and spreadsheet preview without opening a new tab</div>
+            <div class="imp-item">Version comparison — see what changed since last download</div>
+            <div class="imp-item">One-click download from the preview panel</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Real-time notifications -->
+      <div class="imp-card">
+        <div class="imp-card-img" style="background:linear-gradient(135deg,#1a0a2e,#3d1a5e)">
+          <svg width="100%" height="200" viewBox="0 0 400 200">
+            <!-- Notification stream -->
+            <rect x="20" y="20" width="360" height="45" rx="10" fill="rgba(255,255,255,.08)" stroke="rgba(245,184,31,.3)" stroke-width="1"/>
+            <circle cx="48" cy="43" r="14" fill="rgba(21,82,81,.6)"/>
+            <text x="48" y="48" text-anchor="middle" fill="#fff" font-size="12">📊</text>
+            <text x="70" y="38" fill="#fff" font-size="10" font-weight="600" font-family="system-ui">Quota matrix updated</text>
+            <text x="70" y="52" fill="rgba(255,255,255,.45)" font-size="8.5" font-family="system-ui">Competition Info · L. Tagi · 2 min ago</text>
+            <circle cx="365" cy="35" r="5" fill="#f5b81f"/>
+
+            <rect x="20" y="73" width="360" height="45" rx="10" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+            <circle cx="48" cy="96" r="14" fill="rgba(197,48,48,.3)"/>
+            <text x="48" y="101" text-anchor="middle" fill="#fff" font-size="12">⚕️</text>
+            <text x="70" y="91" fill="rgba(255,255,255,.8)" font-size="10" font-weight="600" font-family="system-ui">Polyclinic forms (v3) published</text>
+            <text x="70" y="105" fill="rgba(255,255,255,.4)" font-size="8.5" font-family="system-ui">Medical · Dr. R. Naidu · 1 hr ago</text>
+
+            <rect x="20" y="126" width="360" height="45" rx="10" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+            <circle cx="48" cy="149" r="14" fill="rgba(21,82,81,.4)"/>
+            <text x="48" y="154" text-anchor="middle" fill="#fff" font-size="12">✈️</text>
+            <text x="70" y="144" fill="rgba(255,255,255,.8)" font-size="10" font-weight="600" font-family="system-ui">Flight Brief — Team A updated</text>
+            <text x="70" y="158" fill="rgba(255,255,255,.4)" font-size="8.5" font-family="system-ui">Travel · Ops Team · 5 hr ago</text>
+          </svg>
+        </div>
+        <div class="imp-card-body">
+          <span class="imp-tag tag-improve">Enhancement</span>
+          <div class="imp-card-title">Real-time Notification Feed</div>
+          <div class="imp-card-text">Replace the static notification panel with a live activity stream showing document updates, deadline alerts, and @mentions as they happen — no page refresh required.</div>
+          <div class="imp-card-items">
+            <div class="imp-item">Browser push notifications for high-priority items</div>
+            <div class="imp-item">@mention alerts when colleagues reference your documents</div>
+            <div class="imp-item">Deadline countdown notifications (48h, 24h, 2h before)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Dark mode -->
+      <div class="imp-card">
+        <div class="imp-card-img" style="background:#0d0d0d">
+          <svg width="100%" height="200" viewBox="0 0 400 200">
+            <!-- Dark mode portal mockup -->
+            <!-- Top nav -->
+            <rect x="0" y="0" width="400" height="36" fill="#0d1f1f"/>
+            <rect x="12" y="11" width="24" height="14" rx="3" fill="#f5b81f" opacity=".9"/>
+            <text x="21" y="22" text-anchor="middle" fill="#0a2e2d" font-size="8" font-weight="800" font-family="system-ui">A</text>
+            <text x="44" y="22" fill="rgba(255,255,255,.7)" font-size="10" font-weight="600" font-family="system-ui">AOC Games Portal</text>
+            <circle cx="370" cy="18" r="10" fill="rgba(255,255,255,.08)"/>
+            <text x="370" y="22" text-anchor="middle" fill="rgba(255,255,255,.6)" font-size="9">🔔</text>
+            <!-- Sidebar -->
+            <rect x="0" y="36" width="110" height="164" fill="#0f1f1e"/>
+            <rect x="8" y="46" width="94" height="22" rx="5" fill="rgba(245,184,31,.15)" stroke="rgba(245,184,31,.25)" stroke-width="1"/>
+            <text x="55" y="61" text-anchor="middle" fill="#f5b81f" font-size="8.5" font-weight="700" font-family="system-ui">Competition Info</text>
+            <rect x="8" y="74" width="94" height="18" rx="4" fill="transparent"/>
+            <text x="55" y="87" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="8" font-family="system-ui">Travel</text>
+            <rect x="8" y="96" width="94" height="18" rx="4" fill="transparent"/>
+            <text x="55" y="109" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="8" font-family="system-ui">Village & Accom</text>
+            <rect x="8" y="118" width="94" height="18" rx="4" fill="transparent"/>
+            <text x="55" y="131" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="8" font-family="system-ui">General Resources</text>
+            <!-- Main content -->
+            <rect x="118" y="44" width="270" height="55" rx="8" fill="#1a2e2d"/>
+            <text x="130" y="62" fill="rgba(255,255,255,.8)" font-size="11" font-weight="700" font-family="system-ui">Competition Info</text>
+            <text x="130" y="78" fill="rgba(255,255,255,.35)" font-size="8.5" font-family="system-ui">10 documents · 3 available to your role</text>
+            <!-- Doc rows -->
+            <rect x="118" y="106" width="270" height="26" rx="5" fill="#1a2e2d"/>
+            <rect x="126" y="112" width="22" height="14" rx="3" fill="rgba(201,72,58,.4)"/>
+            <text x="137" y="122" text-anchor="middle" fill="#ff9f9f" font-size="7" font-weight="700" font-family="monospace">PDF</text>
+            <text x="160" y="122" fill="rgba(255,255,255,.7)" font-size="8.5" font-family="system-ui">Competition Schedule — Final</text>
+            <rect x="118" y="136" width="270" height="26" rx="5" fill="#1a2e2d"/>
+            <rect x="126" y="142" width="24" height="14" rx="3" fill="rgba(47,133,90,.3)"/>
+            <text x="138" y="152" text-anchor="middle" fill="#9ae6b4" font-size="7" font-weight="700" font-family="monospace">XLSX</text>
+            <text x="162" y="152" fill="rgba(255,255,255,.7)" font-size="8.5" font-family="system-ui">Athletics Quota Matrix v3</text>
+            <rect x="338" y="140" width="44" height="14" rx="4" fill="rgba(245,184,31,.15)"/>
+            <text x="360" y="150" text-anchor="middle" fill="#f5b81f" font-size="7" font-weight="700" font-family="system-ui">LIVE</text>
+            <!-- Moon icon -->
+            <circle cx="370" cy="165" r="18" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+            <text x="370" y="171" text-anchor="middle" font-size="14">🌙</text>
+          </svg>
+        </div>
+        <div class="imp-card-body">
+          <span class="imp-tag tag-concept">Concept</span>
+          <div class="imp-card-title">Dark Mode Theme</div>
+          <div class="imp-card-text">A full dark theme for late-night ops work, remote environments, and personal preference. Toggle instantly with a keyboard shortcut or system setting sync.</div>
+          <div class="imp-card-items">
+            <div class="imp-item">Matches system dark mode preference automatically</div>
+            <div class="imp-item">Same teal/gold palette adapted for dark backgrounds</div>
+            <div class="imp-item">Saved per-user via SharePoint user properties</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5: Mobile app -->
+      <div class="imp-card">
+        <div class="imp-card-img" style="background:linear-gradient(135deg,#0a2e2d,#155251);display:flex;align-items:center;justify-content:center;gap:24px">
+          <!-- Phone mockup -->
+          <svg width="90" height="170" viewBox="0 0 90 170">
+            <rect x="2" y="2" width="86" height="166" rx="18" fill="#0a2020" stroke="rgba(255,255,255,.15)" stroke-width="1.5"/>
+            <rect x="8" y="8" width="74" height="154" rx="14" fill="#0d1a19"/>
+            <rect x="30" y="10" width="30" height="6" rx="3" fill="#0a2020"/>
+            <!-- Mobile nav -->
+            <rect x="8" y="22" width="74" height="24" fill="#0f2422"/>
+            <text x="45" y="38" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="8" font-weight="700" font-family="system-ui">AOC Games Portal</text>
+            <!-- Cards -->
+            <rect x="12" y="52" width="66" height="36" rx="6" fill="rgba(245,184,31,.15)" stroke="rgba(245,184,31,.3)" stroke-width="1"/>
+            <text x="45" y="68" text-anchor="middle" fill="#f5b81f" font-size="7.5" font-weight="700" font-family="system-ui">🏆 Competition</text>
+            <text x="45" y="81" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="6.5" font-family="system-ui">10 docs · 3 new</text>
+            <rect x="12" y="94" width="66" height="30" rx="6" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+            <text x="45" y="108" text-anchor="middle" fill="rgba(255,255,255,.6)" font-size="7" font-family="system-ui">✈️ Travel · 8 docs</text>
+            <rect x="12" y="130" width="66" height="30" rx="6" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+            <text x="45" y="144" text-anchor="middle" fill="rgba(255,255,255,.6)" font-size="7" font-family="system-ui">🏠 Village · 5 docs</text>
+            <!-- Bottom tab bar -->
+            <rect x="8" y="146" width="74" height="16" fill="#0f2422" rx="0"/>
+            <text x="22" y="157" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="9">🏠</text>
+            <text x="45" y="157" text-anchor="middle" fill="#f5b81f" font-size="9">📁</text>
+            <text x="68" y="157" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="9">🔔</text>
+          </svg>
+          <svg width="90" height="170" viewBox="0 0 90 170" style="opacity:.5;transform:scale(.9)">
+            <rect x="2" y="2" width="86" height="166" rx="18" fill="#0a2020" stroke="rgba(255,255,255,.1)" stroke-width="1.5"/>
+            <rect x="8" y="8" width="74" height="154" rx="14" fill="#0d1a19"/>
+            <rect x="30" y="10" width="30" height="6" rx="3" fill="#0a2020"/>
+            <rect x="8" y="22" width="74" height="24" fill="#0f2422"/>
+            <text x="45" y="38" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="8" font-family="system-ui">Notifications</text>
+            <rect x="12" y="52" width="66" height="32" rx="6" fill="rgba(245,184,31,.1)" stroke="rgba(245,184,31,.2)" stroke-width="1"/>
+            <circle cx="24" cy="68" r="8" fill="rgba(21,82,81,.6)"/>
+            <text x="45" y="72" fill="rgba(255,255,255,.5)" font-size="6.5" font-family="system-ui">Quota matrix updated</text>
+            <rect x="12" y="90" width="66" height="32" rx="6" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+            <rect x="12" y="128" width="66" height="32" rx="6" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="imp-card-body">
+          <span class="imp-tag tag-concept">Concept</span>
+          <div class="imp-card-title">Mobile-First Progressive Web App</div>
+          <div class="imp-card-text">A PWA version of the portal installable on iOS and Android — giving delegation staff instant access to documents and updates from anywhere on the ground in Dakar.</div>
+          <div class="imp-card-items">
+            <div class="imp-item">Offline access to downloaded documents</div>
+            <div class="imp-item">Native push notifications for deadline alerts</div>
+            <div class="imp-item">Add to home screen from any device</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6: Search -->
+      <div class="imp-card">
+        <div class="imp-card-img" style="background:linear-gradient(135deg,#f6f7f5,#e9f2f1);padding:16px">
+          <div style="background:#fff;border-radius:10px;box-shadow:0 4px 20px rgba(10,46,45,.12);overflow:hidden">
+            <div style="padding:10px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #eef1ef">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#8a9491" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M16 16l4 4"/></svg>
+              <span style="font-size:12px;color:#2a3633;font-family:system-ui">quota athletics da26</span>
+              <span style="font-size:11px;color:#8a9491;margin-left:auto">AI-enhanced ✨</span>
+            </div>
+            <div style="padding:6px 0">
+              <div style="padding:4px 14px;font-size:9.5px;font-weight:700;color:#8a9491;letter-spacing:.1em;text-transform:uppercase">Top result</div>
+              <div style="padding:7px 14px;display:flex;gap:10px;align-items:center;background:#e9f2f1">
+                <div style="width:26px;height:26px;background:#e6f4ea;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">📊</div>
+                <div>
+                  <div style="font-size:11px;font-weight:600;color:#0d1614">Athletics <mark style="background:rgba(245,184,31,.4);border-radius:2px;padding:0 2px">Quota</mark> Matrix v3.xlsx</div>
+                  <div style="font-size:9.5px;color:#5b6764">Competition Info · L. Tagi · 2h ago · <strong style="color:#1a6334">LIVE</strong></div>
+                </div>
+              </div>
+              <div style="padding:4px 14px;font-size:9.5px;font-weight:700;color:#8a9491;letter-spacing:.1em;text-transform:uppercase;margin-top:4px">Related documents</div>
+              <div style="padding:6px 14px;display:flex;gap:8px;align-items:center">
+                <div style="width:22px;height:22px;background:#fbeae6;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px">📄</div>
+                <span style="font-size:10.5px;color:#2a3633">Quota Allocation Form.pdf</span>
+              </div>
+              <div style="padding:6px 14px;display:flex;gap:8px;align-items:center">
+                <div style="width:22px;height:22px;background:#fbeae6;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px">📄</div>
+                <span style="font-size:10.5px;color:#2a3633">Qualification Criteria Summary.pdf</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="imp-card-body">
+          <span class="imp-tag tag-improve">Enhancement</span>
+          <div class="imp-card-title">AI-Enhanced Smart Search</div>
+          <div class="imp-card-text">Search that understands context — "quota for athletics" returns the right document immediately, with related files and a one-line AI summary of the document's purpose.</div>
+          <div class="imp-card-items">
+            <div class="imp-item">Natural language queries across all sections</div>
+            <div class="imp-item">AI-generated document summaries in search results</div>
+            <div class="imp-item">Filters by role, game, status, and file type</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── Feature deep-dives ──────────────────────────────────────────────────── -->
+<section class="section" id="features">
+  <div class="section-inner">
+    <span class="section-label">Feature concepts</span>
+    <h2 class="section-title">Closer look at key ideas</h2>
+
+    <!-- Feature 1: Athlete cards -->
+    <div class="feature-grid">
+      <div>
+        <span class="feature-label tag-new">New feature</span>
+        <h3 class="feature-title">Team Australia athlete spotlight</h3>
+        <p class="feature-body">Each HP Manager would see the athletes they manage as profile cards on the Home tab — name, sport, qualification status, and a direct link to their documents and medical forms. Currently this information is scattered across sections.</p>
+        <div class="feature-list">
+          <div class="feature-item"><span class="feature-bullet">1</span>Athlete name, sport, and competition schedule at a glance</div>
+          <div class="feature-item"><span class="feature-bullet">2</span>Qualification status linked to live entry standards</div>
+          <div class="feature-item"><span class="feature-bullet">3</span>One-click access to athlete's medical, travel, and competition documents</div>
+          <div class="feature-item"><span class="feature-bullet">4</span>Flag indicator for outstanding forms or missing declarations</div>
+        </div>
+      </div>
+      <div>
+        <div style="background:linear-gradient(135deg,#0e3b3a 0%,#155251 100%);border-radius:var(--r-lg);padding:24px">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:16px">HP Manager view — DA26 Athletes</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <!-- Athlete card 1 -->
+            <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:12px;overflow:hidden">
+              <div style="height:80px;background:linear-gradient(135deg,rgba(245,184,31,.3),rgba(245,184,31,.1));display:flex;align-items:center;justify-content:center">
+                <svg width="60" height="70" viewBox="0 0 60 70"><ellipse cx="30" cy="18" rx="11" ry="11" fill="rgba(255,255,255,.7)"/><path d="M 30 29 L 24 50 L 20 65" stroke="rgba(255,255,255,.65)" stroke-width="6" stroke-linecap="round" fill="none"/><path d="M 30 29 L 36 50 L 40 65" stroke="rgba(255,255,255,.55)" stroke-width="6" stroke-linecap="round" fill="none"/><path d="M 27 38 L 14 34" stroke="rgba(255,255,255,.6)" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M 33 36 L 46 32" stroke="rgba(255,255,255,.6)" stroke-width="5" stroke-linecap="round" fill="none"/></svg>
+              </div>
+              <div style="padding:10px 12px">
+                <div style="font-size:12px;font-weight:700;color:#fff">Alyce Wood</div>
+                <div style="font-size:10.5px;color:rgba(255,255,255,.45);margin-top:1px">Athletics · 200m</div>
+                <div style="margin-top:8px;display:flex;align-items:center;gap:5px"><div style="width:7px;height:7px;border-radius:50%;background:#6bcb77"></div><span style="font-size:10px;color:rgba(255,255,255,.5)">Qualified</span></div>
+              </div>
+            </div>
+            <!-- Athlete card 2 -->
+            <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:12px;overflow:hidden">
+              <div style="height:80px;background:linear-gradient(135deg,rgba(21,82,81,.6),rgba(21,82,81,.3));display:flex;align-items:center;justify-content:center">
+                <svg width="60" height="70" viewBox="0 0 60 70"><ellipse cx="30" cy="16" rx="10" ry="10" fill="rgba(255,255,255,.7)"/><path d="M 30 26 L 22 48 L 15 65" stroke="rgba(255,255,255,.6)" stroke-width="6" stroke-linecap="round" fill="none"/><path d="M 30 26 L 38 46 L 46 62" stroke="rgba(255,255,255,.5)" stroke-width="6" stroke-linecap="round" fill="none"/><path d="M 26 36 L 12 42" stroke="rgba(255,255,255,.55)" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M 34 34 L 48 40" stroke="rgba(255,255,255,.55)" stroke-width="5" stroke-linecap="round" fill="none"/></svg>
+              </div>
+              <div style="padding:10px 12px">
+                <div style="font-size:12px;font-weight:700;color:#fff">Samuel Short</div>
+                <div style="font-size:10.5px;color:rgba(255,255,255,.45);margin-top:1px">Swimming · 200m IM</div>
+                <div style="margin-top:8px;display:flex;align-items:center;gap:5px"><div style="width:7px;height:7px;border-radius:50%;background:#ffd93d"></div><span style="font-size:10px;color:rgba(255,255,255,.5)">Qualifying</span></div>
+              </div>
+            </div>
+            <!-- Athlete card 3 -->
+            <div style="background:rgba(255,255,255,.07);border:1px solid rgba(245,184,31,.25);border-left:3px solid var(--gold-500);border-radius:12px;overflow:hidden">
+              <div style="padding:10px 12px">
+                <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-400);margin-bottom:6px">⚠ Action required</div>
+                <div style="font-size:12px;font-weight:700;color:#fff">Ariarne Titmus</div>
+                <div style="font-size:10.5px;color:rgba(255,255,255,.45);margin-top:1px">Swimming · 400m Free</div>
+                <div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:6px">Medical form outstanding</div>
+              </div>
+            </div>
+            <!-- Athlete card 4 -->
+            <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:12px;overflow:hidden;padding:10px 12px">
+              <div style="font-size:12px;font-weight:700;color:#fff">Logan Martin</div>
+              <div style="font-size:10.5px;color:rgba(255,255,255,.45);margin-top:1px">BMX Freestyle</div>
+              <div style="margin-top:8px;display:flex;align-items:center;gap:5px"><div style="width:7px;height:7px;border-radius:50%;background:#6bcb77"></div><span style="font-size:10px;color:rgba(255,255,255,.5)">Qualified</span></div>
+              <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:6px">All docs complete ✓</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature 2: Venue map -->
+    <div class="feature-grid flip">
+      <div>
+        <span class="feature-label tag-concept">Concept</span>
+        <h3 class="feature-title">Interactive Dakar venue map</h3>
+        <p class="feature-body">An SVG map of Dakar showing competition venues, the Olympic Village, the polyclinic, and transport routes. Hovering a venue shows its schedule, AOC room allocation, and relevant documents. Currently there's no visual representation of the city.</p>
+        <div class="feature-list">
+          <div class="feature-item"><span class="feature-bullet">1</span>Click any venue to see the competition schedule and AOC allocation</div>
+          <div class="feature-item"><span class="feature-bullet">2</span>Transport route overlay showing bus loops between venues</div>
+          <div class="feature-item"><span class="feature-bullet">3</span>Distance and travel time from the Olympic Village</div>
+          <div class="feature-item"><span class="feature-bullet">4</span>Direct link to venue-specific documents from the map pin</div>
+        </div>
+      </div>
+      <div>
+        <div class="venue-map-wrap">
+          <div style="color:rgba(255,255,255,.5);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px">Dakar 2026 — Key Venues</div>
+          <!-- SVG map of Dakar (abstract representation) -->
+          <svg width="100%" height="280" viewBox="0 0 500 280" style="overflow:visible">
+            <!-- Ocean background -->
+            <rect x="0" y="0" width="500" height="280" fill="rgba(21,82,81,.15)" rx="12"/>
+            <!-- Land mass (Dakar peninsula, simplified) -->
+            <path d="M 0 280 L 0 120 Q 50 80 100 100 Q 150 115 180 90 Q 220 60 260 70 Q 300 75 320 100 Q 340 120 380 110 Q 420 100 460 120 L 500 150 L 500 280 Z" fill="rgba(21,82,81,.4)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+            <!-- Ocean texture lines -->
+            <path d="M 0 20 Q 125 15 250 22 Q 375 28 500 18" stroke="rgba(255,255,255,.04)" stroke-width="1" fill="none"/>
+            <path d="M 0 40 Q 125 35 250 42 Q 375 48 500 38" stroke="rgba(255,255,255,.04)" stroke-width="1" fill="none"/>
+            <!-- Roads (simplified) -->
+            <path d="M 100 220 L 280 180 L 400 160" stroke="rgba(255,255,255,.12)" stroke-width="3" stroke-linecap="round" fill="none" stroke-dasharray="6 4"/>
+            <path d="M 180 220 L 280 180 L 280 120" stroke="rgba(255,255,255,.08)" stroke-width="2" fill="none" stroke-dasharray="4 4"/>
+            <!-- Venue pins -->
+            <!-- Olympic Village -->
+            <circle cx="200" cy="190" r="16" fill="var(--gold-500)" opacity=".9"/>
+            <text x="200" y="195" text-anchor="middle" fill="#0a2e2d" font-size="11" font-weight="800" font-family="system-ui">🏘</text>
+            <rect x="160" y="208" width="80" height="20" rx="5" fill="rgba(245,184,31,.2)" stroke="rgba(245,184,31,.4)" stroke-width="1"/>
+            <text x="200" y="222" text-anchor="middle" fill="#f5b81f" font-size="8.5" font-weight="700" font-family="system-ui">Olympic Village</text>
+            <!-- Stadium -->
+            <circle cx="350" cy="145" r="14" fill="rgba(255,255,255,.15)" stroke="rgba(255,255,255,.3)" stroke-width="2"/>
+            <text x="350" y="150" text-anchor="middle" fill="#fff" font-size="11" font-family="system-ui">🏟</text>
+            <rect x="308" y="163" width="84" height="18" rx="5" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+            <text x="350" y="175" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="7.5" font-weight="700" font-family="system-ui">Stade Léopold Sédar</text>
+            <!-- Pool -->
+            <circle cx="110" cy="155" r="12" fill="rgba(33,150,243,.5)" stroke="rgba(33,150,243,.6)" stroke-width="2"/>
+            <text x="110" y="160" text-anchor="middle" fill="#fff" font-size="10">🏊</text>
+            <rect x="74" y="170" width="72" height="18" rx="5" fill="rgba(33,150,243,.15)" stroke="rgba(33,150,243,.3)" stroke-width="1"/>
+            <text x="110" y="182" text-anchor="middle" fill="rgba(33,150,243,.9)" font-size="7.5" font-weight="700" font-family="system-ui">Aquatics Centre</text>
+            <!-- Medical -->
+            <circle cx="240" cy="230" r="11" fill="rgba(220,53,69,.7)" stroke="rgba(220,53,69,.5)" stroke-width="2"/>
+            <text x="240" y="235" text-anchor="middle" fill="#fff" font-size="10">⚕</text>
+            <rect x="206" y="244" width="68" height="16" rx="4" fill="rgba(220,53,69,.15)" stroke="rgba(220,53,69,.3)" stroke-width="1"/>
+            <text x="240" y="255" text-anchor="middle" fill="rgba(220,53,69,.9)" font-size="7" font-weight="700" font-family="system-ui">Polyclinic</text>
+            <!-- Airport -->
+            <circle cx="420" cy="200" r="11" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+            <text x="420" y="205" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10">✈️</text>
+            <text x="420" y="220" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="7" font-family="system-ui">AIBD Airport</text>
+            <!-- Bus route -->
+            <path d="M 216 190 L 330 153" stroke="var(--gold-400)" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 3" opacity=".6"/>
+            <path d="M 184 192 L 118 163" stroke="rgba(33,150,243,.6)" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 3" opacity=".6"/>
+            <!-- Legend -->
+            <rect x="10" y="240" width="130" height="36" rx="7" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+            <circle cx="24" cy="252" r="5" fill="var(--gold-500)" opacity=".8"/>
+            <text x="34" y="256" fill="rgba(255,255,255,.5)" font-size="7.5" font-family="system-ui">Village / Hub</text>
+            <line x1="16" y1="265" x2="40" y2="265" stroke="var(--gold-400)" stroke-width="2" stroke-dasharray="4 2"/>
+            <text x="47" y="268" fill="rgba(255,255,255,.4)" font-size="7" font-family="system-ui">Bus loop</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature 3: Improved KPIs / data viz -->
+    <div class="feature-grid">
+      <div>
+        <span class="feature-label tag-improve">Enhancement</span>
+        <h3 class="feature-title">Richer data visualisation</h3>
+        <p class="feature-body">Replace the current text-based KPI strip with interactive charts showing preparation progress, quota completions, and deadline status at a glance. HP Managers and Data roles can see their key metrics without opening a spreadsheet.</p>
+        <div class="feature-list">
+          <div class="feature-item"><span class="feature-bullet">1</span>Donut chart showing quota completion by sport</div>
+          <div class="feature-item"><span class="feature-bullet">2</span>Timeline view of deadlines across the preparation period</div>
+          <div class="feature-item"><span class="feature-bullet">3</span>Document completion rate per section with drill-down</div>
+          <div class="feature-item"><span class="feature-bullet">4</span>Real-time sync from SharePoint lists (no manual updates)</div>
+        </div>
+      </div>
+      <div>
+        <div style="background:#fff;border:1px solid var(--ink-100);border-radius:var(--r-lg);padding:24px;box-shadow:var(--sh)">
+          <div style="font-size:12px;font-weight:700;color:var(--ink-500);letter-spacing:.04em;text-transform:uppercase;margin-bottom:16px">DA26 Preparation — HP Manager</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+            <!-- Donut 1 -->
+            <div style="text-align:center">
+              <svg width="100" height="100" viewBox="0 0 100 100" style="display:block;margin:0 auto">
+                <circle cx="50" cy="50" r="38" fill="none" stroke="var(--ink-100)" stroke-width="12"/>
+                <circle cx="50" cy="50" r="38" fill="none" stroke="var(--teal-700)" stroke-width="12" stroke-dasharray="150 239" stroke-dashoffset="60" stroke-linecap="round"/>
+                <circle cx="50" cy="50" r="38" fill="none" stroke="var(--gold-500)" stroke-width="12" stroke-dasharray="60 239" stroke-dashoffset="-90" stroke-linecap="round" opacity=".7"/>
+                <text x="50" y="46" text-anchor="middle" fill="var(--ink-900)" font-size="16" font-weight="800" font-family="system-ui">62%</text>
+                <text x="50" y="60" text-anchor="middle" fill="var(--ink-400)" font-size="8" font-family="system-ui">complete</text>
+              </svg>
+              <div style="font-size:11.5px;color:var(--ink-500);margin-top:6px">Quota submissions</div>
+            </div>
+            <!-- Donut 2 -->
+            <div style="text-align:center">
+              <svg width="100" height="100" viewBox="0 0 100 100" style="display:block;margin:0 auto">
+                <circle cx="50" cy="50" r="38" fill="none" stroke="var(--ink-100)" stroke-width="12"/>
+                <circle cx="50" cy="50" r="38" fill="none" stroke="#2f855a" stroke-width="12" stroke-dasharray="180 239" stroke-dashoffset="60" stroke-linecap="round"/>
+                <text x="50" y="46" text-anchor="middle" fill="var(--ink-900)" font-size="16" font-weight="800" font-family="system-ui">78%</text>
+                <text x="50" y="60" text-anchor="middle" fill="var(--ink-400)" font-size="8" font-family="system-ui">complete</text>
+              </svg>
+              <div style="font-size:11.5px;color:var(--ink-500);margin-top:6px">Medical forms</div>
+            </div>
+          </div>
+          <!-- Deadline timeline -->
+          <div style="font-size:11px;font-weight:700;color:var(--ink-400);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px">Upcoming deadlines</div>
+          <div style="position:relative;padding-left:16px">
+            <div style="position:absolute;left:6px;top:4px;bottom:4px;width:2px;background:var(--ink-100);border-radius:2px"></div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;align-items:center;gap:10px;position:relative">
+                <div style="width:10px;height:10px;border-radius:50%;background:var(--rose-500);position:absolute;left:-19px;top:3px;z-index:1"></div>
+                <div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:var(--ink-900)">23 May — Quota closes</div><div style="font-size:11px;color:var(--ink-400)">18 days · Action required</div></div>
+                <span style="background:var(--rose-50);color:var(--rose-500);font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px">18d</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;position:relative">
+                <div style="width:10px;height:10px;border-radius:50%;background:var(--gold-500);position:absolute;left:-19px;top:3px;z-index:1"></div>
+                <div style="flex:1"><div style="font-size:12.5px;font-weight:500;color:var(--ink-700)">14 Jun — Travel briefing</div><div style="font-size:11px;color:var(--ink-400)">40 days · Planning</div></div>
+                <span style="background:var(--gold-50);color:#92600a;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px">40d</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;position:relative">
+                <div style="width:10px;height:10px;border-radius:50%;background:var(--teal-600);position:absolute;left:-19px;top:3px;z-index:1"></div>
+                <div style="flex:1"><div style="font-size:12.5px;font-weight:500;color:var(--ink-700)">1 Aug — Accreditation final</div><div style="font-size:11px;color:var(--ink-400)">88 days · On track</div></div>
+                <span style="background:var(--teal-50);color:var(--teal-700);font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px">88d</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Design system ─────────────────────────────────────────────────────────── -->
+<section class="section" id="design" style="background:#fff">
+  <div class="section-inner">
+    <span class="section-label">Design system</span>
+    <h2 class="section-title">Foundations that scale</h2>
+    <p class="section-body">The portal's design system uses AOC's brand colours as the foundation — teal for structure and authority, gold for actions and highlights. Systematic spacing and type scales ensure consistency as new sections are added.</p>
+
+    <div class="design-grid">
+      <!-- Colours -->
+      <div class="ds-card">
+        <div class="ds-card-title">Colour palette</div>
+        <div class="type-label">Primary — Teal</div>
+        <div class="color-row">
+          <div class="color-swatch" style="background:#0a2e2d" title="Teal 900"></div>
+          <div class="color-swatch" style="background:#155251" title="Teal 700"></div>
+          <div class="color-swatch" style="background:#1d6c6a" title="Teal 600"></div>
+          <div class="color-swatch" style="background:#e9f2f1" title="Teal 50"></div>
+        </div>
+        <div class="type-label">Accent — Gold</div>
+        <div class="color-row">
+          <div class="color-swatch" style="background:#f5b81f" title="Gold 500"></div>
+          <div class="color-swatch" style="background:#f7c544" title="Gold 400"></div>
+          <div class="color-swatch" style="background:#fef6e0" title="Gold 50"></div>
+        </div>
+        <div class="type-label">Status</div>
+        <div class="color-row">
+          <div class="color-swatch" style="background:#1a6334" title="Confirmed"></div>
+          <div class="color-swatch" style="background:#f5b81f" title="Live"></div>
+          <div class="color-swatch" style="background:#8a9491" title="Draft"></div>
+          <div class="color-swatch" style="background:#c9483a" title="Urgent"></div>
+        </div>
+        <div class="type-label">Ink (neutrals)</div>
+        <div class="color-row">
+          <div class="color-swatch" style="background:#0d1614"></div>
+          <div class="color-swatch" style="background:#2a3633"></div>
+          <div class="color-swatch" style="background:#5b6764"></div>
+          <div class="color-swatch" style="background:#bcc4c1"></div>
+          <div class="color-swatch" style="background:#eef1ef"></div>
+          <div class="color-swatch" style="background:#f6f7f5"></div>
+        </div>
+      </div>
+
+      <!-- Typography -->
+      <div class="ds-card">
+        <div class="ds-card-title">Typography</div>
+        <div style="margin-bottom:20px">
+          <div class="type-label">Display</div>
+          <div style="font-size:28px;font-weight:800;letter-spacing:-.025em;line-height:1.1;color:var(--ink-900)">Dakar 2026</div>
+          <div style="font-size:10px;color:var(--ink-400);margin-top:4px">28px · 800 · −0.025em</div>
+        </div>
+        <div style="margin-bottom:16px">
+          <div class="type-label">Heading</div>
+          <div style="font-size:18px;font-weight:700;letter-spacing:-.015em;color:var(--ink-900)">Competition Info</div>
+          <div style="font-size:10px;color:var(--ink-400);margin-top:2px">18px · 700 · −0.015em</div>
+        </div>
+        <div style="margin-bottom:16px">
+          <div class="type-label">Body</div>
+          <div style="font-size:14px;color:var(--ink-700);line-height:1.6">Documents in this section are filtered to your role and available for download at any time.</div>
+          <div style="font-size:10px;color:var(--ink-400);margin-top:2px">14px · 400 · 1.6 line-height</div>
+        </div>
+        <div>
+          <div class="type-label">Mono / Labels</div>
+          <div style="font-family:ui-monospace,monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-500)">YOUR SECTIONS</div>
+          <div style="font-size:10px;color:var(--ink-400);margin-top:2px">Mono · 11px · 0.12em · uppercase</div>
+        </div>
+      </div>
+
+      <!-- Components -->
+      <div class="ds-card">
+        <div class="ds-card-title">Component tokens</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <!-- Status badges -->
+          <div>
+            <div class="type-label">Status badges</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+              <span style="background:#e6f4ea;color:#1a6334;font-size:11px;font-weight:700;padding:3px 10px;border-radius:5px;font-family:monospace">Confirmed</span>
+              <span style="background:#fef6e0;color:#92600a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:5px;font-family:monospace">Live</span>
+              <span style="background:#eef1ef;color:#5b6764;font-size:11px;font-weight:700;padding:3px 10px;border-radius:5px;font-family:monospace">Draft</span>
+            </div>
+          </div>
+          <!-- Buttons -->
+          <div>
+            <div class="type-label">Buttons</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;align-items:center">
+              <button style="background:var(--teal-700);color:#fff;border:0;font-family:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:8px">Primary</button>
+              <button style="background:#fff;color:var(--teal-700);border:1px solid var(--ink-200);font-family:inherit;font-size:12.5px;font-weight:500;padding:7px 14px;border-radius:8px">Secondary</button>
+              <button style="background:transparent;color:var(--teal-700);border:0;font-family:inherit;font-size:12.5px;font-weight:500;padding:4px 8px;border-radius:6px">Ghost</button>
+            </div>
+          </div>
+          <!-- Radius scale -->
+          <div>
+            <div class="type-label">Border radius</div>
+            <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
+              <div style="width:28px;height:28px;background:var(--teal-50);border-radius:4px;border:1px solid var(--teal-700)"></div>
+              <div style="width:28px;height:28px;background:var(--teal-50);border-radius:8px;border:1px solid var(--teal-700)"></div>
+              <div style="width:28px;height:28px;background:var(--teal-50);border-radius:12px;border:1px solid var(--teal-700)"></div>
+              <div style="width:28px;height:28px;background:var(--teal-50);border-radius:18px;border:1px solid var(--teal-700)"></div>
+              <div style="width:28px;height:28px;background:var(--teal-50);border-radius:999px;border:1px solid var(--teal-700)"></div>
+            </div>
+            <div style="font-size:10px;color:var(--ink-400);margin-top:4px">4 · 8 · 12 · 18 · pill</div>
+          </div>
+          <!-- Shadows -->
+          <div>
+            <div class="type-label">Elevation</div>
+            <div style="display:flex;gap:12px;margin-top:8px">
+              <div style="width:48px;height:36px;background:#fff;border-radius:8px;box-shadow:0 1px 2px rgba(10,46,45,.06)"></div>
+              <div style="width:48px;height:36px;background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(10,46,45,.08),0 8px 24px rgba(10,46,45,.06)"></div>
+              <div style="width:48px;height:36px;background:#fff;border-radius:8px;box-shadow:0 4px 16px rgba(10,46,45,.1),0 24px 56px rgba(10,46,45,.14)"></div>
+            </div>
+            <div style="font-size:10px;color:var(--ink-400);margin-top:4px">sm · base · lg</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ────────────────────────────────────────────────────────────────────── -->
+<section class="cta-section">
+  <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-400);margin-bottom:16px;display:inline-block">Ready to proceed?</div>
+  <h2 class="cta-title">From prototype<br/>to production</h2>
+  <p class="cta-body">The current portal is live and functional. The concepts above represent the next phase — a production-grade platform connected to real SharePoint data, real users, and real Games operations.</p>
+  <div class="cta-actions">
+    <a href="index.html" class="btn-primary">View live portal →</a>
+    <a href="mailto:hayden.bushell@olympics.com.au?subject=Games Portal - Production Discussion" class="btn-outline">Discuss production build</a>
+  </div>
+  <div style="margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:640px;margin-left:auto;margin-right:auto">
+    <div style="text-align:center">
+      <div style="font-size:30px;font-weight:800;color:var(--gold-400)">4–8w</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.5);margin-top:4px">Estimated dev time for production build</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:30px;font-weight:800;color:var(--gold-400)">8</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.5);margin-top:4px">Roles already modelled and tested</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:30px;font-weight:800;color:var(--gold-400)">336d</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.5);margin-top:4px" id="days-footer">Until Dakar 2026 opening</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-left">
+    <strong style="color:rgba(255,255,255,.7)">AOC Games Portal</strong> — Design Concept
+    <br/>Australian Olympic Committee · 2026
+  </div>
+  <div class="footer-right">
+    Concept only — all data is illustrative · <a href="index.html" style="color:rgba(255,255,255,.4)">View live prototype →</a>
+  </div>
+</footer>
+
+<script>
+// Countdown to Dakar 2026 Opening Ceremony
+function updateCountdown() {
+  const target = new Date('2026-10-31T10:00:00+00:00');
+  const now = new Date();
+  const diff = target - now;
+  if (diff <= 0) return;
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  document.getElementById('cd-d').textContent = String(d).padStart(3,'0');
+  document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+  document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+  document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+  const f = document.getElementById('days-footer');
+  if (f) f.textContent = d + ' days until Dakar 2026 opening';
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// Smooth scroll nav
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const el = document.querySelector(a.getAttribute('href'));
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>
