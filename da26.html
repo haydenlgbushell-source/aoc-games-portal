@@ -880,43 +880,215 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   </div>
 
   <!-- Quick Access to Key Functional Areas -->
+  <style>
+  .func-header-v2{display:flex;align-items:center;justify-content:space-between;padding:22px 24px 18px;border-bottom:1px solid var(--ink-100);}
+  .func-intro{font-size:12.5px;color:var(--ink-500);margin-top:4px;}
+  .func-grid-v2{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:20px 24px 28px;}
+  @media(max-width:1100px){.func-grid-v2{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:680px){.func-grid-v2{grid-template-columns:repeat(2,1fr)}}
+  .fv2{
+    display:flex;flex-direction:column;
+    border-radius:12px;border:1.5px solid var(--ink-100);
+    background:var(--white);text-decoration:none;color:inherit;
+    position:relative;overflow:hidden;
+    transition:border-color .2s,box-shadow .2s,transform .2s;
+    cursor:pointer;
+  }
+  .fv2:hover{border-color:var(--da-green);box-shadow:0 6px 24px rgba(0,92,53,.1);transform:translateY(-2px);}
+  .fv2-bar{height:3px;background:var(--fv2-c,var(--da-green));transform:scaleX(0);transform-origin:left;transition:transform .25s;}
+  .fv2:hover .fv2-bar{transform:scaleX(1);}
+  .fv2-body{padding:16px 16px 14px;display:flex;flex-direction:column;gap:10px;flex:1;}
+  .fv2-top{display:flex;align-items:flex-start;justify-content:space-between;}
+  .fv2-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .fv2-badge{font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:999px;white-space:nowrap;line-height:1.4;margin-top:1px;}
+  .fv2-label{font-size:12.5px;font-weight:600;color:var(--ink-900);line-height:1.35;transition:color .15s;}
+  .fv2:hover .fv2-label{color:var(--da-green);}
+  .fv2-foot{display:flex;align-items:center;justify-content:flex-end;padding-top:6px;margin-top:auto;}
+  .fv2-arrow{color:var(--ink-200);transition:color .15s,transform .2s;display:inline-flex;}
+  .fv2:hover .fv2-arrow{color:var(--da-green);transform:translateX(3px);}
+  </style>
   <div class="func-section">
-    <div class="func-header">
-      <h2 class="section-title">Quick Access to Key Functional Areas</h2>
+    <div class="func-header-v2">
+      <div>
+        <h2 class="section-title">Quick Access to Key Functional Areas</h2>
+        <p class="func-intro">12 sections covering all aspects of Dakar 2026 Games preparation — click any area to open in the portal</p>
+      </div>
+      <a href="index.html?game=da26" class="view-all">View all in portal <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
     </div>
-    <div class="func-grid">
-      <a href="index.html?game=da26#sport-venues" class="func-item">
-        <div class="func-icon" style="background:#dcfce7">🏟️</div>
-        <span class="func-label">Sport &amp; Venues</span>
+    <div class="func-grid-v2">
+
+      <!-- Sports and Venues -->
+      <a href="index.html?game=da26" class="fv2" style="--fv2-c:#005c35">
+        <div class="fv2-bar"></div>
+        <div class="fv2-body">
+          <div class="fv2-top">
+            <div class="fv2-icon" style="background:#dcfce7">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 010-5H6"/><path d="M18 9h1.5a2.5 2.5 0 000-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0012 0V2z"/></svg>
+            </div>
+            <span class="fv2-badge" style="background:#dcfce7;color:#15803d">3 new</span>
+          </div>
+          <div class="fv2-label">Sports and Venues</div>
+          <div class="fv2-foot"><span class="fv2-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+        </div>
       </a>
-      <a href="index.html?game=da26#transport" class="func-item">
-        <div class="func-icon" style="background:#fff7ed">🚌</div>
-        <span class="func-label">Transport</span>
+
+      <!-- Transport -->
+      <a href="index.html?game=da26" class="fv2" style="--fv2-c:#ff6b00">
+        <div class="fv2-bar"></div>
+        <div class="fv2-body">
+          <div class="fv2-top">
+            <div class="fv2-icon" style="background:#fff3e6">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e05e00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6v6"/><path d="M16 6v6"/><path d="M2 12h19.6"/><rect x="1" y="5" width="21" height="14" rx="2"/><path d="M5 19v2"/><path d="M19 19v2"/></svg>
+            </div>
+            <span class="fv2-badge" style="background:#fff3e6;color:#e05e00">Updated</span>
+          </div>
+          <div class="fv2-label">Transport</div>
+          <div class="fv2-foot"><span class="fv2-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+        </div>
       </a>
-      <a href="index.html?game=da26#village" class="func-item">
-        <div class="func-icon" style="background:#e6f4ee">🏨</div>
-        <span class="func-label">Village &amp; Accommodation</span>
+
+      <!-- Village and Administration -->
+      <a href="index.html?game=da26" class="fv2" style="--fv2-c:#007a48">
+        <div class="fv2-bar"></div>
+        <div class="fv2-body">
+          <div class="fv2-top">
+            <div class="fv2-icon" style="background:#e6f4ee">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#007a48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><rect x="8" y="6" width="3" height="3" rx=".5"/><rect x="13" y="6" width="3" height="3" rx=".5"/><rect x="8" y="12" width="3" height="3" rx=".5"/><rect x="13" y="12" width="3" height="3" rx=".5"/><rect x="8" y="18" width="8" height="4" rx=".5"/></svg>
+            </div>
+          </div>
+          <div class="fv2-label">Village and Administration</div>
+          <div class="fv2-foot"><span class="fv2-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+        </div>
       </a>
-      <a href="index.html?game=da26#team-membership" class="func-item">
-        <div class="func-icon" style="background:#f0fdf4">👥</div>
-        <span class="func-label">Team Membership / Team Journey</span>
+
+      <!-- Team Membership and Team Journey -->
+      <a href="index.html?game=da26" class="fv2" style="--fv2-c:#0891b2">
+        <div class="fv2-bar"></div>
+        <div class="fv2-body">
+          <div class="fv2-top">
+            <div class="fv2-icon" style="background:#e0f7fa">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+            <span class="fv2-badge" style="background:#e0f7fa;color:#0891b2">2 new</span>
+          </div>
+          <div class="fv2-label">Team Membership and Team Journey</div>
+          <div class="fv2-foot"><span class="fv2-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+        </div>
       </a>
-      <a href="index.html?game=da26#medical" class="func-item">
-        <div class="func-icon" style="background:#fce7f3">⚕️</div>
-        <span class="func-label">Medical</span>
+
+      <!-- Uniform -->
+      <a href="index.html?game=da26" class="fv2" style="--fv2-c:#7c3aed">
+        <div class="fv2-bar"></div>
+        <div class="fv2-body">
+          <div class="fv2-top">
+            <div class="fv2-icon" style="background:#f3e8ff">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>
+            </div>
+          </div>
+          <div class="fv2-label">Uniform</div>
+          <div class="fv2-foot"><span class="fv2-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+        </div>
       </a>
-      <a href="index.html?game=da26#media" class="func-item">
-        <div class="func-icon" style="background:#fef3c7">📷</div>
-        <span class="func-label">Media</span>
+
+      <!-- Freight and Logistics -->
+      <a href="index.html?game=da26" class="fv2" style="--fv2-c:#ff6b00">
+        <div class="fv2-bar"></div>
+        <div class="fv2-body">
+          <div class="fv2-top">
+            <div class="fv2-icon" style="background:#fff3e6">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e05e00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22l9-5V7l-9-5-9 5v10l9 5z"/><polyline points="3 7 12 12 21 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg>
+            </div>
+          </div>
+          <div class="fv2-label">Freight and Logistics</div>
+          <div class="fv2-foot"><span class="fv2-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+        </div>
       </a>
-      <a href="index.html?game=da26#ticketing" class="func-item">
-        <div class="func-icon" style="background:#f3e8ff">🎟️</div>
-        <span class="func-label">Ticketing</span>
+
+      <!-- Performance Support -->
+      <a href="index.html?game=da26" class="fv2" style="--fv2-c:#005c35">
+        <div class="fv2-bar"></div>
+        <div class="fv2-body">
+          <div class="fv2-top">
+            <div class="fv2-icon" style="background:#dcfce7">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+          </div>
+          <div class="fv2-label">Performance Support</div>
+          <div class="fv2-foot"><span class="fv2-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+        </div>
       </a>
-      <a href="index.html?game=da26" class="func-item">
-        <div class="func-icon" style="background:#f1f5f9">···</div>
-        <span class="func-label">More</span>
+
+      <!-- Medical -->
+      <a href="index.html?game=da26" class="fv2" style="--fv2-c:#dc2626">
+        <div class="fv2-bar"></div>
+        <div class="fv2-body">
+          <div class="fv2-top">
+            <div class="fv2-icon" style="background:#fee2e2">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <span class="fv2-badge" style="background:#fee2e2;color:#dc2626">Action req.</span>
+          </div>
+          <div class="fv2-label">Medical</div>
+          <div class="fv2-foot"><span class="fv2-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+        </div>
       </a>
+
+      <!-- Media -->
+      <a href="index.html?game=da26" class="fv2" style="--fv2-c:#475569">
+        <div class="fv2-bar"></div>
+        <div class="fv2-body">
+          <div class="fv2-top">
+            <div class="fv2-icon" style="background:#f1f5f9">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+            </div>
+          </div>
+          <div class="fv2-label">Media</div>
+          <div class="fv2-foot"><span class="fv2-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+        </div>
+      </a>
+
+      <!-- Ticketing -->
+      <a href="index.html?game=da26" class="fv2" style="--fv2-c:#7c3aed">
+        <div class="fv2-bar"></div>
+        <div class="fv2-body">
+          <div class="fv2-top">
+            <div class="fv2-icon" style="background:#f3e8ff">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 010-6h20a3 3 0 010 6"/><path d="M2 15a3 3 0 000 6h20a3 3 0 000-6"/><path d="M2 9h20v6H2z"/></svg>
+            </div>
+          </div>
+          <div class="fv2-label">Ticketing</div>
+          <div class="fv2-foot"><span class="fv2-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+        </div>
+      </a>
+
+      <!-- Family and Friends -->
+      <a href="index.html?game=da26" class="fv2" style="--fv2-c:#be185d">
+        <div class="fv2-bar"></div>
+        <div class="fv2-body">
+          <div class="fv2-top">
+            <div class="fv2-icon" style="background:#fce7f3">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#be185d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            </div>
+          </div>
+          <div class="fv2-label">Family and Friends</div>
+          <div class="fv2-foot"><span class="fv2-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+        </div>
+      </a>
+
+      <!-- Guest Programme -->
+      <a href="index.html?game=da26" class="fv2" style="--fv2-c:#b45309">
+        <div class="fv2-bar"></div>
+        <div class="fv2-body">
+          <div class="fv2-top">
+            <div class="fv2-icon" style="background:#fef9c3">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+            </div>
+          </div>
+          <div class="fv2-label">Guest Programme</div>
+          <div class="fv2-foot"><span class="fv2-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+        </div>
+      </a>
+
     </div>
   </div>
 
