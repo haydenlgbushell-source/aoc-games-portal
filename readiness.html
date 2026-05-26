@@ -400,9 +400,51 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   margin-left:auto;
   font-size:11px;color:var(--ink-300);
 }
+
+/* ── Confirm dialog (replaces window.confirm — blocked in SharePoint) ── */
+.confirm-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.45);z-index:9999;
+  align-items:center;justify-content:center;
+}
+.confirm-overlay.active{display:flex}
+.confirm-box{
+  background:var(--white);border-radius:14px;
+  padding:28px 32px 24px;max-width:360px;width:90%;
+  box-shadow:0 12px 40px rgba(0,0,0,.22);text-align:center;
+}
+.confirm-box h3{margin:0 0 8px;font-size:15px;font-weight:700;color:var(--ink-900)}
+.confirm-box p{margin:0 0 22px;font-size:13px;color:var(--ink-500);line-height:1.5}
+.confirm-actions{display:flex;gap:10px;justify-content:center}
+.confirm-cancel{
+  padding:9px 22px;border-radius:20px;
+  border:1.5px solid var(--ink-200);background:var(--white);
+  font-size:13px;font-weight:600;color:var(--ink-600);cursor:pointer;
+  transition:border-color .15s,background .15s;
+}
+.confirm-cancel:hover{border-color:var(--ink-400);background:var(--ink-50)}
+.confirm-ok{
+  padding:9px 22px;border-radius:20px;
+  border:1.5px solid #dc2626;background:#dc2626;
+  font-size:13px;font-weight:600;color:#fff;cursor:pointer;
+  transition:background .15s,border-color .15s;
+}
+.confirm-ok:hover{background:#b91c1c;border-color:#b91c1c}
 </style>
 </head>
 <body>
+
+<!-- ── Confirm dialog overlay ── -->
+<div class="confirm-overlay" id="confirmOverlay" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+  <div class="confirm-box">
+    <h3 id="confirmTitle">Reset readiness data?</h3>
+    <p id="confirmMsg">This cannot be undone.</p>
+    <div class="confirm-actions">
+      <button class="confirm-cancel" id="confirmCancel">Cancel</button>
+      <button class="confirm-ok" id="confirmOk">Reset</button>
+    </div>
+  </div>
+</div>
 
 <!-- ── Top nav ── -->
 <nav class="topnav">
@@ -786,16 +828,35 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('tab-da26').addEventListener('click', function() { switchTab('da26'); });
   document.getElementById('tab-la28').addEventListener('click', function() { switchTab('la28'); });
 
+  /* ── In-page confirm dialog (window.confirm blocked in SharePoint) ── */
+  var _confirmCb = null;
+  function showConfirm(msg, cb) {
+    document.getElementById('confirmMsg').textContent = msg;
+    document.getElementById('confirmOverlay').classList.add('active');
+    _confirmCb = cb;
+  }
+  document.getElementById('confirmOk').addEventListener('click', function() {
+    document.getElementById('confirmOverlay').classList.remove('active');
+    if (_confirmCb) { _confirmCb(); _confirmCb = null; }
+  });
+  document.getElementById('confirmCancel').addEventListener('click', function() {
+    document.getElementById('confirmOverlay').classList.remove('active');
+    _confirmCb = null;
+  });
+  document.getElementById('confirmOverlay').addEventListener('click', function(e) {
+    if (e.target === this) { this.classList.remove('active'); _confirmCb = null; }
+  });
+
   /* ── Reset buttons ── */
   document.getElementById('reset-da26').addEventListener('click', function() {
-    if (window.confirm('Reset all DA26 readiness data? This cannot be undone.')) {
+    showConfirm('Reset all DA26 readiness data? This cannot be undone.', function() {
       resetGame('da26', DA26_AREAS);
-    }
+    });
   });
   document.getElementById('reset-la28').addEventListener('click', function() {
-    if (window.confirm('Reset all LA28 readiness data? This cannot be undone.')) {
+    showConfirm('Reset all LA28 readiness data? This cannot be undone.', function() {
       resetGame('la28', LA28_AREAS);
-    }
+    });
   });
 
   /* ── Checklist change delegation ── */
@@ -908,12 +969,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  /* ── localStorage helpers (graceful fallback if blocked by SharePoint) ── */
+  function lsGet(key)      { try { return localStorage.getItem(key);    } catch(e) { return null;  } }
+  function lsSet(key, val) { try { localStorage.setItem(key, val);      } catch(e) {}               }
+  function lsRemove(key)   { try { localStorage.removeItem(key);        } catch(e) {}               }
+
   function restoreState(game, areas) {
     areas.forEach(function(area, aIdx) {
       area.items.forEach(function(_, iIdx) {
         var key = 'rdns_' + game + '_' + aIdx + '_' + iIdx;
-        var val = localStorage.getItem(key);
-        if (val === 'true') {
+        if (lsGet(key) === 'true') {
           var cb = document.getElementById('cb-' + game + '-' + aIdx + '-' + iIdx);
           if (cb) { cb.checked = true; }
         }
@@ -926,7 +991,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var aIdx = cb.dataset.area;
     var iIdx = cb.dataset.item;
     var key = 'rdns_' + game + '_' + aIdx + '_' + iIdx;
-    localStorage.setItem(key, cb.checked ? 'true' : 'false');
+    lsSet(key, cb.checked ? 'true' : 'false');
     updateAllRings(game, areas);
   }
 
@@ -990,7 +1055,7 @@ document.addEventListener('DOMContentLoaded', function() {
     areas.forEach(function(area, aIdx) {
       area.items.forEach(function(_, iIdx) {
         var key = 'rdns_' + game + '_' + aIdx + '_' + iIdx;
-        localStorage.removeItem(key);
+        lsRemove(key);
         var cb = document.getElementById('cb-' + game + '-' + aIdx + '-' + iIdx);
         if (cb) { cb.checked = false; }
       });
