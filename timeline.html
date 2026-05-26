@@ -1,0 +1,1174 @@
+<!doctype html>
+<!--
+  AOC Games Portal — Dual-Games Planning Timeline (SharePoint-Safe)
+  All CSS/JS inlined. No external dependencies. No eval(). No inline handlers.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Planning Timeline — AOC Games Portal</title>
+<style>
+/* ── Reset & Base ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+  background:#f4f6f9;
+  color:#0d1117;
+  font-size:14px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+a{color:inherit;text-decoration:none}
+
+/* ── Design Tokens ── */
+:root{
+  /* DA26 — Dakar 2026 */
+  --da-green:#005c35;
+  --da-green-mid:#007a48;
+  --da-green-light:#e6f4ee;
+  --da-orange:#ff6b00;
+
+  /* LA28 — Los Angeles 2028 */
+  --la-navy:#0e1f5b;
+  --la-blue:#0057b7;
+  --la-blue-light:#e8eeff;
+  --la-gold:#ffd100;
+
+  /* Neutrals */
+  --ink-900:#0d1117;
+  --ink-700:#2d3748;
+  --ink-500:#64748b;
+  --ink-400:#94a3b8;
+  --ink-200:#e2e8f0;
+  --ink-100:#f1f5f9;
+  --ink-50:#f8fafc;
+  --white:#ffffff;
+
+  /* Category colours */
+  --cat-registration:#1d4ed8;
+  --cat-medical:#dc2626;
+  --cat-transport:#ea580c;
+  --cat-accommodation:#15803d;
+  --cat-sport:#b45309;
+  --cat-ceremonies:#7c3aed;
+  --cat-uniform:#0891b2;
+  --cat-freight:#c2410c;
+  --cat-antidoping:#be185d;
+  --cat-general:#475569;
+
+  --radius:10px;
+  --radius-sm:6px;
+  --radius-lg:16px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.06);
+  --shadow-md:0 2px 8px rgba(0,0,0,.08),0 12px 32px rgba(0,0,0,.08);
+}
+
+/* ── Top Nav ── */
+.topnav{
+  background:var(--white);
+  border-bottom:1px solid var(--ink-200);
+  padding:0 32px;
+  height:60px;
+  display:flex;
+  align-items:center;
+  gap:0;
+  position:sticky;
+  top:0;
+  z-index:200;
+  box-shadow:0 1px 4px rgba(0,0,0,.05);
+}
+.nav-brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+.nav-logo-mark{
+  width:40px;
+  height:40px;
+  border-radius:9px;
+  background:var(--la-navy);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+}
+.logo-letters{
+  font-size:10px;
+  font-weight:900;
+  color:var(--la-gold);
+  letter-spacing:-.02em;
+  line-height:1;
+}
+.logo-rings-row{
+  display:flex;
+  gap:2px;
+  align-items:center;
+}
+.logo-ring{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  border:1.5px solid;
+}
+.logo-ring:nth-child(1){border-color:#e8eeff;color:#e8eeff}
+.logo-ring:nth-child(2){border-color:var(--la-gold);color:var(--la-gold)}
+.logo-ring:nth-child(3){border-color:#da2020;color:#da2020}
+.logo-ring:nth-child(4){border-color:#e8eeff;color:#e8eeff}
+.logo-ring:nth-child(5){border-color:#22c55e;color:#22c55e}
+.nav-title{
+  font-size:15px;
+  font-weight:700;
+  color:var(--ink-900);
+  letter-spacing:-.02em;
+}
+.nav-subtitle{
+  font-size:11px;
+  color:var(--ink-500);
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.nav-divider{
+  width:1px;
+  height:28px;
+  background:var(--ink-200);
+  margin:0 24px;
+  flex-shrink:0;
+}
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  flex:1;
+}
+.nav-link{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 10px;
+  border-radius:var(--radius-sm);
+  font-size:13px;
+  font-weight:500;
+  color:var(--ink-500);
+  transition:background .15s,color .15s;
+}
+.nav-link:hover{
+  background:var(--ink-100);
+  color:var(--ink-900);
+}
+.nav-link-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  flex-shrink:0;
+}
+.nav-link.active{
+  background:var(--ink-100);
+  color:var(--ink-900);
+  font-weight:600;
+}
+.nav-badge{
+  display:inline-block;
+  padding:2px 7px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.badge-da{background:var(--da-green-light);color:var(--da-green)}
+.badge-la{background:var(--la-blue-light);color:var(--la-navy)}
+
+/* ── Page Wrapper ── */
+.page{
+  max-width:1600px;
+  margin:0 auto;
+  padding:28px 32px 48px;
+}
+
+/* ── Page Header ── */
+.page-header{
+  margin-bottom:24px;
+}
+.page-header h1{
+  font-size:24px;
+  font-weight:800;
+  color:var(--ink-900);
+  letter-spacing:-.03em;
+  margin-bottom:4px;
+}
+.page-header p{
+  font-size:14px;
+  color:var(--ink-500);
+}
+
+/* ── Stats Bar ── */
+.stats-bar{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-bottom:28px;
+}
+.stat-card{
+  background:var(--white);
+  border-radius:var(--radius);
+  padding:20px 24px;
+  box-shadow:var(--shadow-sm);
+  border:1px solid var(--ink-200);
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+.stat-icon{
+  width:44px;
+  height:44px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  flex-shrink:0;
+}
+.stat-icon-da{background:var(--da-green-light)}
+.stat-icon-la{background:var(--la-blue-light)}
+.stat-icon-total{background:#f0fdf4}
+.stat-body{}
+.stat-number{
+  font-size:28px;
+  font-weight:800;
+  letter-spacing:-.04em;
+  line-height:1;
+  margin-bottom:2px;
+}
+.stat-number-da{color:var(--da-green)}
+.stat-number-la{color:var(--la-navy)}
+.stat-number-total{color:var(--ink-700)}
+.stat-label{
+  font-size:12px;
+  color:var(--ink-500);
+  font-weight:500;
+}
+
+/* ── Timeline Card ── */
+.timeline-card{
+  background:var(--white);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-md);
+  border:1px solid var(--ink-200);
+  overflow:hidden;
+  margin-bottom:24px;
+}
+.timeline-card-header{
+  padding:20px 24px 16px;
+  border-bottom:1px solid var(--ink-100);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.timeline-card-title{
+  font-size:15px;
+  font-weight:700;
+  color:var(--ink-900);
+  letter-spacing:-.02em;
+}
+.timeline-card-meta{
+  font-size:12px;
+  color:var(--ink-500);
+}
+.scroll-hint{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  color:var(--ink-400);
+}
+
+/* ── Timeline Scroll Wrapper ── */
+.timeline-scroll-wrapper{
+  overflow-x:auto;
+  overflow-y:visible;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+  scrollbar-color:var(--ink-200) transparent;
+  position:relative;
+}
+.timeline-scroll-wrapper::-webkit-scrollbar{height:6px}
+.timeline-scroll-wrapper::-webkit-scrollbar-track{background:transparent}
+.timeline-scroll-wrapper::-webkit-scrollbar-thumb{background:var(--ink-200);border-radius:3px}
+
+/* ── Timeline Canvas ── */
+.timeline-canvas{
+  position:relative;
+  /* width is set by JS */
+  padding-bottom:12px;
+}
+
+/* ── Month headers ── */
+.month-columns-layer{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  pointer-events:none;
+}
+.month-col{
+  position:absolute;
+  top:0;
+  bottom:0;
+  border-left:1px solid var(--ink-100);
+}
+.month-col:nth-child(even){
+  background:rgba(0,0,0,.012);
+}
+.month-label{
+  position:absolute;
+  top:0;
+  font-size:10px;
+  font-weight:600;
+  color:var(--ink-400);
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  white-space:nowrap;
+  padding:8px 6px 0;
+}
+.year-label{
+  position:absolute;
+  top:0;
+  font-size:9px;
+  font-weight:700;
+  color:var(--ink-300);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  white-space:nowrap;
+  padding:0 6px;
+}
+
+/* ── Swimlane ── */
+.swimlanes-area{
+  position:relative;
+  padding:36px 0 16px; /* top padding for month labels */
+}
+.swimlane{
+  position:relative;
+  height:96px;
+  margin-bottom:8px;
+}
+.swimlane:last-child{margin-bottom:0}
+.swimlane-bg{
+  position:absolute;
+  inset:0;
+  border-radius:8px;
+}
+.swimlane-label{
+  position:absolute;
+  left:10px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:10;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  pointer-events:none;
+}
+.swimlane-label-badge{
+  padding:3px 8px;
+  border-radius:5px;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.sl-da .swimlane-bg{background:rgba(0,92,53,.06)}
+.sl-da .swimlane-label-badge{background:var(--da-green);color:#fff}
+.sl-la .swimlane-bg{background:rgba(14,31,91,.06)}
+.sl-la .swimlane-label-badge{background:var(--la-navy);color:#fff}
+
+/* ── Event Pills ── */
+.event-pill{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 8px 5px 6px;
+  border-radius:6px;
+  background:var(--white);
+  border:1px solid var(--ink-200);
+  box-shadow:0 1px 3px rgba(0,0,0,.07),0 2px 8px rgba(0,0,0,.05);
+  white-space:nowrap;
+  font-size:11px;
+  font-weight:600;
+  color:var(--ink-700);
+  z-index:20;
+  transition:box-shadow .15s,transform .15s,border-color .15s;
+  cursor:pointer;
+  text-decoration:none;
+  letter-spacing:-.01em;
+  max-width:180px;
+}
+.event-pill:hover{
+  box-shadow:0 2px 8px rgba(0,0,0,.12),0 6px 20px rgba(0,0,0,.1);
+  transform:translateY(calc(-50% - 2px));
+  border-color:var(--ink-400);
+  z-index:30;
+}
+.event-pill.ceremony{
+  border-width:2px;
+  font-weight:700;
+}
+.event-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  flex-shrink:0;
+}
+.event-name{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  flex:1;
+  min-width:0;
+}
+.event-date-badge{
+  font-size:9px;
+  font-weight:700;
+  color:var(--ink-400);
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.ceremony-star{
+  font-size:9px;
+  flex-shrink:0;
+}
+
+/* ── Today Line ── */
+.today-line{
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:2px;
+  background:#ef4444;
+  z-index:50;
+  pointer-events:none;
+}
+.today-flag{
+  position:absolute;
+  top:-2px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#ef4444;
+  color:#fff;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  padding:2px 6px;
+  border-radius:3px;
+  white-space:nowrap;
+}
+.today-flag::after{
+  content:'';
+  position:absolute;
+  top:100%;
+  left:50%;
+  transform:translateX(-50%);
+  border:4px solid transparent;
+  border-top-color:#ef4444;
+}
+
+/* ── Swimlane gap ── */
+.swimlane-gap{
+  height:8px;
+}
+
+/* ── Legend ── */
+.legend-section{
+  padding:16px 24px 20px;
+  border-top:1px solid var(--ink-100);
+}
+.legend-title{
+  font-size:11px;
+  font-weight:700;
+  color:var(--ink-500);
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+.legend-items{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 16px;
+}
+.legend-item{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  color:var(--ink-700);
+  font-weight:500;
+}
+.legend-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  flex-shrink:0;
+}
+
+/* ── Event Tooltip on hover (CSS only) ── */
+.event-pill::before{
+  content:attr(data-tooltip);
+  position:absolute;
+  bottom:calc(100% + 6px);
+  left:50%;
+  transform:translateX(-50%);
+  background:var(--ink-900);
+  color:#fff;
+  font-size:11px;
+  font-weight:500;
+  padding:5px 9px;
+  border-radius:5px;
+  white-space:nowrap;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .15s;
+  z-index:100;
+  letter-spacing:0;
+  max-width:240px;
+  text-overflow:ellipsis;
+  overflow:hidden;
+}
+.event-pill::after{
+  content:'';
+  position:absolute;
+  bottom:calc(100% + 2px);
+  left:50%;
+  transform:translateX(-50%);
+  border:4px solid transparent;
+  border-top-color:var(--ink-900);
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .15s;
+  z-index:100;
+}
+.event-pill:hover::before,
+.event-pill:hover::after{
+  opacity:1;
+}
+
+/* ── Games Info Cards ── */
+.games-info-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-bottom:28px;
+}
+.game-info-card{
+  background:var(--white);
+  border-radius:var(--radius);
+  padding:20px 24px;
+  box-shadow:var(--shadow-sm);
+  border:1px solid var(--ink-200);
+  display:flex;
+  align-items:flex-start;
+  gap:16px;
+}
+.game-info-stripe{
+  width:4px;
+  border-radius:4px;
+  align-self:stretch;
+  flex-shrink:0;
+}
+.game-info-body{}
+.game-info-name{
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:-.02em;
+  margin-bottom:2px;
+}
+.game-info-dates{
+  font-size:12px;
+  color:var(--ink-500);
+  margin-bottom:6px;
+}
+.game-info-location{
+  font-size:12px;
+  font-weight:600;
+}
+.game-info-link{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  margin-top:10px;
+  font-size:12px;
+  font-weight:600;
+  padding:5px 10px;
+  border-radius:var(--radius-sm);
+  transition:background .15s;
+}
+.game-info-link-da{
+  background:var(--da-green-light);
+  color:var(--da-green);
+}
+.game-info-link-da:hover{background:#c5e5d4}
+.game-info-link-la{
+  background:var(--la-blue-light);
+  color:var(--la-navy);
+}
+.game-info-link-la:hover{background:#c6d8f5}
+
+/* ── Footer ── */
+.footer{
+  margin-top:40px;
+  padding:24px 32px;
+  border-top:1px solid var(--ink-200);
+  background:var(--white);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.footer-left{
+  font-size:12px;
+  color:var(--ink-500);
+}
+.footer-links{
+  display:flex;
+  gap:8px;
+}
+.footer-link{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:6px 12px;
+  border-radius:var(--radius-sm);
+  font-size:12px;
+  font-weight:600;
+  color:var(--ink-600);
+  background:var(--ink-100);
+  transition:background .15s,color .15s;
+}
+.footer-link:hover{
+  background:var(--ink-200);
+  color:var(--ink-900);
+}
+
+/* ── Responsive ── */
+@media(max-width:900px){
+  .stats-bar{grid-template-columns:1fr 1fr}
+  .games-info-row{grid-template-columns:1fr}
+  .page{padding:16px 16px 40px}
+  .topnav{padding:0 16px}
+  .stat-card{padding:16px}
+}
+@media(max-width:600px){
+  .stats-bar{grid-template-columns:1fr}
+  .topnav{gap:8px}
+  .nav-links{display:none}
+  .nav-divider{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ── Top Navigation ── -->
+<nav class="topnav" role="navigation" aria-label="Site navigation">
+  <div class="nav-brand">
+    <div class="nav-logo-mark" role="img" aria-label="AOC Games Portal logo">
+      <span class="logo-letters">AOC</span>
+      <div class="logo-rings-row" aria-hidden="true">
+        <span class="logo-ring"></span>
+        <span class="logo-ring"></span>
+        <span class="logo-ring"></span>
+        <span class="logo-ring"></span>
+        <span class="logo-ring"></span>
+      </div>
+    </div>
+    <div>
+      <div class="nav-title">AOC Games Portal</div>
+      <div class="nav-subtitle">Planning Timeline</div>
+    </div>
+  </div>
+  <div class="nav-divider" aria-hidden="true"></div>
+  <div class="nav-links">
+    <a href="portal-home.html" class="nav-link">
+      <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+      Portal Home
+    </a>
+    <a href="da26.html" class="nav-link">
+      <span class="nav-link-dot" style="background:var(--da-green)" aria-hidden="true"></span>
+      DA26 — Dakar 2026
+    </a>
+    <a href="la28.html" class="nav-link">
+      <span class="nav-link-dot" style="background:var(--la-navy)" aria-hidden="true"></span>
+      LA28 — Los Angeles 2028
+    </a>
+    <a href="timeline.html" class="nav-link active" aria-current="page">
+      <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h7a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/></svg>
+      Timeline
+    </a>
+  </div>
+</nav>
+
+<!-- ── Page Body ── -->
+<main class="page">
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <h1>Dual-Games Planning Timeline</h1>
+    <p>Key milestones for DA26 (Dakar) and LA28 (Los Angeles) on one view. Scroll horizontally to navigate. Click any event to open the portal.</p>
+  </header>
+
+  <!-- Stats Bar -->
+  <section class="stats-bar" aria-label="Summary statistics">
+    <div class="stat-card">
+      <div class="stat-icon stat-icon-da" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--da-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <div class="stat-body">
+        <div class="stat-number stat-number-da" id="stat-days-da">—</div>
+        <div class="stat-label">days to DA26 Opening Ceremony</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon stat-icon-la" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--la-navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <div class="stat-body">
+        <div class="stat-number stat-number-la" id="stat-days-la">—</div>
+        <div class="stat-label">days to LA28 Opening Ceremony</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon stat-icon-total" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="stat-body">
+        <div class="stat-number stat-number-total" id="stat-total">26</div>
+        <div class="stat-label">total milestones across both games</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Games Info Cards -->
+  <section class="games-info-row" aria-label="Games information">
+    <div class="game-info-card">
+      <div class="game-info-stripe" style="background:var(--da-green)" aria-hidden="true"></div>
+      <div class="game-info-body">
+        <div class="game-info-name" style="color:var(--da-green)">Dakar 2026 Youth Olympic Games</div>
+        <div class="game-info-dates">
+          <strong>Games Window:</strong> 19 October – 1 November 2026
+        </div>
+        <div class="game-info-location" style="color:var(--da-green-mid)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          Dakar, Senegal
+        </div>
+        <a href="da26.html" class="game-info-link game-info-link-da">
+          Open DA26 Page
+          <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </a>
+        <a href="index.html?game=da26" class="game-info-link game-info-link-da" style="margin-left:8px">
+          Open DA26 Portal
+          <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="game-info-card">
+      <div class="game-info-stripe" style="background:var(--la-navy)" aria-hidden="true"></div>
+      <div class="game-info-body">
+        <div class="game-info-name" style="color:var(--la-navy)">Los Angeles 2028 Olympic Games</div>
+        <div class="game-info-dates">
+          <strong>Games Window:</strong> 14 July – 30 July 2028
+        </div>
+        <div class="game-info-location" style="color:var(--la-blue)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          Los Angeles, California, USA
+        </div>
+        <a href="la28.html" class="game-info-link game-info-link-la">
+          Open LA28 Page
+          <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </a>
+        <a href="index.html?game=la28" class="game-info-link game-info-link-la" style="margin-left:8px">
+          Open LA28 Portal
+          <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline Card -->
+  <section class="timeline-card" aria-label="Planning timeline">
+    <div class="timeline-card-header">
+      <div>
+        <div class="timeline-card-title">Milestone Timeline — Jun 2026 to Aug 2028</div>
+        <div class="timeline-card-meta">Hover over events for details · Click to open portal</div>
+      </div>
+      <div class="scroll-hint" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Scroll to navigate
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+
+    <div class="timeline-scroll-wrapper" id="timelineScroll" tabindex="0" role="region" aria-label="Scrollable timeline">
+      <div class="timeline-canvas" id="timelineCanvas">
+
+        <!-- Month columns layer — built by JS -->
+        <div class="month-columns-layer" id="monthLayer" aria-hidden="true"></div>
+
+        <!-- Today line — positioned by JS -->
+        <div class="today-line" id="todayLine" role="presentation">
+          <div class="today-flag">Today</div>
+        </div>
+
+        <!-- Swimlanes area -->
+        <div class="swimlanes-area" id="swimlanesArea">
+          <!-- DA26 swimlane -->
+          <div class="swimlane sl-da" id="swimlane-da26" role="group" aria-label="DA26 Dakar 2026 milestones">
+            <div class="swimlane-bg" aria-hidden="true"></div>
+            <div class="swimlane-label" aria-hidden="true">
+              <span class="swimlane-label-badge">DA26</span>
+            </div>
+            <!-- events injected by JS -->
+          </div>
+
+          <div class="swimlane-gap" aria-hidden="true"></div>
+
+          <!-- LA28 swimlane -->
+          <div class="swimlane sl-la" id="swimlane-la28" role="group" aria-label="LA28 Los Angeles 2028 milestones">
+            <div class="swimlane-bg" aria-hidden="true"></div>
+            <div class="swimlane-label" aria-hidden="true">
+              <span class="swimlane-label-badge">LA28</span>
+            </div>
+            <!-- events injected by JS -->
+          </div>
+        </div>
+
+      </div><!-- /timeline-canvas -->
+    </div><!-- /timeline-scroll-wrapper -->
+
+    <!-- Legend -->
+    <div class="legend-section">
+      <div class="legend-title">Category Legend</div>
+      <div class="legend-items">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--cat-registration)"></div>Registration</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--cat-medical)"></div>Medical</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--cat-transport)"></div>Transport</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--cat-accommodation)"></div>Accommodation</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--cat-sport)"></div>Sport</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--cat-ceremonies)"></div>Ceremonies</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--cat-uniform)"></div>Uniform</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--cat-freight)"></div>Freight</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--cat-antidoping)"></div>Anti-Doping</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--cat-general)"></div>General</div>
+        <div class="legend-item">
+          <div style="width:20px;height:2px;background:#ef4444;border-radius:1px"></div>
+          Today (May 26 2026)
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- ── Footer ── -->
+<footer class="footer">
+  <div class="footer-left">
+    AOC Games Portal &mdash; Planning Timeline &mdash; Australian Olympic Committee &copy; 2026
+  </div>
+  <div class="footer-links">
+    <a href="portal-home.html" class="footer-link">
+      <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+      Back to Portal Home
+    </a>
+    <a href="da26.html" class="footer-link">
+      <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--da-green);vertical-align:middle;margin-right:2px" aria-hidden="true"></span>
+      DA26
+    </a>
+    <a href="la28.html" class="footer-link">
+      <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--la-navy);vertical-align:middle;margin-right:2px" aria-hidden="true"></span>
+      LA28
+    </a>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  'use strict';
+
+  // ── Configuration ──────────────────────────────────────────────
+  var PX_PER_DAY = 3.2;
+  var SWIMLANE_LEFT_PAD = 64; // px of padding before first event (for swimlane labels)
+  var MIN_PILL_WIDTH = 100;
+
+  // Timeline start = Jun 1 2026, end = Aug 31 2028 (padded)
+  var TIMELINE_START = new Date(2026, 5, 1);   // Jun 1 2026  (month is 0-indexed)
+  var TIMELINE_END   = new Date(2028, 7, 31);  // Aug 31 2028
+  var TODAY          = new Date(2026, 4, 26);  // May 26 2026
+
+  // ── Category colour map ─────────────────────────────────────────
+  var CAT_COLOURS = {
+    'Registration':   '#1d4ed8',
+    'Medical':        '#dc2626',
+    'Transport':      '#ea580c',
+    'Accommodation':  '#15803d',
+    'Sport':          '#b45309',
+    'Ceremonies':     '#7c3aed',
+    'Uniform':        '#0891b2',
+    'Freight':        '#c2410c',
+    'Anti-Doping':    '#be185d',
+    'General':        '#475569'
+  };
+
+  // ── Milestone Data ──────────────────────────────────────────────
+  var DA26_EVENTS = [
+    { date: new Date(2026,  5,  1), name: 'Quota Submission Deadline',      category: 'Registration',  ceremony: false },
+    { date: new Date(2026,  5, 15), name: 'Team Membership Portal Opens',   category: 'Registration',  ceremony: false },
+    { date: new Date(2026,  5, 30), name: 'Uniform Specification Published', category: 'Uniform',      ceremony: false },
+    { date: new Date(2026,  6, 14), name: 'Transport Accreditation Window Opens', category: 'Transport', ceremony: false },
+    { date: new Date(2026,  6, 31), name: 'Freight Arrival Window Opens',   category: 'Freight',       ceremony: false },
+    { date: new Date(2026,  7, 10), name: 'Medical Declaration Forms Due',  category: 'Medical',       ceremony: false },
+    { date: new Date(2026,  7, 23), name: 'Final Entry Deadline — All Sports', category: 'Sport',      ceremony: false },
+    { date: new Date(2026,  8,  1), name: 'Accommodation Confirmed',        category: 'Accommodation', ceremony: false },
+    { date: new Date(2026,  8, 15), name: 'Pre-departure Briefing',         category: 'General',       ceremony: false },
+    { date: new Date(2026,  9,  5), name: 'Team Arrival Window Opens',      category: 'Transport',     ceremony: false },
+    { date: new Date(2026,  9, 19), name: 'DA26 Opening Ceremony',          category: 'Ceremonies',    ceremony: true  },
+    { date: new Date(2026, 10,  1), name: 'DA26 Closing Ceremony',          category: 'Ceremonies',    ceremony: true  }
+  ];
+
+  var LA28_EVENTS = [
+    { date: new Date(2026,  5, 19), name: 'Sport Entry Standards Submission', category: 'Sport',       ceremony: false },
+    { date: new Date(2026,  8,  1), name: 'Venue Masterplan Review',        category: 'General',       ceremony: false },
+    { date: new Date(2027,  0, 15), name: 'Heat Policy Final Version',      category: 'Medical',       ceremony: false },
+    { date: new Date(2027,  3,  1), name: 'LA28 NOC Services Agreement',    category: 'General',       ceremony: false },
+    { date: new Date(2027,  6,  1), name: 'Qualification Standards Finalised', category: 'Sport',      ceremony: false },
+    { date: new Date(2027,  9,  1), name: 'Transport RFI Response',         category: 'Transport',     ceremony: false },
+    { date: new Date(2028,  0,  1), name: 'Accreditation Portal Opens',     category: 'Registration',  ceremony: false },
+    { date: new Date(2028,  2,  1), name: 'Uniform Guidelines Published',   category: 'Uniform',       ceremony: false },
+    { date: new Date(2028,  3, 15), name: 'Final Qualification Deadline',   category: 'Sport',         ceremony: false },
+    { date: new Date(2028,  4,  1), name: 'Team Accommodation Portal Opens', category: 'Accommodation', ceremony: false },
+    { date: new Date(2028,  5,  1), name: 'Freight Arrival Window Opens',   category: 'Freight',       ceremony: false },
+    { date: new Date(2028,  5, 15), name: 'Final Entry Deadline — All Sports', category: 'Sport',      ceremony: false },
+    { date: new Date(2028,  6, 14), name: 'LA28 Opening Ceremony',          category: 'Ceremonies',    ceremony: true  },
+    { date: new Date(2028,  6, 30), name: 'LA28 Closing Ceremony',          category: 'Ceremonies',    ceremony: true  }
+  ];
+
+  // ── Helper: days between two dates ─────────────────────────────
+  function daysBetween(a, b) {
+    var MS_PER_DAY = 1000 * 60 * 60 * 24;
+    return Math.round((b.getTime() - a.getTime()) / MS_PER_DAY);
+  }
+
+  // ── Helper: format date as "D Mon YYYY" ────────────────────────
+  var MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function formatDate(d) {
+    return d.getDate() + ' ' + MONTH_SHORT[d.getMonth()] + ' ' + d.getFullYear();
+  }
+
+  // ── Compute total canvas width ──────────────────────────────────
+  var totalDays = daysBetween(TIMELINE_START, TIMELINE_END);
+  var canvasWidth = Math.round(totalDays * PX_PER_DAY) + SWIMLANE_LEFT_PAD + 48;
+
+  // ── Position helper: date → left px ────────────────────────────
+  function dateToLeft(d) {
+    var days = daysBetween(TIMELINE_START, d);
+    return Math.round(days * PX_PER_DAY) + SWIMLANE_LEFT_PAD;
+  }
+
+  // ── Set canvas width ────────────────────────────────────────────
+  var canvas = document.getElementById('timelineCanvas');
+  canvas.style.width = canvasWidth + 'px';
+  // Also set the swimlanes area to full width
+  var swimlanesArea = document.getElementById('swimlanesArea');
+  swimlanesArea.style.width = canvasWidth + 'px';
+  swimlanesArea.style.padding = '36px 24px 16px 0';
+
+  // ── Build month columns and labels ──────────────────────────────
+  var monthLayer = document.getElementById('monthLayer');
+
+  // Calculate swimlanes area top position for label placement
+  var MONTH_LABEL_TOP = 0;
+  var swimlaneTopOffset = 36; // matches padding-top of swimlanesArea
+
+  // Iterate through each month from TIMELINE_START to TIMELINE_END
+  var cursor = new Date(TIMELINE_START.getFullYear(), TIMELINE_START.getMonth(), 1);
+  var prevYear = null;
+  while (cursor <= TIMELINE_END) {
+    var colLeft = dateToLeft(cursor);
+
+    // Month column stripe
+    var col = document.createElement('div');
+    col.className = 'month-col';
+    col.style.left = colLeft + 'px';
+    // Compute width to next month
+    var nextMonth = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1);
+    var colWidth = dateToLeft(nextMonth) - colLeft;
+    col.style.width = colWidth + 'px';
+    monthLayer.appendChild(col);
+
+    // Month label
+    var monthLabel = document.createElement('div');
+    monthLabel.className = 'month-label';
+    monthLabel.style.left = colLeft + 'px';
+    // The swimlanes area has padding-top of 36px — place labels at top of that region
+    monthLabel.style.top = '0px';
+    monthLabel.textContent = MONTH_SHORT[cursor.getMonth()];
+    monthLayer.appendChild(monthLabel);
+
+    // Year label — show if year changes
+    if (cursor.getFullYear() !== prevYear) {
+      var yearLabel = document.createElement('div');
+      yearLabel.className = 'year-label';
+      yearLabel.style.left = colLeft + 'px';
+      yearLabel.style.top = '18px';
+      yearLabel.textContent = cursor.getFullYear();
+      monthLayer.appendChild(yearLabel);
+      prevYear = cursor.getFullYear();
+    }
+
+    cursor = nextMonth;
+  }
+
+  // ── Position Today line ─────────────────────────────────────────
+  var todayLeft = dateToLeft(TODAY);
+  var todayLine = document.getElementById('todayLine');
+  todayLine.style.left = todayLeft + 'px';
+  // Extend today line through the full canvas height
+  // We'll set the height after we know it — for now it stretches via inset:0
+
+  // ── Render events on swimlanes ──────────────────────────────────
+  function renderEvents(events, swimlaneId, gameParam, swimlaneColor) {
+    var swimlane = document.getElementById(swimlaneId);
+
+    // We use a simple overlap-stagger approach:
+    // Track placed pills by left position to avoid the worst overlaps.
+    // Each pill gets a slight vertical offset if it overlaps with the prior one.
+    var lastRight = -Infinity;
+    var altRow = false;
+
+    // Sort events by date first
+    var sorted = events.slice().sort(function(a, b){ return a.date - b.date; });
+
+    sorted.forEach(function(ev, idx) {
+      var left = dateToLeft(ev.date);
+      var color = CAT_COLOURS[ev.category] || '#475569';
+
+      var link = document.createElement('a');
+      link.href = 'index.html?game=' + gameParam;
+      link.className = 'event-pill' + (ev.ceremony ? ' ceremony' : '');
+      link.style.left = left + 'px';
+      link.style.borderLeftColor = color;
+      link.style.borderLeftWidth = '3px';
+
+      // Vertical stagger if pills would overlap
+      if (left < lastRight + 8) {
+        altRow = !altRow;
+      } else {
+        altRow = false;
+      }
+
+      if (altRow) {
+        link.style.top = '30%';
+      } else {
+        link.style.top = '50%';
+      }
+
+      // Tooltip
+      link.setAttribute('data-tooltip', ev.name + ' — ' + formatDate(ev.date));
+      link.setAttribute('aria-label', ev.name + ', ' + formatDate(ev.date) + '. Click to open ' + (gameParam === 'da26' ? 'DA26' : 'LA28') + ' portal.');
+      link.setAttribute('title', ev.name + ' — ' + formatDate(ev.date));
+
+      // Dot
+      var dot = document.createElement('span');
+      dot.className = 'event-dot';
+      dot.style.background = color;
+      dot.setAttribute('aria-hidden', 'true');
+      link.appendChild(dot);
+
+      // Name
+      var nameSpan = document.createElement('span');
+      nameSpan.className = 'event-name';
+      nameSpan.textContent = ev.name;
+      link.appendChild(nameSpan);
+
+      // Date badge
+      var dateBadge = document.createElement('span');
+      dateBadge.className = 'event-date-badge';
+      // Short form
+      dateBadge.textContent = ev.date.getDate() + ' ' + MONTH_SHORT[ev.date.getMonth()];
+      link.appendChild(dateBadge);
+
+      // Star for ceremonies
+      if (ev.ceremony) {
+        var star = document.createElement('span');
+        star.className = 'ceremony-star';
+        star.setAttribute('aria-hidden', 'true');
+        star.textContent = '★';
+        star.style.color = color;
+        link.appendChild(star);
+        link.style.borderColor = color;
+        link.style.borderWidth = '2px';
+        link.style.boxShadow = '0 0 0 1px ' + color + '44, 0 2px 8px ' + color + '33';
+      }
+
+      swimlane.appendChild(link);
+
+      // Track right edge (approximate pill width ~160px)
+      lastRight = left + 164;
+    });
+  }
+
+  renderEvents(DA26_EVENTS, 'swimlane-da26', 'da26', '#005c35');
+  renderEvents(LA28_EVENTS, 'swimlane-la28', 'la28', '#0e1f5b');
+
+  // ── Compute and display stats ────────────────────────────────────
+  var DA26_OPENING = new Date(2026, 9, 19);  // Oct 19 2026
+  var LA28_OPENING = new Date(2028, 6, 14);  // Jul 14 2028
+
+  var daysToDA26 = daysBetween(TODAY, DA26_OPENING);
+  var daysToLA28 = daysBetween(TODAY, LA28_OPENING);
+  var totalEvents = DA26_EVENTS.length + LA28_EVENTS.length;
+
+  document.getElementById('stat-days-da').textContent = daysToDA26.toLocaleString();
+  document.getElementById('stat-days-la').textContent = daysToLA28.toLocaleString();
+  document.getElementById('stat-total').textContent   = totalEvents;
+
+  // ── Scroll so TODAY is visible, centered ────────────────────────
+  var scrollWrapper = document.getElementById('timelineScroll');
+  var wrapperWidth = scrollWrapper.getBoundingClientRect().width || 800;
+  // Scroll so today is ~30% from left
+  var targetScroll = todayLeft - Math.round(wrapperWidth * 0.3);
+  if (targetScroll < 0) targetScroll = 0;
+  scrollWrapper.scrollLeft = targetScroll;
+
+  // ── Keyboard scroll support ──────────────────────────────────────
+  scrollWrapper.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight') {
+      scrollWrapper.scrollLeft += 80;
+      e.preventDefault();
+    } else if (e.key === 'ArrowLeft') {
+      scrollWrapper.scrollLeft -= 80;
+      e.preventDefault();
+    } else if (e.key === 'Home') {
+      scrollWrapper.scrollLeft = 0;
+      e.preventDefault();
+    } else if (e.key === 'End') {
+      scrollWrapper.scrollLeft = scrollWrapper.scrollWidth;
+      e.preventDefault();
+    }
+  });
+
+});
+</script>
+</body>
+</html>
