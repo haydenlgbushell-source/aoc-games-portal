@@ -357,7 +357,7 @@ a{color:inherit;text-decoration:none}
 }
 .swimlane{
   position:relative;
-  height:96px;
+  height:160px;
   margin-bottom:8px;
 }
 .swimlane:last-child{margin-bottom:0}
@@ -1049,66 +1049,62 @@ document.addEventListener('DOMContentLoaded', function() {
   // ── Render events on swimlanes ──────────────────────────────────
   function renderEvents(events, swimlaneId, gameParam, swimlaneColor) {
     var swimlane = document.getElementById(swimlaneId);
+    var PILL_W = 168;
+    var GAP = 6;
+    var N_ROWS = 5;
+    var ROW_TOPS = [12, 44, 76, 108, 140];
+    // Track the rightmost used pixel per row
+    var rowRight = [];
+    for (var i = 0; i < N_ROWS; i++) rowRight[i] = -9999;
 
-    // We use a simple overlap-stagger approach:
-    // Track placed pills by left position to avoid the worst overlaps.
-    // Each pill gets a slight vertical offset if it overlaps with the prior one.
-    var lastRight = -Infinity;
-    var altRow = false;
-
-    // Sort events by date first
     var sorted = events.slice().sort(function(a, b){ return a.date - b.date; });
 
-    sorted.forEach(function(ev, idx) {
+    sorted.forEach(function(ev) {
       var left = dateToLeft(ev.date);
       var color = CAT_COLOURS[ev.category] || '#475569';
+
+      // Greedy row assignment: first row with enough clearance, else least crowded
+      var chosenRow = -1;
+      for (var r = 0; r < N_ROWS; r++) {
+        if (left >= rowRight[r] + GAP) { chosenRow = r; break; }
+      }
+      if (chosenRow === -1) {
+        // All rows blocked — pick the one whose right edge is smallest
+        var minRight = rowRight[0]; chosenRow = 0;
+        for (var r = 1; r < N_ROWS; r++) {
+          if (rowRight[r] < minRight) { minRight = rowRight[r]; chosenRow = r; }
+        }
+      }
+      rowRight[chosenRow] = left + PILL_W;
 
       var link = document.createElement('a');
       link.href = 'index.html?game=' + gameParam;
       link.className = 'event-pill' + (ev.ceremony ? ' ceremony' : '');
       link.style.left = left + 'px';
+      link.style.top = ROW_TOPS[chosenRow] + 'px';
       link.style.borderLeftColor = color;
       link.style.borderLeftWidth = '3px';
 
-      // Vertical stagger if pills would overlap
-      if (left < lastRight + 8) {
-        altRow = !altRow;
-      } else {
-        altRow = false;
-      }
-
-      if (altRow) {
-        link.style.top = '30%';
-      } else {
-        link.style.top = '50%';
-      }
-
-      // Tooltip
       link.setAttribute('data-tooltip', ev.name + ' — ' + formatDate(ev.date));
       link.setAttribute('aria-label', ev.name + ', ' + formatDate(ev.date) + '. Click to open ' + (gameParam === 'da26' ? 'DA26' : 'LA28') + ' portal.');
       link.setAttribute('title', ev.name + ' — ' + formatDate(ev.date));
 
-      // Dot
       var dot = document.createElement('span');
       dot.className = 'event-dot';
       dot.style.background = color;
       dot.setAttribute('aria-hidden', 'true');
       link.appendChild(dot);
 
-      // Name
       var nameSpan = document.createElement('span');
       nameSpan.className = 'event-name';
       nameSpan.textContent = ev.name;
       link.appendChild(nameSpan);
 
-      // Date badge
       var dateBadge = document.createElement('span');
       dateBadge.className = 'event-date-badge';
-      // Short form
       dateBadge.textContent = ev.date.getDate() + ' ' + MONTH_SHORT[ev.date.getMonth()];
       link.appendChild(dateBadge);
 
-      // Star for ceremonies
       if (ev.ceremony) {
         var star = document.createElement('span');
         star.className = 'ceremony-star';
@@ -1122,9 +1118,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       swimlane.appendChild(link);
-
-      // Track right edge (approximate pill width ~160px)
-      lastRight = left + 164;
     });
   }
 
