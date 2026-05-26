@@ -1,0 +1,937 @@
+<!doctype html>
+<!--
+  AOC Games Portal — DA26 Landing Page (SharePoint-Safe)
+  Upload to SharePoint Site Assets and share the URL.
+  All CSS/JS inlined. No external dependencies.
+  Links to index.html for the full portal experience.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>DA26 — AOC Games Portal</title>
+<style>
+:root{
+  /* DA26 / Dakar 2026 YOG brand */
+  --da-green:#005c35;
+  --da-green-mid:#007a48;
+  --da-green-light:#009b60;
+  --da-orange:#ff6b00;
+  --da-orange-dark:#e05e00;
+  --da-sand:#fdf6ec;
+  --da-light:#e6f4ee;
+  --da-bg:#f5fcf8;
+
+  /* Neutral */
+  --ink-900:#0d1a10;
+  --ink-700:#2a3d2f;
+  --ink-500:#5b6860;
+  --ink-400:#8a9690;
+  --ink-300:#bcc6be;
+  --ink-200:#dce4de;
+  --ink-100:#eef3ef;
+  --ink-50:#f6faf7;
+  --white:#fff;
+  --paper:#fafdf9;
+
+  --r:10px;--r-lg:16px;--r-xl:22px;
+  --sh:0 1px 3px rgba(0,92,53,.07),0 8px 24px rgba(0,92,53,.08);
+  --sh-lg:0 4px 16px rgba(0,92,53,.1),0 24px 56px rgba(0,92,53,.12);
+}
+*,*:before,*:after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,'Segoe UI','Helvetica Neue',Arial,sans-serif;
+  background:var(--paper);color:var(--ink-900);
+  font-size:14px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+/* ── Top nav ── */
+.topnav{
+  background:var(--white);
+  border-bottom:1px solid var(--ink-100);
+  padding:0 40px;
+  height:64px;
+  display:flex;align-items:center;
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 1px 4px rgba(0,92,53,.06);
+}
+.nav-logo{
+  display:flex;align-items:center;gap:12px;
+  margin-right:40px;flex-shrink:0;
+}
+.logo-mark{
+  width:44px;height:44px;border-radius:10px;
+  background:var(--da-green);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:1px;
+}
+.logo-mark-text{
+  font-size:12px;font-weight:900;color:var(--da-orange);
+  letter-spacing:-.04em;line-height:1;
+}
+.logo-mark-rings{
+  display:flex;gap:2px;align-items:center;
+}
+.logo-ring{
+  width:7px;height:7px;border-radius:50%;border:1.5px solid;
+}
+.logo-name{
+  display:flex;flex-direction:column;
+}
+.logo-title{font-size:14px;font-weight:700;color:var(--ink-900);letter-spacing:-.01em}
+.logo-sub{font-size:11px;color:var(--ink-400);letter-spacing:.02em}
+
+.nav-links{
+  display:flex;align-items:center;gap:4px;flex:1;
+}
+.nav-link{
+  font-size:13.5px;font-weight:500;color:var(--ink-700);
+  padding:8px 14px;border-radius:var(--r);
+  display:flex;align-items:center;gap:5px;
+  transition:background .15s,color .15s;
+  white-space:nowrap;
+}
+.nav-link:hover{background:var(--ink-50);color:var(--ink-900)}
+.nav-link.active{
+  color:var(--da-green);font-weight:700;
+  position:relative;
+}
+.nav-link.active::after{
+  content:'';
+  position:absolute;bottom:-19px;left:14px;right:14px;
+  height:2px;background:var(--da-green);border-radius:2px;
+}
+
+.nav-right{
+  display:flex;align-items:center;gap:12px;margin-left:auto;flex-shrink:0;
+}
+.nav-search{
+  display:flex;align-items:center;gap:8px;
+  background:var(--ink-50);border:1px solid var(--ink-200);
+  border-radius:var(--r);padding:7px 12px;
+  font-size:13px;color:var(--ink-400);
+  min-width:160px;cursor:text;
+  transition:border-color .15s,box-shadow .15s;
+}
+.nav-search:hover{border-color:var(--ink-300)}
+.nav-search:focus-within{
+  border-color:var(--da-green);
+  box-shadow:0 0 0 3px rgba(0,92,53,.12);
+}
+.nav-search input{
+  border:none;background:transparent;outline:none;
+  font-size:13px;color:var(--ink-700);width:100%;
+  font-family:inherit;
+}
+.nav-search input::placeholder{color:var(--ink-400)}
+.nav-icon-btn{
+  width:36px;height:36px;border-radius:var(--r);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--ink-500);
+  transition:background .15s;
+  position:relative;cursor:pointer;
+}
+.nav-icon-btn:hover{background:var(--ink-50)}
+.nav-badge{
+  position:absolute;top:6px;right:6px;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--da-orange);
+  font-size:9px;font-weight:700;color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  border:2px solid var(--white);
+}
+.nav-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--da-green);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:var(--da-orange);
+  cursor:pointer;flex-shrink:0;
+  border:2px solid var(--da-light);
+}
+
+/* ── Hero banner ── */
+.hero{
+  position:relative;
+  height:260px;
+  overflow:hidden;
+  display:flex;align-items:flex-end;
+  padding:36px 40px;
+}
+/* Dakar/Senegal gradient: rich greens, warm oranges, sunset */
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(to right, rgba(0,92,53,.8) 0%, rgba(0,92,53,.5) 40%, rgba(0,92,53,.15) 100%),
+    linear-gradient(160deg, #005c35 0%, #007a48 30%, #009b60 55%, #ff8c00 80%, #ff6b00 100%);
+}
+.hero-city{
+  position:absolute;bottom:0;right:0;
+  width:65%;height:100%;
+  opacity:.18;
+}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to right, rgba(0,92,53,.65) 0%, transparent 70%);
+}
+.hero-content{position:relative;z-index:2;max-width:640px}
+.hero-greeting{
+  font-size:clamp(24px,4vw,38px);
+  font-weight:800;color:#fff;
+  letter-spacing:-.025em;line-height:1.15;
+  margin-bottom:10px;
+}
+.hero-sub{
+  font-size:15px;color:rgba(255,255,255,.75);
+  line-height:1.6;max-width:480px;
+}
+
+/* ── Quick access row ── */
+.quickaccess{
+  background:var(--white);
+  border-bottom:1px solid var(--ink-100);
+  padding:0 40px;
+}
+.qa-inner{
+  max-width:1240px;margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:0;
+}
+.qa-item{
+  display:flex;align-items:center;gap:14px;
+  padding:18px 20px 18px 0;
+  border-right:1px solid var(--ink-100);
+  cursor:pointer;
+  transition:background .15s;
+  text-decoration:none;color:inherit;
+}
+.qa-item:last-child{border-right:none}
+.qa-item:hover .qa-label-main{color:var(--da-green)}
+.qa-icon-wrap{
+  width:40px;height:40px;border-radius:var(--r);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.qa-label-main{
+  font-size:13px;font-weight:600;color:var(--ink-900);
+  line-height:1.3;
+  transition:color .15s;
+}
+.qa-label-sub{
+  font-size:11.5px;color:var(--ink-400);
+  margin-top:2px;
+}
+.qa-arrow{
+  margin-left:auto;flex-shrink:0;
+  color:var(--ink-300);
+}
+
+/* ── Page body ── */
+.page-body{
+  max-width:1240px;
+  margin:0 auto;
+  padding:32px 40px 60px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:32px;
+}
+@media(max-width:900px){
+  .page-body{grid-template-columns:1fr;padding:24px 20px 48px}
+  .qa-inner{grid-template-columns:repeat(3,1fr)}
+  .qa-item:nth-child(3){border-right:none}
+  .topnav{padding:0 16px}
+  .hero{padding:24px 20px;height:200px}
+  .quickaccess{padding:0 16px}
+}
+
+/* ── Section card ── */
+.section-card{
+  background:var(--white);
+  border:1px solid var(--ink-100);
+  border-radius:var(--r-lg);
+  overflow:hidden;
+  box-shadow:var(--sh);
+}
+.section-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 24px 16px;
+  border-bottom:1px solid var(--ink-100);
+}
+.section-title{
+  font-size:16px;font-weight:700;color:var(--ink-900);
+  letter-spacing:-.01em;
+}
+.view-all{
+  font-size:13px;font-weight:600;color:var(--da-green);
+  display:flex;align-items:center;gap:4px;
+  transition:gap .15s;
+}
+.view-all:hover{gap:7px}
+
+/* ── Key Dates ── */
+.date-list{padding:0 24px}
+.date-item{
+  display:flex;align-items:center;gap:16px;
+  padding:14px 0;
+  border-bottom:1px solid var(--ink-50);
+  cursor:pointer;
+  transition:background .1s;
+  text-decoration:none;color:inherit;
+}
+.date-item:last-child{border-bottom:none}
+.date-item:hover{opacity:.85}
+.date-cal{
+  width:48px;flex-shrink:0;text-align:center;
+}
+.date-month{
+  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--da-green);line-height:1;
+}
+.date-day{
+  font-size:24px;font-weight:800;color:var(--ink-900);
+  letter-spacing:-.03em;line-height:1.1;
+}
+.date-info{flex:1;min-width:0}
+.date-name{
+  font-size:13.5px;font-weight:600;color:var(--ink-900);
+  line-height:1.35;
+}
+.date-audience{
+  font-size:11.5px;color:var(--ink-400);margin-top:2px;
+}
+.date-tag{
+  font-size:10.5px;font-weight:700;
+  padding:3px 10px;border-radius:999px;
+  white-space:nowrap;flex-shrink:0;
+  letter-spacing:.02em;
+}
+.date-chevron{color:var(--ink-300);flex-shrink:0}
+
+/* Tag colours — DA26 */
+.tag-registration{background:#dcfce7;color:#15803d}
+.tag-accommodation{background:#e6f4ee;color:#005c35}
+.tag-uniform{background:#fff7ed;color:#c2410c}
+.tag-transport{background:#fef3c7;color:#92400e}
+.tag-freight{background:#dbeafe;color:#1d4ed8}
+.tag-entry{background:#fce7f3;color:#9d174d}
+.tag-medical{background:#f0fdf4;color:#166534}
+.tag-village{background:#f5f3ff;color:#6d28d9}
+
+/* ── News & Comms ── */
+.news-list{padding:0 24px}
+.news-item{
+  display:flex;gap:16px;
+  padding:14px 0;
+  border-bottom:1px solid var(--ink-50);
+  cursor:pointer;
+  transition:opacity .15s;
+  text-decoration:none;color:inherit;
+}
+.news-item:last-child{border-bottom:none}
+.news-item:hover{opacity:.85}
+.news-thumb{
+  width:80px;height:64px;border-radius:var(--r);
+  flex-shrink:0;overflow:hidden;
+}
+.news-body{flex:1;min-width:0}
+.news-category{
+  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:4px;
+}
+.cat-news{color:var(--da-green)}
+.cat-comm{color:var(--da-orange)}
+.cat-update{color:#0369a1}
+.news-date{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.news-date-month{font-size:11px;color:var(--ink-400)}
+.news-date-day{font-size:20px;font-weight:800;color:var(--ink-900);letter-spacing:-.02em}
+.news-title{
+  font-size:13.5px;font-weight:600;color:var(--ink-900);
+  line-height:1.4;margin-bottom:4px;
+}
+.news-excerpt{font-size:12px;color:var(--ink-500);line-height:1.55}
+.news-chevron{color:var(--ink-300);flex-shrink:0;align-self:center}
+
+/* ── Functional areas ── */
+.func-section{
+  grid-column:1/-1;
+  background:var(--white);
+  border:1px solid var(--ink-100);
+  border-radius:var(--r-lg);
+  overflow:hidden;
+  box-shadow:var(--sh);
+}
+.func-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 24px 18px;
+  border-bottom:1px solid var(--ink-100);
+}
+.func-grid{
+  display:flex;align-items:stretch;
+  padding:20px 24px;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.func-item{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  padding:16px 20px;
+  border-radius:var(--r-lg);
+  border:1px solid var(--ink-100);
+  cursor:pointer;
+  transition:background .15s,border-color .15s,transform .15s;
+  text-decoration:none;color:inherit;
+  flex:1;min-width:100px;text-align:center;
+}
+.func-item:hover{
+  background:var(--da-light);
+  border-color:rgba(0,92,53,.2);
+  transform:translateY(-2px);
+}
+.func-icon{
+  width:44px;height:44px;border-radius:var(--r-lg);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+}
+.func-label{font-size:12.5px;font-weight:600;color:var(--ink-700);line-height:1.3}
+
+/* ── Countdown banner ── */
+.countdown-banner{
+  background:linear-gradient(135deg,var(--da-green) 0%,var(--da-green-mid) 60%,var(--da-green-light) 100%);
+  padding:16px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:20px;
+}
+.cd-label-text{
+  font-size:13px;font-weight:600;color:rgba(255,255,255,.75);
+  white-space:nowrap;
+}
+.cd-units{display:flex;gap:12px;align-items:center}
+.cd-unit{
+  text-align:center;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:var(--r);
+  padding:10px 14px;min-width:60px;
+}
+.cd-num{
+  font-size:22px;font-weight:800;color:#fff;
+  letter-spacing:-.02em;display:block;line-height:1;
+}
+.cd-lbl{
+  font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);margin-top:3px;display:block;
+}
+.cd-date-text{
+  font-size:12px;color:rgba(255,255,255,.55);
+  white-space:nowrap;
+}
+@media(max-width:700px){
+  .countdown-banner{flex-direction:column;text-align:center;padding:16px 20px}
+}
+
+/* ── Footer ── */
+.site-footer{
+  background:var(--da-green);
+  padding:20px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-top:3px solid var(--da-orange);
+}
+.footer-brand{font-size:13px;font-weight:600;color:rgba(255,255,255,.7)}
+.footer-sub{font-size:12px;color:rgba(255,255,255,.35);font-style:italic}
+.footer-back{
+  font-size:12.5px;color:rgba(255,255,255,.5);
+  display:flex;align-items:center;gap:6px;
+  transition:color .15s;
+}
+.footer-back:hover{color:rgba(255,255,255,.85)}
+
+@media(max-width:600px){
+  .func-grid{flex-direction:column}
+  .func-item{flex-direction:row;justify-content:flex-start;text-align:left;min-width:unset}
+  .site-footer{flex-direction:column;gap:8px;text-align:center;padding:16px 20px}
+  .topnav .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ── Top navigation ── -->
+<nav class="topnav">
+  <div class="nav-logo">
+    <div class="logo-mark">
+      <span class="logo-mark-text">DA26</span>
+      <div class="logo-mark-rings">
+        <div class="logo-ring" style="border-color:#60a5fa"></div>
+        <div class="logo-ring" style="border-color:#fbbf24"></div>
+        <div class="logo-ring" style="border-color:#f9fafb"></div>
+        <div class="logo-ring" style="border-color:#34d399"></div>
+        <div class="logo-ring" style="border-color:#f87171"></div>
+      </div>
+    </div>
+    <div class="logo-name">
+      <span class="logo-title">Games Information Hub</span>
+      <span class="logo-sub">Dakar 2026 Youth Olympic Games 🇸🇳</span>
+    </div>
+  </div>
+
+  <div class="nav-links">
+    <a href="da26.html" class="nav-link active">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a href="index.html#games-services" class="nav-link">Games Services</a>
+    <a href="index.html" class="nav-link">
+      Games Information / Functional Area
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-400)"><polyline points="6 9 12 15 18 9"/></svg>
+    </a>
+    <a href="index.html#sport" class="nav-link">Sport</a>
+    <a href="index.html#team" class="nav-link">Team Behind the Team</a>
+  </div>
+
+  <div class="nav-right">
+    <div class="nav-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M16 16l4 4"/></svg>
+      <input type="text" placeholder="Search the hub…" aria-label="Search"/>
+    </div>
+    <button class="nav-icon-btn" title="Notifications" aria-label="Notifications">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+      <span class="nav-badge">5</span>
+    </button>
+    <div class="nav-avatar" title="Your profile" role="button">SP</div>
+  </div>
+</nav>
+
+<!-- ── Hero banner ── -->
+<div class="hero">
+  <div class="hero-bg"></div>
+
+  <!-- Dakar skyline SVG -->
+  <svg class="hero-city" viewBox="0 0 800 260" preserveAspectRatio="xMaxYMax meet" xmlns="http://www.w3.org/2000/svg">
+    <!-- Dakar skyline: lower profile, mosque, Atlantic coast feel -->
+    <rect x="0" y="130" width="45" height="130" fill="#fff"/>
+    <rect x="10" y="110" width="25" height="22" fill="#fff"/>
+    <rect x="55" y="140" width="38" height="120" fill="#fff"/>
+    <rect x="103" y="100" width="55" height="160" fill="#fff"/>
+    <rect x="115" y="82" width="31" height="22" fill="#fff"/>
+    <!-- Mosque Grande (simplified) -->
+    <rect x="168" y="70" width="75" height="190" fill="#fff"/>
+    <ellipse cx="205" cy="70" rx="37" ry="26" fill="#fff"/>
+    <rect x="200" y="28" width="10" height="44" fill="#fff"/>
+    <!-- Crescent on minaret -->
+    <path d="M205,24 a8,8 0 1,1 0,0.001" stroke="#fff" stroke-width="3" fill="none"/>
+    <rect x="253" y="115" width="40" height="145" fill="#fff"/>
+    <rect x="303" y="90" width="50" height="170" fill="#fff"/>
+    <rect x="315" y="72" width="26" height="20" fill="#fff"/>
+    <rect x="363" y="120" width="35" height="140" fill="#fff"/>
+    <rect x="408" y="95" width="48" height="165" fill="#fff"/>
+    <rect x="420" y="78" width="24" height="20" fill="#fff"/>
+    <rect x="466" y="130" width="38" height="130" fill="#fff"/>
+    <rect x="514" y="105" width="52" height="155" fill="#fff"/>
+    <rect x="526" y="85" width="28" height="22" fill="#fff"/>
+    <rect x="576" y="118" width="40" height="142" fill="#fff"/>
+    <rect x="626" y="85" width="55" height="175" fill="#fff"/>
+    <rect x="638" y="65" width="31" height="22" fill="#fff"/>
+    <rect x="691" y="125" width="42" height="135" fill="#fff"/>
+    <rect x="743" y="110" width="57" height="150" fill="#fff"/>
+    <!-- Baobab trees -->
+    <rect x="90" y="155" width="7" height="45" fill="#fff"/>
+    <ellipse cx="93" cy="148" rx="18" ry="13" fill="#fff" opacity=".6"/>
+    <rect x="352" y="165" width="6" height="35" fill="#fff"/>
+    <ellipse cx="355" cy="158" rx="16" ry="11" fill="#fff" opacity=".6"/>
+    <rect x="700" y="155" width="6" height="35" fill="#fff"/>
+    <ellipse cx="703" cy="148" rx="15" ry="11" fill="#fff" opacity=".6"/>
+    <!-- Ocean waves at bottom -->
+    <path d="M0 248 Q40 240 80 248 Q120 256 160 248 Q200 240 240 248 Q280 256 320 248 Q360 240 400 248 Q440 256 480 248 Q520 240 560 248 Q600 256 640 248 Q680 240 720 248 Q760 256 800 248 L800 260 L0 260 Z" fill="#fff" opacity=".08"/>
+  </svg>
+
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1 class="hero-greeting">Welcome, Stephanie 👋</h1>
+    <p class="hero-sub">Your official source for Dakar 2026 Youth Olympic Games information, resources and updates.</p>
+  </div>
+</div>
+
+<!-- ── Countdown banner ── -->
+<div class="countdown-banner">
+  <span class="cd-label-text">Dakar 2026 Opening Ceremony</span>
+  <div class="cd-units">
+    <div class="cd-unit"><span class="cd-num" id="cd-d">--</span><span class="cd-lbl">Days</span></div>
+    <div class="cd-unit"><span class="cd-num" id="cd-h">--</span><span class="cd-lbl">Hours</span></div>
+    <div class="cd-unit"><span class="cd-num" id="cd-m">--</span><span class="cd-lbl">Mins</span></div>
+    <div class="cd-unit"><span class="cd-num" id="cd-s">--</span><span class="cd-lbl">Secs</span></div>
+  </div>
+  <span class="cd-date-text">31 October 2026 · Dakar, Senegal 🇸🇳</span>
+</div>
+
+<!-- ── Quick access row ── -->
+<div class="quickaccess">
+  <div class="qa-inner">
+    <a href="index.html#key-dates" class="qa-item">
+      <div class="qa-icon-wrap" style="background:#dcfce7">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <div>
+        <div class="qa-label-main">Key Dates</div>
+        <div class="qa-label-sub">View all key dates for DA26</div>
+      </div>
+      <span class="qa-arrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </span>
+    </a>
+    <a href="index.html#planning-trips" class="qa-item">
+      <div class="qa-icon-wrap" style="background:#fff7ed">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c2410c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18a2 2 0 012-2.18h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      </div>
+      <div>
+        <div class="qa-label-main">Planning Trips / Official Visits</div>
+        <div class="qa-label-sub">Submit a request</div>
+      </div>
+      <span class="qa-arrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </span>
+    </a>
+    <a href="index.html#liaison" class="qa-item">
+      <div class="qa-icon-wrap" style="background:#e6f4ee">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#005c35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      </div>
+      <div>
+        <div class="qa-label-main">Local liaison requests</div>
+        <div class="qa-label-sub">Submit a request</div>
+      </div>
+      <span class="qa-arrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </span>
+    </a>
+    <a href="index.html#support" class="qa-item">
+      <div class="qa-icon-wrap" style="background:#fef3c7">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div>
+        <div class="qa-label-main">Submit a question</div>
+        <div class="qa-label-sub">Get support</div>
+      </div>
+      <span class="qa-arrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </span>
+    </a>
+    <a href="index.html#newsletters" class="qa-item">
+      <div class="qa-icon-wrap" style="background:#fce7f3">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9d174d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <div>
+        <div class="qa-label-main">Newsletters and Comms</div>
+        <div class="qa-label-sub">View all updates</div>
+      </div>
+      <span class="qa-arrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </span>
+    </a>
+    <a href="index.html#webinars" class="qa-item">
+      <div class="qa-icon-wrap" style="background:#f3e8ff">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7e22ce" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+      </div>
+      <div>
+        <div class="qa-label-main">Information session &amp; webinar</div>
+        <div class="qa-label-sub">View recordings</div>
+      </div>
+      <span class="qa-arrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </span>
+    </a>
+  </div>
+</div>
+
+<!-- ── Page body ── -->
+<main class="page-body">
+
+  <!-- Key Dates -->
+  <div class="section-card">
+    <div class="section-header">
+      <h2 class="section-title">Key Dates</h2>
+      <a href="index.html#key-dates" class="view-all">
+        View all
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    </div>
+    <div class="date-list">
+
+      <a href="index.html#key-dates" class="date-item">
+        <div class="date-cal">
+          <div class="date-month">JUN</div>
+          <div class="date-day">30</div>
+        </div>
+        <div class="date-info">
+          <div class="date-name">Preliminary Entry Deadline</div>
+          <div class="date-audience">All NOCs</div>
+        </div>
+        <span class="date-tag tag-registration">Registration</span>
+        <span class="date-chevron">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </span>
+      </a>
+
+      <a href="index.html#key-dates" class="date-item">
+        <div class="date-cal">
+          <div class="date-month">JUL</div>
+          <div class="date-day">15</div>
+        </div>
+        <div class="date-info">
+          <div class="date-name">Village &amp; Accommodation Portal Opens</div>
+          <div class="date-audience">All NOCs</div>
+        </div>
+        <span class="date-tag tag-village">Village</span>
+        <span class="date-chevron">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </span>
+      </a>
+
+      <a href="index.html#key-dates" class="date-item">
+        <div class="date-cal">
+          <div class="date-month">AUG</div>
+          <div class="date-day">01</div>
+        </div>
+        <div class="date-info">
+          <div class="date-name">Team Uniform Guidelines Published</div>
+          <div class="date-audience">All NOCs</div>
+        </div>
+        <span class="date-tag tag-uniform">Uniform</span>
+        <span class="date-chevron">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </span>
+      </a>
+
+      <a href="index.html#key-dates" class="date-item">
+        <div class="date-cal">
+          <div class="date-month">SEP</div>
+          <div class="date-day">01</div>
+        </div>
+        <div class="date-info">
+          <div class="date-name">Transport Accreditation Window Opens</div>
+          <div class="date-audience">All NOCs</div>
+        </div>
+        <span class="date-tag tag-transport">Transport</span>
+        <span class="date-chevron">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </span>
+      </a>
+
+      <a href="index.html#key-dates" class="date-item">
+        <div class="date-cal">
+          <div class="date-month">SEP</div>
+          <div class="date-day">15</div>
+        </div>
+        <div class="date-info">
+          <div class="date-name">Medical Forms Submission Deadline</div>
+          <div class="date-audience">All Athletes</div>
+        </div>
+        <span class="date-tag tag-medical">Medical</span>
+        <span class="date-chevron">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </span>
+      </a>
+
+      <a href="index.html#key-dates" class="date-item">
+        <div class="date-cal">
+          <div class="date-month">OCT</div>
+          <div class="date-day">10</div>
+        </div>
+        <div class="date-info">
+          <div class="date-name">Final Entry &amp; Freight Arrival Deadline</div>
+          <div class="date-audience">All NOCs</div>
+        </div>
+        <span class="date-tag tag-freight">Freight &amp; Entry</span>
+        <span class="date-chevron">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </span>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- Latest News & Communications -->
+  <div class="section-card">
+    <div class="section-header">
+      <h2 class="section-title">Latest News &amp; Communications</h2>
+      <a href="index.html#news" class="view-all">
+        View all
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    </div>
+    <div class="news-list">
+
+      <a href="index.html#news" class="news-item">
+        <div class="news-thumb">
+          <svg width="100%" height="100%" viewBox="0 0 80 64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="80" height="64" fill="url(#da-grad1)"/>
+            <defs><linearGradient id="da-grad1" x1="0" y1="0" x2="80" y2="64"><stop offset="0%" stop-color="#005c35"/><stop offset="100%" stop-color="#009b60"/></linearGradient></defs>
+            <!-- Dakar thumb: baobab + skyline -->
+            <rect x="10" y="30" width="10" height="34" fill="rgba(255,255,255,.2)"/>
+            <ellipse cx="15" cy="25" rx="12" ry="9" fill="rgba(255,255,255,.2)"/>
+            <rect x="30" y="20" width="14" height="44" fill="rgba(255,255,255,.2)"/>
+            <ellipse cx="37" cy="15" rx="10" ry="7" fill="rgba(255,255,255,.2)"/>
+            <rect x="50" y="35" width="20" height="29" fill="rgba(255,255,255,.15)"/>
+            <text x="40" y="58" text-anchor="middle" fill="rgba(255,213,0,.8)" font-size="7" font-weight="700" font-family="system-ui">DA26</text>
+          </svg>
+        </div>
+        <div class="news-body">
+          <div class="news-category cat-news">NEWS</div>
+          <div class="news-date">
+            <div>
+              <div class="news-date-month">MAY</div>
+              <div class="news-date-day">20</div>
+            </div>
+          </div>
+          <div class="news-title">DA26 Transport &amp; Venue Plan Released</div>
+          <div class="news-excerpt">Key update on transport corridors and venue access for Dakar 2026 Games time operations.</div>
+        </div>
+        <span class="news-chevron">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </span>
+      </a>
+
+      <a href="index.html#news" class="news-item">
+        <div class="news-thumb">
+          <svg width="100%" height="100%" viewBox="0 0 80 64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="80" height="64" fill="url(#da-grad2)"/>
+            <defs><linearGradient id="da-grad2" x1="0" y1="0" x2="80" y2="64"><stop offset="0%" stop-color="#ff6b00"/><stop offset="100%" stop-color="#ff8c00"/></linearGradient></defs>
+            <!-- YOG logo hint -->
+            <text x="40" y="28" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="16" font-weight="900" font-family="system-ui">YOG</text>
+            <text x="40" y="44" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10" font-weight="600" font-family="system-ui">DAKAR 26</text>
+          </svg>
+        </div>
+        <div class="news-body">
+          <div class="news-category cat-news">NEWS</div>
+          <div class="news-date">
+            <div>
+              <div class="news-date-month">MAY</div>
+              <div class="news-date-day">14</div>
+            </div>
+          </div>
+          <div class="news-title">Information Session Recording Available</div>
+          <div class="news-excerpt">Watch the May information session recording and download the presentation slides.</div>
+        </div>
+        <span class="news-chevron">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </span>
+      </a>
+
+      <a href="index.html#news" class="news-item">
+        <div class="news-thumb">
+          <svg width="100%" height="100%" viewBox="0 0 80 64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="80" height="64" fill="url(#da-grad3)"/>
+            <defs><linearGradient id="da-grad3" x1="0" y1="0" x2="80" y2="64"><stop offset="0%" stop-color="#007a48"/><stop offset="100%" stop-color="#ff6b00"/></linearGradient></defs>
+            <!-- Runner -->
+            <ellipse cx="40" cy="16" rx="7" ry="7" fill="rgba(255,255,255,.7)"/>
+            <path d="M 40 23 L 34 38 L 28 52" stroke="rgba(255,255,255,.65)" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+            <path d="M 40 23 L 46 37 L 53 50" stroke="rgba(255,255,255,.55)" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+            <path d="M 38 30 L 27 27" stroke="rgba(255,255,255,.6)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+            <path d="M 42 28 L 53 25" stroke="rgba(255,255,255,.6)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <div class="news-body">
+          <div class="news-category cat-comm">COMMUNICATION</div>
+          <div class="news-date">
+            <div>
+              <div class="news-date-month">MAY</div>
+              <div class="news-date-day">09</div>
+            </div>
+          </div>
+          <div class="news-title">Quota Matrix — Athletics &amp; Swimming Updated</div>
+          <div class="news-excerpt">The latest quota allocations for Athletics and Swimming have been published. Review your team's allocations.</div>
+        </div>
+        <span class="news-chevron">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </span>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- Quick Access to Key Functional Areas -->
+  <div class="func-section">
+    <div class="func-header">
+      <h2 class="section-title">Quick Access to Key Functional Areas</h2>
+    </div>
+    <div class="func-grid">
+      <a href="index.html#sport-venues" class="func-item">
+        <div class="func-icon" style="background:#dcfce7">🏟️</div>
+        <span class="func-label">Sport &amp; Venues</span>
+      </a>
+      <a href="index.html#transport" class="func-item">
+        <div class="func-icon" style="background:#fff7ed">🚌</div>
+        <span class="func-label">Transport</span>
+      </a>
+      <a href="index.html#village" class="func-item">
+        <div class="func-icon" style="background:#e6f4ee">🏨</div>
+        <span class="func-label">Village &amp; Accommodation</span>
+      </a>
+      <a href="index.html#team-membership" class="func-item">
+        <div class="func-icon" style="background:#f0fdf4">👥</div>
+        <span class="func-label">Team Membership / Team Journey</span>
+      </a>
+      <a href="index.html#medical" class="func-item">
+        <div class="func-icon" style="background:#fce7f3">⚕️</div>
+        <span class="func-label">Medical</span>
+      </a>
+      <a href="index.html#media" class="func-item">
+        <div class="func-icon" style="background:#fef3c7">📷</div>
+        <span class="func-label">Media</span>
+      </a>
+      <a href="index.html#ticketing" class="func-item">
+        <div class="func-icon" style="background:#f3e8ff">🎟️</div>
+        <span class="func-label">Ticketing</span>
+      </a>
+      <a href="index.html" class="func-item">
+        <div class="func-icon" style="background:#f1f5f9">···</div>
+        <span class="func-label">More</span>
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<!-- ── Footer ── -->
+<footer class="site-footer">
+  <div>
+    <div class="footer-brand">DA26 Games Information Hub</div>
+    <div class="footer-sub">Your Official Source for Dakar 2026 Information</div>
+  </div>
+  <a href="portal-home.html" class="footer-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to portal home
+  </a>
+  <div style="display:flex;align-items:center;gap:12px">
+    <span style="font-size:12px;color:rgba(255,255,255,.35)">🌐 English (AU)</span>
+    <span style="font-size:12px;color:rgba(255,255,255,.35)">Need help?</span>
+    <a href="index.html#support" style="font-size:12px;color:var(--da-orange);font-weight:600">Contact us</a>
+  </div>
+</footer>
+
+<!-- Countdown script -->
+<script>
+(function(){
+  var target = new Date('2026-10-31T00:00:00');
+  function tick(){
+    var now = new Date();
+    var diff = target - now;
+    if(diff < 0){ diff = 0; }
+    var d = Math.floor(diff / 86400000);
+    var h = Math.floor((diff % 86400000) / 3600000);
+    var m = Math.floor((diff % 3600000) / 60000);
+    var s = Math.floor((diff % 60000) / 1000);
+    var el = function(id){ return document.getElementById(id); };
+    if(el('cd-d')) el('cd-d').textContent = d;
+    if(el('cd-h')) el('cd-h').textContent = String(h).padStart(2,'0');
+    if(el('cd-m')) el('cd-m').textContent = String(m).padStart(2,'0');
+    if(el('cd-s')) el('cd-s').textContent = String(s).padStart(2,'0');
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>
+
+</body>
+</html>
