@@ -6871,7 +6871,7 @@ function GamesSwitcher({
 }
 function App() {
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
-  const [gamesId, setGamesId] = React.useState('da26');
+  const [gamesId, setGamesId] = React.useState((function(){var p=new URLSearchParams(window.location.search).get('game');return(p==='la28'||p==='da26')?p:'da26';})());
   const [role, setRole] = React.useState('hpm');
   const [tab, setTab] = React.useState('home');
   const [activeSection, setActiveSection] = React.useState(null);
