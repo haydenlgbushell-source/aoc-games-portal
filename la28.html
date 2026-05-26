@@ -455,15 +455,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       Home
     </a>
-    <a href="index.html?game=la28#games-services" class="nav-link">Games Services</a>
-    <a href="index.html?game=la28" class="nav-link">
-      Games Information / Functional Area
-      <span class="nav-link-caret">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-      </span>
-    </a>
-    <a href="index.html?game=la28#sport" class="nav-link">Sport</a>
-    <a href="index.html?game=la28#team" class="nav-link">Team Behind the Team</a>
+    <a href="index.html?game=la28" class="nav-link">General Resources</a>
+    <a href="index.html?game=la28" class="nav-link">Delegation Ops</a>
+    <a href="index.html?game=la28" class="nav-link">Qualification</a>
+    <a href="index.html?game=la28" class="nav-link">Travel &amp; Visa</a>
+    <a href="index.html?game=la28" class="nav-link">Venue Masterplan</a>
   </div>
 
   <div class="nav-right">
@@ -559,6 +555,66 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   </a>
 </div>
 
+<!-- ── KPI stats strip ── -->
+<style>
+.kpi-strip{background:var(--white);border-bottom:1px solid var(--ink-100);padding:16px 40px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.kpi-card{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:var(--r-lg);border:1px solid var(--ink-100);}
+.kpi-card-deadline{background:#fff5f5;border-color:rgba(220,38,38,.12);}
+.kpi-card-progress{background:var(--la-bg);border-color:rgba(0,87,183,.12);}
+.kpi-card-summary{background:var(--la-light);border-color:rgba(0,87,183,.15);}
+.kpi-badge{width:56px;height:56px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;gap:1px;}
+.kpi-badge-deadline{background:#dc2626;}
+.kpi-badge-progress{background:var(--la-blue);}
+.kpi-badge-summary{background:var(--la-navy);}
+.kpi-num{font-size:20px;font-weight:800;color:#fff;line-height:1;letter-spacing:-.03em;}
+.kpi-unit{font-size:9.5px;color:rgba(255,255,255,.75);font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+.kpi-body{flex:1;min-width:0;}
+.kpi-body-label{font-size:13px;font-weight:600;color:var(--ink-900);line-height:1.35;}
+.kpi-body-sub{font-size:11.5px;color:var(--ink-500);margin-top:2px;}
+.kpi-progress-bar{height:4px;background:var(--ink-100);border-radius:999px;margin-top:8px;overflow:hidden;}
+.kpi-progress-fill{height:100%;background:var(--la-blue);border-radius:999px;}
+.kpi-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;margin-top:6px;}
+.kpi-summary-item{font-size:11.5px;color:var(--ink-500);}
+.kpi-summary-item strong{color:var(--ink-900);font-weight:700;}
+@media(max-width:900px){.kpi-strip{grid-template-columns:1fr;padding:12px 20px;}}
+</style>
+<div class="kpi-strip">
+  <div class="kpi-card kpi-card-deadline">
+    <div class="kpi-badge kpi-badge-deadline">
+      <span class="kpi-num">45</span>
+      <span class="kpi-unit">DAYS</span>
+    </div>
+    <div class="kpi-body">
+      <div class="kpi-body-label">19 Jun — Sport entry standards</div>
+      <div class="kpi-body-sub">Submit federation criteria for review</div>
+    </div>
+  </div>
+  <div class="kpi-card kpi-card-progress">
+    <div class="kpi-badge kpi-badge-progress">
+      <span class="kpi-num">24%</span>
+    </div>
+    <div class="kpi-body">
+      <div class="kpi-body-label">Long-range planning</div>
+      <div class="kpi-body-sub">Target: Mar 2028</div>
+      <div class="kpi-progress-bar"><div class="kpi-progress-fill" style="width:24%"></div></div>
+    </div>
+  </div>
+  <div class="kpi-card kpi-card-summary">
+    <div class="kpi-badge kpi-badge-summary">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+    </div>
+    <div class="kpi-body">
+      <div class="kpi-body-label">Your LA28 access summary</div>
+      <div class="kpi-summary-grid">
+        <span class="kpi-summary-item"><strong>5</strong> sections</span>
+        <span class="kpi-summary-item"><strong>16</strong> documents</span>
+        <span class="kpi-summary-item"><strong>4</strong> new items</span>
+        <span class="kpi-summary-item"><strong>1</strong> deadline</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ── Quick access row ── -->
 <div class="quickaccess">
   <div class="qa-inner">
@@ -574,31 +630,31 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
       </span>
     </a>
-    <a href="index.html?game=la28#planning-trips" class="qa-item">
-      <div class="qa-icon-wrap" style="background:#e0f2fe">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18a2 2 0 012-2.18h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+    <a href="index.html?game=la28" class="qa-item">
+      <div class="qa-icon-wrap" style="background:#dbeafe">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
       </div>
       <div>
-        <div class="qa-label-main">Planning Trips / Official Visits</div>
-        <div class="qa-label-sub">Submit a request</div>
+        <div class="qa-label-main">General Resources</div>
+        <div class="qa-label-sub">Guides, forms &amp; templates</div>
       </div>
       <span class="qa-arrow">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
       </span>
     </a>
-    <a href="index.html?game=la28#liaison" class="qa-item">
+    <a href="index.html?game=la28" class="qa-item">
       <div class="qa-icon-wrap" style="background:#f0fdf4">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
       </div>
       <div>
-        <div class="qa-label-main">Local liaison requests</div>
-        <div class="qa-label-sub">Submit a request</div>
+        <div class="qa-label-main">Delegation Ops</div>
+        <div class="qa-label-sub">Pre-departure &amp; arrival</div>
       </div>
       <span class="qa-arrow">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
       </span>
     </a>
-    <a href="index.html?game=la28#support" class="qa-item">
+    <a href="index.html?game=la28" class="qa-item">
       <div class="qa-icon-wrap" style="background:#fef3c7">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       </div>
@@ -610,13 +666,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
       </span>
     </a>
-    <a href="index.html?game=la28#newsletters" class="qa-item">
+    <a href="index.html?game=la28" class="qa-item">
       <div class="qa-icon-wrap" style="background:#fce7f3">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9d174d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </div>
       <div>
-        <div class="qa-label-main">Newsletters and Comms</div>
-        <div class="qa-label-sub">View all updates</div>
+        <div class="qa-label-main">News &amp; Announcements</div>
+        <div class="qa-label-sub">Latest LA28 updates</div>
       </div>
       <span class="qa-arrow">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
@@ -755,84 +811,91 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     </div>
     <div class="news-list">
 
-      <a href="index.html?game=la28#news" class="news-item">
+      <a href="index.html?game=la28" class="news-item">
         <div class="news-thumb">
           <svg width="100%" height="100%" viewBox="0 0 80 64" xmlns="http://www.w3.org/2000/svg">
             <rect width="80" height="64" fill="url(#la-grad1)"/>
-            <defs><linearGradient id="la-grad1" x1="0" y1="0" x2="80" y2="64"><stop offset="0%" stop-color="#0e1f5b"/><stop offset="100%" stop-color="#6b21a8"/></linearGradient></defs>
-            <!-- Palm + skyline -->
-            <rect x="8" y="28" width="8" height="36" fill="rgba(255,255,255,.15)"/>
-            <rect x="20" y="18" width="12" height="46" fill="rgba(255,255,255,.15)"/>
-            <rect x="36" y="10" width="16" height="54" fill="rgba(255,255,255,.15)"/>
-            <ellipse cx="18" cy="22" rx="10" ry="7" fill="rgba(255,255,255,.12)"/>
-            <line x1="18" y1="29" x2="18" y2="42" stroke="rgba(255,255,255,.15)" stroke-width="2"/>
-            <text x="40" y="36" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="7" font-weight="700" font-family="system-ui">LA28</text>
+            <defs><linearGradient id="la-grad1" x1="0" y1="0" x2="80" y2="64"><stop offset="0%" stop-color="#0e1f5b"/><stop offset="100%" stop-color="#1a3a9c"/></linearGradient></defs>
+            <rect x="8" y="30" width="10" height="34" fill="rgba(255,255,255,.15)"/>
+            <rect x="22" y="20" width="13" height="44" fill="rgba(255,255,255,.15)"/>
+            <rect x="39" y="12" width="16" height="52" fill="rgba(255,255,255,.15)"/>
+            <ellipse cx="20" cy="24" rx="10" ry="6" fill="rgba(255,255,255,.12)"/>
+            <line x1="20" y1="30" x2="20" y2="44" stroke="rgba(255,255,255,.15)" stroke-width="2"/>
+            <!-- Medal/star -->
+            <circle cx="62" cy="20" r="10" fill="rgba(255,213,0,.25)"/>
+            <text x="62" y="25" text-anchor="middle" fill="rgba(255,213,0,.9)" font-size="13" font-family="system-ui">★</text>
           </svg>
         </div>
         <div class="news-body">
-          <div class="news-category cat-news">NEWS</div>
+          <div class="news-category cat-news">QUALIFICATION</div>
           <div class="news-date">
             <div>
               <div class="news-date-month">MAY</div>
-              <div class="news-date-day">16</div>
+              <div class="news-date-day">26</div>
             </div>
           </div>
-          <div class="news-title">LA28 Transport Plan Overview</div>
-          <div class="news-excerpt">Important update on transport operations and accreditation for Games time.</div>
+          <div class="news-title">LA28 sport-entry standards — first draft circulated</div>
+          <div class="news-excerpt">NOCs invited to submit comments by 26 May. Standards document available in Qualification.</div>
         </div>
         <span class="news-chevron">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </span>
       </a>
 
-      <a href="index.html?game=la28#news" class="news-item">
+      <a href="index.html?game=la28" class="news-item">
         <div class="news-thumb">
           <svg width="100%" height="100%" viewBox="0 0 80 64" xmlns="http://www.w3.org/2000/svg">
             <rect width="80" height="64" fill="url(#la-grad2)"/>
             <defs><linearGradient id="la-grad2" x1="0" y1="0" x2="80" y2="64"><stop offset="0%" stop-color="#1a3a9c"/><stop offset="100%" stop-color="#0057b7"/></linearGradient></defs>
-            <text x="40" y="28" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="20" font-weight="900" font-family="system-ui">LA</text>
-            <text x="40" y="44" text-anchor="middle" fill="rgba(255,213,0,.8)" font-size="11" font-weight="700" font-family="system-ui">28</text>
+            <!-- Building (UCLA Village) -->
+            <rect x="16" y="20" width="48" height="44" rx="2" fill="rgba(255,255,255,.12)"/>
+            <rect x="24" y="28" width="8" height="10" rx="1" fill="rgba(255,255,255,.3)"/>
+            <rect x="36" y="28" width="8" height="10" rx="1" fill="rgba(255,255,255,.3)"/>
+            <rect x="48" y="28" width="8" height="10" rx="1" fill="rgba(255,255,255,.3)"/>
+            <rect x="30" y="42" width="20" height="22" rx="1" fill="rgba(255,255,255,.2)"/>
+            <text x="40" y="16" text-anchor="middle" fill="rgba(255,255,255,.6)" font-size="8" font-weight="700" font-family="system-ui">VILLAGE</text>
           </svg>
         </div>
         <div class="news-body">
-          <div class="news-category cat-news">NEWS</div>
+          <div class="news-category cat-update">VILLAGE</div>
           <div class="news-date">
             <div>
               <div class="news-date-month">MAY</div>
-              <div class="news-date-day">12</div>
+              <div class="news-date-day">25</div>
             </div>
           </div>
-          <div class="news-title">Information Session Recording Now Available</div>
-          <div class="news-excerpt">Watch the recording and access the presentation slides from our May information session.</div>
+          <div class="news-title">UCLA Village layout v2 — feedback window open</div>
+          <div class="news-excerpt">Version 2 incorporates NOC feedback on room block proximity to dining. Feedback window open until 15 May.</div>
         </div>
         <span class="news-chevron">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </span>
       </a>
 
-      <a href="index.html?game=la28#news" class="news-item">
+      <a href="index.html?game=la28" class="news-item">
         <div class="news-thumb">
           <svg width="100%" height="100%" viewBox="0 0 80 64" xmlns="http://www.w3.org/2000/svg">
             <rect width="80" height="64" fill="url(#la-grad3)"/>
-            <defs><linearGradient id="la-grad3" x1="0" y1="0" x2="80" y2="64"><stop offset="0%" stop-color="#0e4f8a"/><stop offset="100%" stop-color="#c2410c"/></linearGradient></defs>
-            <!-- Runner silhouette -->
-            <ellipse cx="40" cy="18" rx="8" ry="8" fill="rgba(255,255,255,.7)"/>
-            <path d="M 40 26 L 34 42 L 28 54" stroke="rgba(255,255,255,.65)" stroke-width="5" stroke-linecap="round" fill="none"/>
-            <path d="M 40 26 L 46 40 L 54 52" stroke="rgba(255,255,255,.55)" stroke-width="5" stroke-linecap="round" fill="none"/>
-            <path d="M 38 34 L 26 30" stroke="rgba(255,255,255,.6)" stroke-width="4" stroke-linecap="round" fill="none"/>
-            <path d="M 42 32 L 54 28" stroke="rgba(255,255,255,.6)" stroke-width="4" stroke-linecap="round" fill="none"/>
+            <defs><linearGradient id="la-grad3" x1="0" y1="0" x2="80" y2="64"><stop offset="0%" stop-color="#7f1d1d"/><stop offset="100%" stop-color="#dc2626"/></linearGradient></defs>
+            <!-- Sun/heat icon -->
+            <circle cx="40" cy="32" r="14" fill="rgba(255,255,255,.15)"/>
+            <circle cx="40" cy="32" r="8" fill="rgba(255,255,255,.3)"/>
+            <line x1="40" y1="10" x2="40" y2="18" stroke="rgba(255,255,255,.4)" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="40" y1="46" x2="40" y2="54" stroke="rgba(255,255,255,.4)" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="18" y1="32" x2="26" y2="32" stroke="rgba(255,255,255,.4)" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="54" y1="32" x2="62" y2="32" stroke="rgba(255,255,255,.4)" stroke-width="2.5" stroke-linecap="round"/>
           </svg>
         </div>
         <div class="news-body">
-          <div class="news-category cat-comm">COMMUNICATION</div>
+          <div class="news-category" style="color:#dc2626;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;">MEDICAL</div>
           <div class="news-date">
             <div>
               <div class="news-date-month">MAY</div>
-              <div class="news-date-day">08</div>
+              <div class="news-date-day">25</div>
             </div>
           </div>
-          <div class="news-title">Competition Schedule Update</div>
-          <div class="news-excerpt">The latest version of the competition schedule has been published.</div>
+          <div class="news-title">Heat policy consultation — submit comments by 26 May</div>
+          <div class="news-excerpt">LA28 heat management policy open for NOC consultation. Includes mandatory acclimatisation periods and enhanced polyclinic staffing.</div>
         </div>
         <span class="news-chevron">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
@@ -845,40 +908,56 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   <!-- Quick Access to Key Functional Areas -->
   <div class="func-section">
     <div class="func-header">
-      <h2 class="section-title">Quick Access to Key Functional Areas</h2>
+      <h2 class="section-title">LA28 Sections</h2>
     </div>
     <div class="func-grid">
-      <a href="index.html?game=la28#sport-venues" class="func-item">
-        <div class="func-icon" style="background:#dbeafe">🏟️</div>
-        <span class="func-label">Sport &amp; Venues</span>
-      </a>
-      <a href="index.html?game=la28#transport" class="func-item">
-        <div class="func-icon" style="background:#e0f2fe">🚌</div>
-        <span class="func-label">Transport</span>
-      </a>
-      <a href="index.html?game=la28#village" class="func-item">
-        <div class="func-icon" style="background:#dcfce7">🏨</div>
-        <span class="func-label">Village &amp; Accommodation</span>
-      </a>
-      <a href="index.html?game=la28#team-membership" class="func-item">
-        <div class="func-icon" style="background:#f0fdf4">👥</div>
-        <span class="func-label">Team Membership / Team Journey</span>
-      </a>
-      <a href="index.html?game=la28#medical" class="func-item">
-        <div class="func-icon" style="background:#fce7f3">⚕️</div>
-        <span class="func-label">Medical</span>
-      </a>
-      <a href="index.html?game=la28#media" class="func-item">
-        <div class="func-icon" style="background:#fef3c7">📷</div>
-        <span class="func-label">Media</span>
-      </a>
-      <a href="index.html?game=la28#ticketing" class="func-item">
-        <div class="func-icon" style="background:#f3e8ff">🎟️</div>
-        <span class="func-label">Ticketing</span>
+      <a href="index.html?game=la28" class="func-item">
+        <div class="func-icon" style="background:#dbeafe">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <span class="func-label">General Resources</span>
       </a>
       <a href="index.html?game=la28" class="func-item">
-        <div class="func-icon" style="background:#f1f5f9">···</div>
-        <span class="func-label">More</span>
+        <div class="func-icon" style="background:#e0f2fe">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <span class="func-label">Delegation Ops</span>
+      </a>
+      <a href="index.html?game=la28" class="func-item">
+        <div class="func-icon" style="background:#fef9c3">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a16207" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>
+        </div>
+        <span class="func-label">Qualification</span>
+      </a>
+      <a href="index.html?game=la28" class="func-item">
+        <div class="func-icon" style="background:#f0fdf4">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18a2 2 0 012-2.18h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <span class="func-label">Travel &amp; Visa</span>
+      </a>
+      <a href="index.html?game=la28" class="func-item">
+        <div class="func-icon" style="background:#ede9fe">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+        </div>
+        <span class="func-label">Venue Masterplan</span>
+      </a>
+      <a href="index.html?game=la28" class="func-item">
+        <div class="func-icon" style="background:#fff5f5">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <span class="func-label">Heat &amp; Hydration</span>
+      </a>
+      <a href="index.html?game=la28" class="func-item">
+        <div class="func-icon" style="background:#dcfce7">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        </div>
+        <span class="func-label">Sustainability</span>
+      </a>
+      <a href="index.html?game=la28" class="func-item">
+        <div class="func-icon" style="background:var(--ink-100)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--ink-500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>
+        </div>
+        <span class="func-label">All Sections</span>
       </a>
     </div>
   </div>
