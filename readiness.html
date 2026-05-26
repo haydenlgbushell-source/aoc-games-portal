@@ -1,0 +1,1023 @@
+<!doctype html>
+<!--
+  AOC Games Portal — Delegation Readiness Dashboard (SharePoint-Safe)
+  All CSS/JS inlined. No external dependencies.
+  No eval(), no new Function(), no inline event handlers, no fetch/XHR, no CDN.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Delegation Readiness — AOC Games Portal</title>
+<style>
+/* ── Design tokens ── */
+:root{
+  /* DA26 */
+  --da-green:#005c35;
+  --da-green-mid:#007a48;
+  --da-orange:#ff6b00;
+  --da-light:#e6f4ee;
+  --da-bg:#f5fcf8;
+
+  /* LA28 */
+  --la-navy:#0e1f5b;
+  --la-blue:#0057b7;
+  --la-gold:#ffd100;
+  --la-light:#e8eeff;
+  --la-bg:#f4f6ff;
+
+  /* Neutral */
+  --ink-900:#0d1a10;
+  --ink-700:#1e2d23;
+  --ink-600:#3a4a3f;
+  --ink-500:#5b6860;
+  --ink-400:#8a9690;
+  --ink-300:#bcc6be;
+  --ink-200:#dce4de;
+  --ink-100:#eef3ef;
+  --ink-50:#f6faf7;
+  --white:#fff;
+  --paper:#f8fafb;
+
+  --r:8px;
+  --r-lg:12px;
+  --r-xl:16px;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.07);
+  --sh-sm:0 1px 3px rgba(0,0,0,.05),0 2px 8px rgba(0,0,0,.06);
+}
+
+*,*:before,*:after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+  background:var(--paper);
+  color:var(--ink-900);
+  font-size:14px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+/* ── Top nav ── */
+.topnav{
+  background:var(--white);
+  border-bottom:1px solid var(--ink-100);
+  padding:0 40px;
+  height:64px;
+  display:flex;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:200;
+  box-shadow:0 1px 4px rgba(0,0,0,.06);
+  gap:0;
+}
+.nav-logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-right:28px;
+  flex-shrink:0;
+}
+.logo-mark{
+  width:42px;height:42px;border-radius:10px;
+  background:#0e1f5b;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:2px;flex-shrink:0;
+}
+.logo-mark-aoc{
+  font-size:11px;font-weight:900;color:#ffd100;
+  letter-spacing:.02em;line-height:1;
+}
+.logo-mark-rings{
+  display:flex;gap:2px;align-items:center;
+}
+.logo-ring{
+  width:6px;height:6px;border-radius:50%;border:1.5px solid rgba(255,255,255,.7);
+}
+.logo-ring:nth-child(2){border-color:#ffd100}
+.nav-titles{
+  display:flex;flex-direction:column;
+}
+.nav-title{font-size:14px;font-weight:700;color:var(--ink-900);letter-spacing:-.01em}
+.nav-subtitle{font-size:11px;color:var(--ink-400);letter-spacing:.02em}
+
+.nav-spacer{flex:1}
+
+.nav-breadcrumb{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  font-size:12.5px;
+  color:var(--ink-400);
+}
+.nav-breadcrumb a{
+  color:var(--ink-500);
+  font-weight:500;
+  padding:4px 8px;
+  border-radius:6px;
+  transition:background .15s,color .15s;
+  white-space:nowrap;
+}
+.nav-breadcrumb a:hover{background:var(--ink-100);color:var(--ink-900)}
+.nav-breadcrumb-sep{color:var(--ink-300);font-size:11px;user-select:none}
+
+/* ── Game tabs ── */
+.tabs-bar{
+  background:var(--white);
+  border-bottom:1px solid var(--ink-100);
+  padding:0 40px;
+  display:flex;
+  align-items:flex-end;
+  gap:4px;
+}
+.tab-pill{
+  display:flex;align-items:center;gap:8px;
+  padding:14px 22px 13px;
+  font-size:14px;font-weight:600;color:var(--ink-500);
+  cursor:pointer;
+  border-bottom:3px solid transparent;
+  transition:color .2s,border-color .2s;
+  user-select:none;
+  margin-bottom:-1px;
+  white-space:nowrap;
+  background:none;
+  border-top:none;border-left:none;border-right:none;
+}
+.tab-pill:hover{color:var(--ink-900)}
+.tab-pill.active-da26{color:var(--da-green);border-bottom-color:var(--da-green)}
+.tab-pill.active-la28{color:var(--la-blue);border-bottom-color:var(--la-blue)}
+.tab-pill .tab-emoji{font-size:16px}
+
+/* ── Main layout ── */
+.main{
+  max-width:1280px;
+  margin:0 auto;
+  padding:32px 40px 64px;
+}
+
+/* ── Panel ── */
+.game-panel{display:none}
+.game-panel.visible{display:block}
+
+/* ── Panel header row ── */
+.panel-header-row{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:24px;
+}
+.panel-header-left{
+  display:flex;align-items:center;gap:12px;
+}
+.panel-game-badge{
+  font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:4px 10px;border-radius:20px;
+}
+.panel-game-badge.da26{background:var(--da-light);color:var(--da-green)}
+.panel-game-badge.la28{background:var(--la-light);color:var(--la-navy)}
+.panel-header-meta{
+  font-size:12px;color:var(--ink-400);
+}
+.reset-btn{
+  font-size:12px;font-weight:600;color:var(--ink-500);
+  border:1.5px solid var(--ink-200);
+  padding:7px 14px;border-radius:20px;
+  cursor:pointer;
+  transition:border-color .15s,color .15s,background .15s;
+  background:var(--white);
+}
+.reset-btn:hover{border-color:var(--ink-400);color:var(--ink-900);background:var(--ink-50)}
+
+/* ── Overall readiness strip ── */
+.overall-strip{
+  background:var(--white);
+  border-radius:var(--r-xl);
+  border:1px solid var(--ink-100);
+  box-shadow:var(--sh);
+  padding:28px 32px;
+  margin-bottom:28px;
+  display:flex;
+  align-items:center;
+  gap:32px;
+}
+.overall-ring-wrap{
+  flex-shrink:0;
+  position:relative;
+}
+.overall-ring-wrap svg{
+  display:block;
+}
+.ring-label{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;
+}
+.ring-pct{
+  font-size:22px;font-weight:800;letter-spacing:-.03em;
+  line-height:1;
+  color:var(--ink-900);
+}
+.ring-pct-sym{
+  font-size:12px;font-weight:600;color:var(--ink-400);
+  line-height:1;
+}
+.overall-info{
+  flex:1;min-width:0;
+}
+.overall-game-name{
+  font-size:18px;font-weight:800;letter-spacing:-.02em;
+  color:var(--ink-900);
+  margin-bottom:2px;
+}
+.overall-subtitle{
+  font-size:12px;font-weight:500;color:var(--ink-400);
+  letter-spacing:.04em;text-transform:uppercase;
+  margin-bottom:10px;
+}
+.overall-count{
+  font-size:14px;font-weight:600;color:var(--ink-600);
+  margin-bottom:20px;
+}
+.overall-count span{
+  font-weight:800;font-size:16px;
+}
+
+/* ── Area breakdown bars ── */
+.breakdown-grid{
+  display:flex;flex-wrap:wrap;gap:10px;
+}
+.breakdown-item{
+  flex:1;min-width:110px;
+}
+.breakdown-top{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:5px;
+}
+.breakdown-label{
+  font-size:11px;font-weight:600;color:var(--ink-600);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  max-width:120px;
+}
+.breakdown-val{
+  font-size:11px;font-weight:600;color:var(--ink-400);
+  white-space:nowrap;margin-left:6px;
+}
+.breakdown-track{
+  height:5px;border-radius:3px;background:var(--ink-100);
+  overflow:hidden;
+}
+.breakdown-fill{
+  height:100%;border-radius:3px;
+  transition:width .5s ease;
+}
+
+/* ── Areas grid ── */
+.areas-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+@media(max-width:900px){.areas-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.areas-grid{grid-template-columns:1fr}}
+
+/* ── Area card ── */
+.area-card{
+  background:var(--white);
+  border-radius:var(--r-lg);
+  border:1px solid var(--ink-100);
+  box-shadow:var(--sh-sm);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  border-left:3px solid var(--ink-300);
+  transition:box-shadow .2s;
+}
+.area-card:hover{box-shadow:var(--sh)}
+.card-header{
+  display:flex;align-items:center;
+  gap:12px;
+  padding:16px 16px 12px;
+  border-bottom:1px solid var(--ink-100);
+}
+.card-ring-wrap{
+  flex-shrink:0;
+  position:relative;
+}
+.card-ring-wrap svg{display:block}
+.card-ring-label{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-size:9px;font-weight:800;
+  color:var(--ink-900);
+  white-space:nowrap;
+}
+.card-icon-wrap{
+  flex-shrink:0;
+  width:32px;height:32px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+}
+.card-icon-wrap svg{display:block}
+.card-title-block{flex:1;min-width:0}
+.card-title{
+  font-size:13px;font-weight:700;color:var(--ink-900);
+  letter-spacing:-.01em;
+  line-height:1.3;
+}
+.card-count-badge{
+  display:inline-flex;align-items:center;
+  font-size:10px;font-weight:700;
+  padding:2px 7px;border-radius:10px;
+  background:var(--ink-100);color:var(--ink-500);
+  margin-top:4px;
+  letter-spacing:.02em;
+}
+.card-body{
+  padding:8px 0 4px;
+  flex:1;
+}
+.checklist-item{
+  display:flex;align-items:baseline;gap:10px;
+  padding:9px 16px;
+  border-bottom:1px solid var(--ink-50);
+  transition:background .15s;
+}
+.checklist-item:last-child{border-bottom:none}
+.checklist-item:hover{background:var(--ink-50)}
+.checklist-item input[type="checkbox"]{
+  flex-shrink:0;
+  width:15px;height:15px;
+  margin-top:1px;
+  accent-color:#007a48;
+  cursor:pointer;
+}
+.checklist-item span{
+  font-size:12.5px;color:var(--ink-700);
+  line-height:1.4;
+  transition:color .2s,text-decoration .2s;
+}
+.checklist-item input[type="checkbox"]:checked + span{
+  text-decoration:line-through;
+  color:#94a3b8;
+}
+
+/* ── SVG ring transitions ── */
+.ring-fill{
+  transition:stroke-dashoffset 0.5s ease;
+}
+
+/* ── Footer ── */
+.footer{
+  border-top:1px solid var(--ink-100);
+  background:var(--white);
+  padding:24px 40px;
+  display:flex;
+  align-items:center;
+  gap:24px;
+  flex-wrap:wrap;
+}
+.footer-back{
+  font-size:13px;font-weight:600;color:var(--ink-600);
+  display:flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:8px;
+  transition:background .15s,color .15s;
+}
+.footer-back:hover{background:var(--ink-100);color:var(--ink-900)}
+.footer-sep{
+  width:1px;height:20px;background:var(--ink-200);
+}
+.footer-links{
+  display:flex;align-items:center;gap:6px;
+}
+.footer-link{
+  font-size:12.5px;color:var(--ink-400);font-weight:500;
+  padding:5px 10px;border-radius:6px;
+  transition:background .15s,color .15s;
+}
+.footer-link:hover{background:var(--ink-100);color:var(--ink-900)}
+.footer-right{
+  margin-left:auto;
+  font-size:11px;color:var(--ink-300);
+}
+</style>
+</head>
+<body>
+
+<!-- ── Top nav ── -->
+<nav class="topnav">
+  <div class="nav-logo">
+    <div class="logo-mark">
+      <span class="logo-mark-aoc">AOC</span>
+      <div class="logo-mark-rings">
+        <div class="logo-ring"></div>
+        <div class="logo-ring"></div>
+        <div class="logo-ring"></div>
+      </div>
+    </div>
+    <div class="nav-titles">
+      <div class="nav-title">Delegation Readiness Dashboard</div>
+      <div class="nav-subtitle">AOC Games Portal</div>
+    </div>
+  </div>
+  <div class="nav-spacer"></div>
+  <div class="nav-breadcrumb">
+    <a href="portal-home.html">Portal Home</a>
+    <span class="nav-breadcrumb-sep">›</span>
+    <a href="da26.html">DA26</a>
+    <span class="nav-breadcrumb-sep">›</span>
+    <a href="la28.html">LA28</a>
+    <span class="nav-breadcrumb-sep">›</span>
+    <a href="timeline.html">Timeline</a>
+  </div>
+</nav>
+
+<!-- ── Game tabs ── -->
+<div class="tabs-bar">
+  <button class="tab-pill" id="tab-da26">
+    <span class="tab-emoji">🇸🇳</span> Dakar 2026
+  </button>
+  <button class="tab-pill" id="tab-la28">
+    <span class="tab-emoji">🇺🇸</span> Los Angeles 2028
+  </button>
+</div>
+
+<!-- ── Main content ── -->
+<div class="main">
+
+  <!-- ══════════════════════════════════════════════
+       DA26 PANEL
+  ══════════════════════════════════════════════ -->
+  <div class="game-panel" id="panel-da26">
+
+    <div class="panel-header-row">
+      <div class="panel-header-left">
+        <div class="panel-game-badge da26">DA26</div>
+        <div class="panel-header-meta">Dakar 2026 Youth Olympic Games · Oct 19 – Nov 1 2026</div>
+      </div>
+      <button class="reset-btn" id="reset-da26">Reset DA26</button>
+    </div>
+
+    <!-- Overall strip -->
+    <div class="overall-strip" id="overall-da26">
+      <div class="overall-ring-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="54" fill="none" stroke="#e5e7eb" stroke-width="10"/>
+          <circle id="overall-ring-da26" class="ring-fill" cx="60" cy="60" r="54"
+            fill="none"
+            stroke="#007a48"
+            stroke-width="10"
+            stroke-linecap="round"
+            stroke-dasharray="339.29"
+            stroke-dashoffset="339.29"
+            transform="rotate(-90 60 60)"/>
+        </svg>
+        <div class="ring-label">
+          <div class="ring-pct" id="overall-pct-da26">0</div>
+          <div class="ring-pct-sym">%</div>
+        </div>
+      </div>
+      <div class="overall-info">
+        <div class="overall-game-name">Dakar 2026 YOG</div>
+        <div class="overall-subtitle">Overall Readiness</div>
+        <div class="overall-count" id="overall-count-da26"><span>0</span> of 31 items complete</div>
+        <div class="breakdown-grid" id="breakdown-da26"></div>
+      </div>
+    </div>
+
+    <!-- Areas grid -->
+    <div class="areas-grid" id="grid-da26"></div>
+
+  </div><!-- /panel-da26 -->
+
+
+  <!-- ══════════════════════════════════════════════
+       LA28 PANEL
+  ══════════════════════════════════════════════ -->
+  <div class="game-panel" id="panel-la28">
+
+    <div class="panel-header-row">
+      <div class="panel-header-left">
+        <div class="panel-game-badge la28">LA28</div>
+        <div class="panel-header-meta">Los Angeles 2028 Olympics · Jul 14 – Jul 30 2028</div>
+      </div>
+      <button class="reset-btn" id="reset-la28">Reset LA28</button>
+    </div>
+
+    <!-- Overall strip -->
+    <div class="overall-strip" id="overall-la28">
+      <div class="overall-ring-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="54" fill="none" stroke="#e5e7eb" stroke-width="10"/>
+          <circle id="overall-ring-la28" class="ring-fill" cx="60" cy="60" r="54"
+            fill="none"
+            stroke="#0057b7"
+            stroke-width="10"
+            stroke-linecap="round"
+            stroke-dasharray="339.29"
+            stroke-dashoffset="339.29"
+            transform="rotate(-90 60 60)"/>
+        </svg>
+        <div class="ring-label">
+          <div class="ring-pct" id="overall-pct-la28">0</div>
+          <div class="ring-pct-sym">%</div>
+        </div>
+      </div>
+      <div class="overall-info">
+        <div class="overall-game-name">Los Angeles 2028</div>
+        <div class="overall-subtitle">Overall Readiness</div>
+        <div class="overall-count" id="overall-count-la28"><span>0</span> of 31 items complete</div>
+        <div class="breakdown-grid" id="breakdown-la28"></div>
+      </div>
+    </div>
+
+    <!-- Areas grid -->
+    <div class="areas-grid" id="grid-la28"></div>
+
+  </div><!-- /panel-la28 -->
+
+</div><!-- /main -->
+
+<!-- ── Footer ── -->
+<footer class="footer">
+  <a href="portal-home.html" class="footer-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    Back to Portal Home
+  </a>
+  <div class="footer-sep"></div>
+  <div class="footer-links">
+    <a href="da26.html" class="footer-link">DA26</a>
+    <a href="la28.html" class="footer-link">LA28</a>
+    <a href="timeline.html" class="footer-link">Timeline</a>
+  </div>
+  <div class="footer-right">AOC Games Portal · Delegation Readiness Dashboard</div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+  /* ── SVG icon library ── */
+  var ICONS = {
+    trophy: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 21 16 21"/><line x1="12" y1="17" x2="12" y2="21"/><path d="M7 4H17L16 13C16 15.2 14.2 17 12 17C9.8 17 8 15.2 8 13Z"/><path d="M7 4C7 4 5 4 5 7C5 9 7 10 7 10"/><path d="M17 4C17 4 19 4 19 7C19 9 17 10 17 10"/></svg>',
+    bus:    '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><path d="M2 12h20"/><circle cx="7" cy="17" r="1"/><circle cx="17" cy="17" r="1"/></svg>',
+    building: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M3 9h18"/><path d="M3 15h18"/></svg>',
+    users:  '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+    pulse:  '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',
+    shirt:  '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>',
+    package:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
+    ticket: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><line x1="12" y1="7" x2="12" y2="17"/></svg>',
+    grid:   '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>',
+    card:   '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>',
+    activity:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',
+    flag:   '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>'
+  };
+
+  /* ── DA26 data ── */
+  var DA26_AREAS = [
+    {
+      name: 'Sports and Venues',
+      color: '#b45309',
+      bgColor: '#fef3c7',
+      icon: 'trophy',
+      items: [
+        'Competition schedule reviewed and distributed',
+        'Sport Technical Packages received for all entered sports',
+        'Quota matrix confirmed — all sports',
+        'Entry nomination forms submitted to federation'
+      ]
+    },
+    {
+      name: 'Transport',
+      color: '#ea580c',
+      bgColor: '#fff7ed',
+      icon: 'bus',
+      items: [
+        'Bus loop schedule reviewed and shared with team',
+        'Arrival/departure transport confirmed',
+        'Airport transfer requirements submitted',
+        'Vehicle allocation and driver brief confirmed'
+      ]
+    },
+    {
+      name: 'Village and Administration',
+      color: '#007a48',
+      bgColor: '#e6f4ee',
+      icon: 'building',
+      items: [
+        'Room allocation received and reviewed',
+        'Check-in procedures communicated to team',
+        'Dining schedule and dietary requirements lodged',
+        'Welcome desk brief completed'
+      ]
+    },
+    {
+      name: 'Team Membership and Journey',
+      color: '#0891b2',
+      bgColor: '#e0f7fa',
+      icon: 'users',
+      items: [
+        'Team composition finalised and signed off',
+        'Athlete service agreements completed',
+        'Parent/guardian consents submitted (YOG requirement)',
+        'Pre-departure camp dates confirmed'
+      ]
+    },
+    {
+      name: 'Medical',
+      color: '#dc2626',
+      bgColor: '#fef2f2',
+      icon: 'pulse',
+      items: [
+        'Medical declarations submitted for all athletes',
+        'Anti-doping whereabouts filed',
+        'Polyclinic intake forms completed',
+        'Medical kit packed, checked, and cleared customs'
+      ]
+    },
+    {
+      name: 'Uniform',
+      color: '#7c3aed',
+      bgColor: '#f5f3ff',
+      icon: 'shirt',
+      items: [
+        'Uniform allocation confirmed and distributed',
+        'Ceremony uniform fitting completed',
+        'Accreditation photo requirements communicated',
+        'Spare kit inventory checked'
+      ]
+    },
+    {
+      name: 'Freight and Logistics',
+      color: '#c2410c',
+      bgColor: '#fff7ed',
+      icon: 'package',
+      items: [
+        'Equipment manifest submitted',
+        'Freight arrival window booked',
+        'Customs documentation prepared and lodged',
+        'Equipment condition check completed'
+      ]
+    },
+    {
+      name: 'Ticketing',
+      color: '#be185d',
+      bgColor: '#fdf2f8',
+      icon: 'ticket',
+      items: [
+        'Family bloc allocation submitted',
+        'Guest tickets confirmed and distributed',
+        'Ticketing POC briefed on Games protocols'
+      ]
+    }
+  ];
+
+  /* ── LA28 data ── */
+  var LA28_AREAS = [
+    {
+      name: 'Games Services',
+      color: '#1d4ed8',
+      bgColor: '#eff6ff',
+      icon: 'grid',
+      items: [
+        'NOC Services agreement reviewed and signed',
+        'LA28 Games services timeline reviewed',
+        'LA28 NOC contact directory updated'
+      ]
+    },
+    {
+      name: 'Sport and Competition',
+      color: '#b45309',
+      bgColor: '#fef3c7',
+      icon: 'trophy',
+      items: [
+        'Qualification standards reviewed for all target sports',
+        'Entry standard targets communicated to coaches',
+        'Selection criteria framework published to athletes',
+        'Olympic ranking system briefing completed'
+      ]
+    },
+    {
+      name: 'Accreditation and Registration',
+      color: '#1d4ed8',
+      bgColor: '#eff6ff',
+      icon: 'card',
+      items: [
+        'Accreditation portal account created and verified',
+        'Accreditation category requirements confirmed',
+        'Photo submission requirements distributed to team',
+        'Draft accreditation list submitted for review'
+      ]
+    },
+    {
+      name: 'Village and Accommodation',
+      color: '#15803d',
+      bgColor: '#f0fdf4',
+      icon: 'building',
+      items: [
+        'UCLA Village layout v2 reviewed',
+        'Room block size requirements submitted',
+        'Check-in procedures confirmed with village team',
+        'Dietary requirements lodged with catering'
+      ]
+    },
+    {
+      name: 'Medical',
+      color: '#dc2626',
+      bgColor: '#fef2f2',
+      icon: 'pulse',
+      items: [
+        'LA28 heat management policy reviewed',
+        'Athlete acclimatisation plan developed',
+        'Medical officer appointed for LA28',
+        'Anti-doping obligations brief completed'
+      ]
+    },
+    {
+      name: 'Transport',
+      color: '#ea580c',
+      bgColor: '#fff7ed',
+      icon: 'bus',
+      items: [
+        'LA28 transport RFI submitted',
+        'Arrival/departure transport requirements scoped',
+        'Airport transfer plan developed',
+        'Ground transport contacts confirmed'
+      ]
+    },
+    {
+      name: 'Performance Support',
+      color: '#0057b7',
+      bgColor: '#e8eeff',
+      icon: 'activity',
+      items: [
+        'Performance support staff roster confirmed',
+        'Training facility options reviewed and priorities set',
+        'Equipment list for performance support drafted',
+        'High altitude / heat preparation plan reviewed'
+      ]
+    },
+    {
+      name: 'Venue Masterplan',
+      color: '#7c3aed',
+      bgColor: '#f5f3ff',
+      icon: 'flag',
+      items: [
+        'LA28 full venue portfolio reviewed',
+        'NOC facility allocations (draft) noted',
+        'Competition venue priorities set and communicated',
+        'Venue accessibility and transport links reviewed'
+      ]
+    }
+  ];
+
+  /* ── Ring math constants ── */
+  var OVERALL_C = 339.29;  /* 2 * π * 54 */
+  var CARD_C    = 125.66;  /* 2 * π * 20 */
+
+  /* ── Build both game panels ── */
+  buildPanel('da26', DA26_AREAS);
+  buildPanel('la28', LA28_AREAS);
+
+  /* ── Load state from localStorage ── */
+  restoreState('da26', DA26_AREAS);
+  restoreState('la28', LA28_AREAS);
+
+  /* ── Tab switching ── */
+  document.getElementById('tab-da26').addEventListener('click', function() { switchTab('da26'); });
+  document.getElementById('tab-la28').addEventListener('click', function() { switchTab('la28'); });
+
+  /* ── Reset buttons ── */
+  document.getElementById('reset-da26').addEventListener('click', function() {
+    if (window.confirm('Reset all DA26 readiness data? This cannot be undone.')) {
+      resetGame('da26', DA26_AREAS);
+    }
+  });
+  document.getElementById('reset-la28').addEventListener('click', function() {
+    if (window.confirm('Reset all LA28 readiness data? This cannot be undone.')) {
+      resetGame('la28', LA28_AREAS);
+    }
+  });
+
+  /* ── Checklist change delegation ── */
+  document.getElementById('grid-da26').addEventListener('change', function(e) {
+    if (e.target && e.target.type === 'checkbox') {
+      handleCheckboxChange(e.target, 'da26', DA26_AREAS);
+    }
+  });
+  document.getElementById('grid-la28').addEventListener('change', function(e) {
+    if (e.target && e.target.type === 'checkbox') {
+      handleCheckboxChange(e.target, 'la28', LA28_AREAS);
+    }
+  });
+
+  /* ── Show DA26 by default ── */
+  switchTab('da26');
+
+  /* ════════════════════════════════════════
+     FUNCTIONS
+  ════════════════════════════════════════ */
+
+  function buildPanel(game, areas) {
+    var grid = document.getElementById('grid-' + game);
+    var breakdown = document.getElementById('breakdown-' + game);
+    grid.innerHTML = '';
+    breakdown.innerHTML = '';
+
+    areas.forEach(function(area, aIdx) {
+      /* ── Area card ── */
+      var card = document.createElement('div');
+      card.className = 'area-card';
+      card.style.borderLeftColor = area.color;
+
+      /* card header */
+      var header = document.createElement('div');
+      header.className = 'card-header';
+
+      /* mini ring */
+      var ringWrap = document.createElement('div');
+      ringWrap.className = 'card-ring-wrap';
+      ringWrap.innerHTML =
+        '<svg width="50" height="50" viewBox="0 0 50 50">' +
+          '<circle cx="25" cy="25" r="20" fill="none" stroke="#e5e7eb" stroke-width="4"/>' +
+          '<circle id="ring-' + game + '-' + aIdx + '" class="ring-fill" cx="25" cy="25" r="20"' +
+          ' fill="none" stroke="' + area.color + '" stroke-width="4" stroke-linecap="round"' +
+          ' stroke-dasharray="' + CARD_C + '" stroke-dashoffset="' + CARD_C + '"' +
+          ' transform="rotate(-90 25 25)"/>' +
+        '</svg>' +
+        '<div class="card-ring-label" id="ring-lbl-' + game + '-' + aIdx + '">0%</div>';
+
+      /* icon */
+      var iconWrap = document.createElement('div');
+      iconWrap.className = 'card-icon-wrap';
+      iconWrap.style.background = area.bgColor;
+      iconWrap.style.color = area.color;
+      iconWrap.innerHTML = ICONS[area.icon] || ICONS['trophy'];
+
+      /* title block */
+      var titleBlock = document.createElement('div');
+      titleBlock.className = 'card-title-block';
+      titleBlock.innerHTML =
+        '<div class="card-title">' + area.name + '</div>' +
+        '<div class="card-count-badge" id="badge-' + game + '-' + aIdx + '">0/' + area.items.length + '</div>';
+
+      header.appendChild(ringWrap);
+      header.appendChild(iconWrap);
+      header.appendChild(titleBlock);
+
+      /* card body / checklist */
+      var body = document.createElement('div');
+      body.className = 'card-body';
+
+      area.items.forEach(function(itemText, iIdx) {
+        var label = document.createElement('label');
+        label.className = 'checklist-item';
+        var cbId = 'cb-' + game + '-' + aIdx + '-' + iIdx;
+        label.setAttribute('for', cbId);
+
+        var cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.id = cbId;
+        cb.dataset.game = game;
+        cb.dataset.area = aIdx;
+        cb.dataset.item = iIdx;
+
+        var span = document.createElement('span');
+        span.textContent = itemText;
+
+        label.appendChild(cb);
+        label.appendChild(span);
+        body.appendChild(label);
+      });
+
+      card.appendChild(header);
+      card.appendChild(body);
+      grid.appendChild(card);
+
+      /* ── Breakdown bar for this area ── */
+      var bItem = document.createElement('div');
+      bItem.className = 'breakdown-item';
+      bItem.innerHTML =
+        '<div class="breakdown-top">' +
+          '<span class="breakdown-label" title="' + area.name + '">' + area.name + '</span>' +
+          '<span class="breakdown-val" id="bd-val-' + game + '-' + aIdx + '">0/' + area.items.length + '</span>' +
+        '</div>' +
+        '<div class="breakdown-track">' +
+          '<div class="breakdown-fill" id="bd-fill-' + game + '-' + aIdx + '" style="width:0%;background:' + area.color + '"></div>' +
+        '</div>';
+      breakdown.appendChild(bItem);
+    });
+  }
+
+  function restoreState(game, areas) {
+    areas.forEach(function(area, aIdx) {
+      area.items.forEach(function(_, iIdx) {
+        var key = 'rdns_' + game + '_' + aIdx + '_' + iIdx;
+        var val = localStorage.getItem(key);
+        if (val === 'true') {
+          var cb = document.getElementById('cb-' + game + '-' + aIdx + '-' + iIdx);
+          if (cb) { cb.checked = true; }
+        }
+      });
+    });
+    updateAllRings(game, areas);
+  }
+
+  function handleCheckboxChange(cb, game, areas) {
+    var aIdx = cb.dataset.area;
+    var iIdx = cb.dataset.item;
+    var key = 'rdns_' + game + '_' + aIdx + '_' + iIdx;
+    localStorage.setItem(key, cb.checked ? 'true' : 'false');
+    updateAllRings(game, areas);
+  }
+
+  function updateAllRings(game, areas) {
+    var totalItems = 0;
+    var totalChecked = 0;
+
+    areas.forEach(function(area, aIdx) {
+      var checked = 0;
+      area.items.forEach(function(_, iIdx) {
+        var cb = document.getElementById('cb-' + game + '-' + aIdx + '-' + iIdx);
+        if (cb && cb.checked) { checked++; }
+      });
+      var n = area.items.length;
+      totalItems += n;
+      totalChecked += checked;
+      var pct = n > 0 ? checked / n : 0;
+
+      /* mini ring */
+      var ringEl = document.getElementById('ring-' + game + '-' + aIdx);
+      if (ringEl) {
+        ringEl.style.strokeDashoffset = (CARD_C * (1 - pct)).toFixed(2);
+      }
+      var lblEl = document.getElementById('ring-lbl-' + game + '-' + aIdx);
+      if (lblEl) {
+        lblEl.textContent = Math.round(pct * 100) + '%';
+      }
+      var badgeEl = document.getElementById('badge-' + game + '-' + aIdx);
+      if (badgeEl) {
+        badgeEl.textContent = checked + '/' + n;
+      }
+
+      /* breakdown bar */
+      var bdFill = document.getElementById('bd-fill-' + game + '-' + aIdx);
+      if (bdFill) {
+        bdFill.style.width = Math.round(pct * 100) + '%';
+      }
+      var bdVal = document.getElementById('bd-val-' + game + '-' + aIdx);
+      if (bdVal) {
+        bdVal.textContent = checked + '/' + n;
+      }
+    });
+
+    /* overall ring */
+    var overallPct = totalItems > 0 ? totalChecked / totalItems : 0;
+    var overallRing = document.getElementById('overall-ring-' + game);
+    if (overallRing) {
+      overallRing.style.strokeDashoffset = (OVERALL_C * (1 - overallPct)).toFixed(2);
+    }
+    var pctLabel = document.getElementById('overall-pct-' + game);
+    if (pctLabel) {
+      pctLabel.textContent = Math.round(overallPct * 100);
+    }
+    var countEl = document.getElementById('overall-count-' + game);
+    if (countEl) {
+      countEl.innerHTML = '<span>' + totalChecked + '</span> of ' + totalItems + ' items complete';
+    }
+  }
+
+  function resetGame(game, areas) {
+    areas.forEach(function(area, aIdx) {
+      area.items.forEach(function(_, iIdx) {
+        var key = 'rdns_' + game + '_' + aIdx + '_' + iIdx;
+        localStorage.removeItem(key);
+        var cb = document.getElementById('cb-' + game + '-' + aIdx + '-' + iIdx);
+        if (cb) { cb.checked = false; }
+      });
+    });
+    updateAllRings(game, areas);
+  }
+
+  function switchTab(game) {
+    /* panels */
+    var panels = document.querySelectorAll('.game-panel');
+    panels.forEach(function(p) { p.classList.remove('visible'); });
+    var active = document.getElementById('panel-' + game);
+    if (active) { active.classList.add('visible'); }
+
+    /* tab pills */
+    var tabDa26 = document.getElementById('tab-da26');
+    var tabLa28 = document.getElementById('tab-la28');
+    tabDa26.classList.remove('active-da26', 'active-la28');
+    tabLa28.classList.remove('active-da26', 'active-la28');
+    if (game === 'da26') {
+      tabDa26.classList.add('active-da26');
+    } else {
+      tabLa28.classList.add('active-la28');
+    }
+  }
+
+});
+</script>
+</body>
+</html>
