@@ -1,0 +1,7 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/dakar"
+  to = "/da26.html"
+  status = 200
